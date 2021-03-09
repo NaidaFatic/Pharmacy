@@ -1,0 +1,12 @@
+{
+    "name": "ibu/pharmacy",
+    "description": "web site for online pharmacy store",
+    "license": "Apache2",
+    "authors": [
+        {
+            "name": "Naida Fatic",
+            "email": "faticnaida@gmail.com"
+        }
+    ],
+    "require": {}
+}
