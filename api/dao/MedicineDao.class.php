@@ -7,11 +7,11 @@ class MedicineDao extends BaseDao{
   }
 
   public function get_medicine_by_name($name){
-    return $this->query_unique("SELECT * FROM medicines WHERE name = :name", ["name" => $name]);
+    return $this->query_unique("SELECT * FROM medicines WHERE name = :name", ["name" => $name]); //parameter values are in array["" => $]
   }
 
   public function get_all_medicine(){
-    return $this->query("SELECT * FROM medicines", []);
+    return $this->query("SELECT * FROM medicines", []); //[] no parameters to pass
   }
 
   public function get_medicine_by_price($price){
@@ -20,9 +20,7 @@ class MedicineDao extends BaseDao{
 
   public function update_medicine_by_name($name, $entity){
     $this->update("medicines", $name, $entity, "name");
-  }
-
-
+  } 
 
 }
 
