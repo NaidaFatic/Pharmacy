@@ -13,8 +13,6 @@ class UserDao extends BaseDao{
   }
 
   public function add_user($user){
-    $insert ="";
-
     $sql = "INSERT INTO users (name, surname) VALUES (:name, :surname)";
     $stmt= $this->connection->prepare($sql);
     $stmt->execute($user);
@@ -22,8 +20,11 @@ class UserDao extends BaseDao{
     return $user;
   }
 
-  public function update_user($id, $update){
-
+  public function update_user($id, $user){
+    $sql = "UPDATE users SET name = :name, surname = :surname WHERE id = :id";
+    $stmt= $this->connection->prepare($sql);
+    $user['id']= $id;
+    $stmt->execute($user);
   }
 
 }
