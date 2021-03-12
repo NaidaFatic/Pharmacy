@@ -8,17 +8,20 @@ $account_dao= new AccountDao();
 //$account = $account_dao -> get_account_by_email("naida.fatic@gmail.com");
 
 $user1= [
-  "email" => "sanida@gmail.com",
+  "email" => "samija@gmail.com",
   "password" => "123",
-  "user_id" => "2"
+  "user_id" => "6"
 ];
 
 
-$user = $account_dao->add_account($user1);
+$user = $account_dao->update_account(6, $user1);
 
+
+
+//($query);
 
 //$user = $user_dao -> get_user_by_name("Naida");
 
-print_r($user);
+//print_r($user);
 
 ?>
