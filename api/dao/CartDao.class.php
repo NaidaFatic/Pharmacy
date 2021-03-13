@@ -2,8 +2,12 @@
 
 class CartDao extends BaseDao
 {
-  public function add_to_chart($entity){
-    $this->insert("carts", $entity);
+  public function __construct(){
+    parent::__construct("carts");
+  }
+
+  public function add_to_cart($entity){
+    $this->add($entity);
   }
 
   public function get_medicine_in_cart_by_account($id){

@@ -12,11 +12,14 @@ $cart= new CartDao();
 //$account = $account_dao -> get_account_by_email("naida.fatic@gmail.com");
 
 $user1= [
-  "medicine_id" => 1,
-  "account_id" => 2
+  "email" => "lamija@gmail.com",
+  "password" => "123",
+  "user_id" => "7"
 ];
 
-$query= $cart->update_status(2,1, "BOUGHT");
+//$query= $user_dao->add_user($user1);
+
+$querry= $account_dao->add_account($user1);
 
 //print_r($query);
 

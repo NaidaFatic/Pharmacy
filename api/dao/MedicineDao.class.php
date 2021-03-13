@@ -2,12 +2,16 @@
 
 class MedicineDao extends BaseDao{
 
+  public function __construct(){
+    parent::__construct("medicines");
+  }
+
   public function add_medicine($entity){
-    $this->insert("medicines", $entity);
+    $this->add($entity);
   }
 
   public function get_medicine_by_name($name){
-    return $this->query_unique("SELECT * FROM medicines WHERE name = :name", ["name" => $name]); //parameter values are in array["" => $]
+    return $this->get_by_name($name);
   }
 
   public function get_all_medicine(){
@@ -20,7 +24,7 @@ class MedicineDao extends BaseDao{
 
   public function update_medicine_by_name($name, $entity){
     $this->update("medicines", $name, $entity, "name");
-  } 
+  }
 
 }
 

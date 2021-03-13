@@ -4,9 +4,11 @@ require_once dirname(__FILE__)."/../config.php";
 
 class BaseDao{
 protected $connection; //connection is protected!!
+private $table;
 
-  public function __construct()
+  public function __construct($table)
   {
+    $this->table= $table;
     try {
       $this->connection = new PDO("mysql:host=".Config::DB_HOST.";dbname=".Config::DB_SCHEME, Config::DB_USERNAME, Config::DB_PASSWORD);
       $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -15,7 +17,7 @@ protected $connection; //connection is protected!!
     }
   }
 
-  public function insert($table, $entity){
+  protected function insert($table, $entity){
     $query = "INSERT INTO ${table} (";
     foreach($entity as $name => $value){ // foreach to get every column that is there to post to db
       $query.=$name.", ";
@@ -35,19 +37,19 @@ protected $connection; //connection is protected!!
     return $entity;
   }
 
-  public function query($query, $params){
+  protected function query($query, $params){
 
     $stmt = $this->connection->prepare($query);
     $stmt -> execute($params);
     return $stmt->fetchAll(PDO::FETCH_ASSOC); //this will fetch all columns in a form of assotiative array
   }
 
-  public function query_unique($query, $params){
+  protected function query_unique($query, $params){
     $results = $this->query($query, $params);
     return reset($results);
   }
 
-  public function update($table, $id, $entity, $id_column = "id"){ //id is default value
+  protected function update($table, $id, $entity, $id_column = "id"){ //id is default value
     $query = "UPDATE ${table} SET ";
     foreach($entity as $name => $value){
       $query.=$name."= :".$name. ", "; //insert statment is in a form of name = :name!! value is after :
@@ -60,6 +62,18 @@ protected $connection; //connection is protected!!
     $entity['id']= $id;
     $stmt->execute($entity);
   }
+
+  protected function add($entity){
+    return $this->insert($this->table, $entity);
+  }
+
+  protected function update_by_id($id, $entity){
+    $this->update($this->table, $id, $entity);
+  }
+
+  protected function get_by_name($name){
+    return $this->query_unique("SELECT * FROM " .$this->table. " WHERE name = :name", ["name" => $name]);
+ }
 
 }
 
