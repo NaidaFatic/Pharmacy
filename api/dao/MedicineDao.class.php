@@ -6,14 +6,6 @@ class MedicineDao extends BaseDao{
     parent::__construct("medicines");
   }
 
-  public function add_medicine($entity){
-    $this->add($entity);
-  }
-
-  public function get_medicine_by_name($name){
-    return $this->get_by_name($name);
-  }
-
   public function get_all_medicine(){
     return $this->query("SELECT * FROM medicines", []); //[] no parameters to pass
   }

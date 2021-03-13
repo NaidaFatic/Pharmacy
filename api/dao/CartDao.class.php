@@ -6,10 +6,6 @@ class CartDao extends BaseDao
     parent::__construct("carts");
   }
 
-  public function add_to_cart($entity){
-    $this->add($entity);
-  }
-
   public function get_medicine_in_cart_by_account($id){
     return $this->query_unique("SELECT m.name FROM carts c, medicines m
                           WHERE c.medicine_id= m.id AND account_id= :id", ["id" => $id]);

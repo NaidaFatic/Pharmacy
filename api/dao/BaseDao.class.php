@@ -63,15 +63,15 @@ private $table;
     $stmt->execute($entity);
   }
 
-  protected function add($entity){
+  public function add($entity){
     return $this->insert($this->table, $entity);
   }
 
-  protected function update_by_id($id, $entity){
+  public function update_by_id($id, $entity){
     $this->update($this->table, $id, $entity);
   }
 
-  protected function get_by_name($name){
+  public function get_by_name($name){
     return $this->query_unique("SELECT * FROM " .$this->table. " WHERE name = :name", ["name" => $name]);
  }
 
