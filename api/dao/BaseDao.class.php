@@ -1,5 +1,12 @@
 <?php
 
+/**
+* base for all daos
+*
+* @author Naida Fatic
+*
+*/
+
 require_once dirname(__FILE__)."/../config.php";
 
 class BaseDao{
@@ -73,6 +80,10 @@ private $table;
 
   public function get_by_name($name){
     return $this->query_unique("SELECT * FROM " .$this->table. " WHERE name = :name", ["name" => $name]);
+ }
+
+ public function get_all($offset=0, $limit=25){
+   return $this->query("SELECT * FROM ".$this->table. " LIMIT ${limit} OFFSET ${offset}", []);
  }
 
 }
