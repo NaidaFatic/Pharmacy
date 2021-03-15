@@ -11,18 +11,11 @@ $medicine_dao= new MedicineDao();
 $cart= new CartDao();
 $purchase= new PurchaseDao();
 
-$user1= [
-  "city" => "Sarajevo",
-  "zip" => "71000",
-  "phone_number" => "0337",
-  "date" =>  date('Y-m-d H:i:s'),
-  "account_id" => 2,
-  "cart_id" => 3
-];
 
-$querry= $purchase->add($user1);
+$querry= $account_dao->get_all();
 
-print_r($querry);
+
+echo json_encode($querry, JSON_PRETTY_PRINT);
 
 
 ?>
