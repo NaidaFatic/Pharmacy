@@ -1,17 +1,21 @@
 <?php
 
-Flight::route('POST /accounts', function(){
-    $request=Flight::request();             // where is the data stored before the class metod
-    $data = $request->data->getData();
-    Flight::json(Flight::accountDao()->add($data));
-});
 
 Flight::route('GET /accounts', function(){
-  Flight::json(Flight::accountDao()->get_all());
+  $offset = Flight::query('offset', 0);
+  $limit = Flight::query('limit', 10);
+
+  Flight::json(Flight::accountDao()->get_all($offset, $limit));
 });
 
 Flight::route('GET /accounts/@email', function(){
   $account = Flight::accountDao() ->get_account_by_email($email);
+});
+
+Flight::route('POST /accounts', function(){
+    $request=Flight::request();             // where is the data stored before the class metod
+    $data = $request->data->getData();
+    Flight::json(Flight::accountDao()->add($data));
 });
 
 Flight::route('PUT /accounts/@email', function($email){
@@ -22,6 +26,6 @@ Flight::route('PUT /accounts/@email', function($email){
   Flight::json($account);
 });
 
-Flight::start();
+
 
 ?>
