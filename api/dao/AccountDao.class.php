@@ -15,6 +15,13 @@ class AccountDao extends BaseDao{
       $this->update("accounts", $email, $account, "email");
   }
 
+  public function get_account($search, $offset, $limit){
+    return $this->query("SELECT *
+                         FROM accounts
+                         WHERE LOWER(email) LIKE CONCAT('%', :email, '%')
+                         LIMIT ${limit} OFFSET ${offset}", ["email" => strtolower($search)]);
+  }
+
 }
 
 
