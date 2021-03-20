@@ -11,6 +11,7 @@ class UserDao extends BaseDao{
     return $this->query_unique("SELECT * FROM users WHERE id= :id", ["id" => $id]);
   }
 
+
 }
 
 ?>

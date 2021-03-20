@@ -18,6 +18,10 @@ class AccountDao extends BaseDao{
                          LIMIT ${limit} OFFSET ${offset}", ["email" => strtolower($search)]);
   }
 
+  public function get_user_by_token($token){
+    return $this->query_unique("SELECT * FROM accounts WHERE token = :token", ["token" => $token]);
+  }
+
 }
 
 
