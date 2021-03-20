@@ -10,8 +10,9 @@ Flight::route('GET /medicine', function(){
     $offset = Flight::query('offset', 0);
     $limit = Flight::query('limit', 10);
     $search = Flight::query('search');
+    $order = Flight::query('order', '-price');
 
-    Flight::json(Flight::medicineService()->get_medicines($name, $offset, $limit, $search));
+    Flight::json(Flight::medicineService()->get_medicines($name, $offset, $limit, $search, $order));
 });
 
 

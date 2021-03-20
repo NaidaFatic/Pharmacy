@@ -9,12 +9,13 @@ class MedicineService extends BaseService{
     $this->dao = new MedicineDao();
   }
 
-  public function get_medicines($name, $offset, $limit, $search){
-    return $this->dao->get_medicines_by_name($name, $offset, $limit, $search);
+  public function get_medicines($name, $offset, $limit, $search, $order){
+    return $this->dao->get_medicines_by_name($name, $offset, $limit, $search, $order);
   }
 
   public function add($medicine){
     try{
+      $medicine['added_at'] = date(Config::DATE_FORMAT);
       return parent::add($medicine);
     }catch(\Exception $e){
     throw new \Exception($e);

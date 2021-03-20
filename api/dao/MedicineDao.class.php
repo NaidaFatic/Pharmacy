@@ -11,7 +11,8 @@ class MedicineDao extends BaseDao{
     return $this->query("SELECT * FROM medicines WHERE price = :price", ["price" => $price]);
   }
 
-  public function get_medicines_by_name($name, $offset, $limit, $search){
+  public function get_medicines_by_name($name, $offset, $limit, $search, $order){
+    list($order_column, $order_direction) = self::parse_order($order);
     $params = ["name" => $name];
 
     $query = "SELECT * FROM medicines
@@ -19,8 +20,11 @@ class MedicineDao extends BaseDao{
     if(isset($search)){
       $query .="OR (LOWER(description) LIKE CONCAT('%', :search, '%'))
                   OR LOWER(company_name) LIKE CONCAT('%', :search, '%') ";
+
       $params['search'] = strtolower($search);
     }
+
+    $query .="ORDER BY ${order_column} ${order_direction} ";
     $query .="LIMIT ${limit} OFFSET ${offset}";
 
     return $this->query($query, $params);
