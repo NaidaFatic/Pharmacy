@@ -28,13 +28,16 @@ class UserService extends BaseService{
           "user_id" => $user['id'],
           "token" => md5(random_bytes(16))
         ]);
-
+        $this->accountDao->commit();
     }
-    catch(Exception $e) {
+    catch(\Exception $e) {
       $this->accountDao->rollBack();
-      throw $e;
+      if(strpos($e->getMessage(), 'uk_accounts_email')){
+        throw new Exception("Account with same email exists!", 400, $e);
+      }else{
+        throw $e;
+      }
     }
-    $this->accountDao->commit();
     // email is not added because u_k but user is!!!!!!
   //send email with some token
 
