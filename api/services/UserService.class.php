@@ -12,7 +12,7 @@ class UserService extends BaseService{
 
   public function register($account){
     try{
-
+      $this->accountDao->beginTransaction();
       if(!isset($account['password'])) throw new Exception("password is missing");
 
     $user = parent::add([
@@ -31,8 +31,10 @@ class UserService extends BaseService{
 
     }
     catch(Exception $e) {
+      $this->accountDao->rollBack();
       throw $e;
     }
+    $this->accountDao->commit();
     // email is not added because u_k but user is!!!!!!
   //send email with some token
 
