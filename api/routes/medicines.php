@@ -5,6 +5,15 @@ Flight::route('POST /medicine', function(){
     Flight::json(Flight::medicineService()->add($data));
 });
 
+Flight::route('GET /medicine', function(){
+    $name = Flight::query('name');
+    $offset = Flight::query('offset', 0);
+    $limit = Flight::query('limit', 10);
+    $search = Flight::query('search');
+
+    Flight::json(Flight::medicineService()->get_medicines($name, $offset, $limit, $search));
+});
+
 
 
 ?>

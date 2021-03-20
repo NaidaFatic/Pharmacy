@@ -104,7 +104,7 @@ class BaseDao{
   }
 
   public function get_by_name($name){
-    return $this->query_unique("SELECT * FROM " .$this->table. " WHERE name = :name", ["name" => $name]);
+    return $this->query("SELECT * FROM " .$this->table. " WHERE name = :name", ["name" => $name]);
  }
 
  public function get_all($offset=0, $limit=25, $order="-id"){
