@@ -12,17 +12,8 @@ class AccountDao extends BaseDao{
   }
 
   public function get_account($search, $offset, $limit, $order = "-id"){
-    switch (substr($order, 0, 1)) {
-      case '-': $order_direction = "ASC";
-        break;
-
-      case '+': $order_direction = "DESC";
-        break;
-      default: throw new Exception("invail format. First character!");
-    }
-
-    $order_column = substr($order, 1);
-
+    list($order_column, $order_direction) = self::parse_order($order);
+    
     return $this->query("SELECT *
                          FROM accounts
                          WHERE LOWER(email) LIKE CONCAT('%', :email, '%')

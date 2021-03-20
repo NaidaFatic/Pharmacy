@@ -10,8 +10,20 @@
 require_once dirname(__FILE__)."/../config.php";
 
 class BaseDao{
-protected $connection; //connection is protected!!
-private $table;
+  protected $connection; //connection is protected!!
+  private $table;
+
+  public function parse_order($order){
+   switch(substr($order, 0, 1)){
+     case '-': $order_direction = "ASC"; break;
+     case '+': $order_direction = "DESC"; break;
+     default: throw new Exception("Invalid order format. First character should be either + or -"); break;
+   };
+
+   $order_column = trim($this->connection->quote(substr($order, 1)),"'");
+
+   return [$order_column, $order_direction];
+ }
 
   public function __construct($table)
   {
@@ -82,8 +94,13 @@ private $table;
     return $this->query_unique("SELECT * FROM " .$this->table. " WHERE name = :name", ["name" => $name]);
  }
 
- public function get_all($offset=0, $limit=25){
-   return $this->query("SELECT * FROM ".$this->table. " LIMIT ${limit} OFFSET ${offset}", []);
+ public function get_all($offset=0, $limit=25, $order="-id"){
+
+   list($order_column, $order_direction) = self::parse_order($order);
+
+   return $this->query("SELECT * FROM ".$this->table. "
+                                        ORDER BY ${order_column} ${order_direction}
+                                        LIMIT ${limit} OFFSET ${offset}", []);
  }
 
  public function get_by_id($id){
