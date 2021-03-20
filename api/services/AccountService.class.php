@@ -11,12 +11,12 @@ class AccountService extends BaseService{
       $this->userDao = new UserDao();
 
   }
-  public function get_accounts($search, $offset, $limit){
+  public function get_accounts($search, $offset, $limit, $order){
     if($search){
-        return $this->dao->get_account($search, $offset, $limit);
+        return $this->dao->get_account($search, $offset, $limit, $order);
     }
     else{
-      return $this->dao->get_all($offset, $limit);
+      return $this->dao->get_all($offset, $limit, $order);
     }
   }
 
@@ -27,7 +27,7 @@ class AccountService extends BaseService{
     return parent::add($account);
   }
 
-  
+
 
 
 
