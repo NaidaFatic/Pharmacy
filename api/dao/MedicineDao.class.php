@@ -34,6 +34,7 @@ class MedicineDao extends BaseDao{
     $this->update("medicines", $name, $entity, "name");
   }
 
+
 }
 
 ?>
