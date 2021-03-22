@@ -11,11 +11,11 @@ require_once dirname(__FILE__)."/services/MedicineService.class.php";
 //$dao = new AccountDao(); // cant do this has to be flight class!!
 Flight::set('flight.log.errors', TRUE);
 
-/* error handling for our API */
-/*Flight::map('error', function(Exception $ex){
-  Flight::json(["message" => $ex->getMessage()], $ex->getCode());
+ /*error handling for our API */
+Flight::map('error', function(Exception $ex){
+  Flight::json(["message" => $ex->getMessage()], $ex->getCode()? $ex->getCode(): 500);
 });
-*/
+
 
 // utility function for reading query parameters from url
 

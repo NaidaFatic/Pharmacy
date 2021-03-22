@@ -8,7 +8,11 @@
   */
 
   /**
- * @OA\Get(path="/accounts",
+ * @OA\Get(path="/accounts", tags={"accounts"},
+ *     @OA\Parameter(type="integer", in="query", name="offset", default=0, description="offset for pegination"),
+ *     @OA\Parameter(type="integer", in="query", name="limit", default=25, description="limit for pegination"),
+  *    @OA\Parameter(type="string", in="query", name="search", description="search string for accounts, case insesitive sreach"),
+   *   @OA\Parameter(type="sting", in="query", name="order", default="-id", description="sort for return elemnts, -id asccrending, +id descenign based on id"),
  *     @OA\Response(response="200", description="List all accounts")
  * )
  */
@@ -23,8 +27,8 @@ Flight::route('GET /accounts', function(){
 });
 
 /**
- * @OA\Get(path="/accounts/{id}",
- *     @OA\Parameter(@OA\Schema(type="integer"), in="path", allowReserved=true, name="id", example=1),
+ * @OA\Get(path="/accounts/{id}", tags={"accounts"},
+ *     @OA\Parameter(type="integer", in="path", name="id", default=1, description="get a account by id"),
  *     @OA\Response(response="200", description="Fetch individual account")
  * )
  */
@@ -33,9 +37,17 @@ Flight::route('GET /accounts/@id', function($id){
 });
 
 /**
- * @OA\Post(path="/accounts",
- *     @OA\Parameter(@OA\Schema(type="integer"), in="path", allowReserved=true, name="id", example=1),
- *     @OA\Response(response="200", description="Add individual account")
+ * @OA\Post(path="/accounts", tags={"accounts"},
+ *  @OA\RequestBody(description="Basic account info", required=true,
+ *       @OA\MediaType( mediaType="application/json",
+ *        @OA\Schema(
+ *         @OA\Property(property="email",type="string", example="example@gmail.com", description="email of user"),
+ *         @OA\Property(property="password",type="string", example="123", description="password of user"),
+ *         @OA\Property(property="user_id",type="integer", example="1", description="")
+ *      )
+ *    )
+ *  ),
+ *  @OA\Response(response="200", description="Add individual account")
  * )
  */
 Flight::route('POST /accounts', function(){
@@ -44,8 +56,17 @@ Flight::route('POST /accounts', function(){
 });
 
 /**
- * @OA\Put(path="/accounts/{id}",
- *     @OA\Parameter(@OA\Schema(type="integer"), in="path", allowReserved=true, name="id", example=1),
+ * @OA\Put(path="/accounts/{id}",tags={"accounts"},
+ *     @OA\Parameter(@OA\Schema(type="integer"), in="path", name="id", example=1),
+ *      @OA\RequestBody(description="Account is going to be updated", required=true,
+ *       @OA\MediaType( mediaType="application/json",
+ *         @OA\Schema(
+ *           @OA\Property(property="email",type="string", example="example@gmail.com", description="email of user"),
+ *           @OA\Property(property="password",type="string", example="123", description="password of user"),
+ *           @OA\Property(property="user_id",type="integer", example="1", description="")
+ *      )
+ *    )
+ *  ),
  *     @OA\Response(response="200", description="Update individual account")
  * )
  */
