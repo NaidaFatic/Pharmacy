@@ -28,6 +28,13 @@ Flight::map('query', function($name, $defaul_value = NULL){
 //  Flight::json(Flight::accountDao()->get_all());
 });
 
+//swagger documentation
+Flight::route('GET /swagger', function(){
+  $openapi = @\OpenApi\scan(dirname(__FILE__)."/routes");
+  header('Content-Type: application/json');
+  echo $openapi->toJson();
+});
+
 
 /* register Bussiness Logic layer services */
 Flight::register('accountService', 'AccountService');

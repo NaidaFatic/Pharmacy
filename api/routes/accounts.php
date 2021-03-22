@@ -1,9 +1,13 @@
 <?php
 /**
  * @OA\Info(title="Pharmacy", version="0.1")
- */
+ * @OA\OpenApi(
+ *   @OA\Server(url="http://localhost/project/Pharmacy/api/", description="Development enviroment"),
+ *   @OA\Server(url="http://Pharmacy.com", description="Host enviroment")
+ * )
+  */
 
-/**
+  /**
  * @OA\Get(path="/accounts",
  *     @OA\Response(response="200", description="List all accounts")
  * )
