@@ -1,14 +1,11 @@
 <?php
 require_once dirname(__FILE__)."/../dao/AccountDao.class.php";
-require_once dirname(__FILE__)."/../dao/UserDao.class.php";
 require_once dirname(__FILE__)."/BaseService.class.php";
 
 class AccountService extends BaseService{
-  private $userDao;
 
   public function __construct(){
       $this->dao = new AccountDao();
-      $this->userDao = new UserDao();
 
   }
   public function get_accounts($search, $offset, $limit, $order){
@@ -27,7 +24,9 @@ class AccountService extends BaseService{
     return parent::add($account);
   }
 
-
+  public function get_account_by_id($id){
+    return $this->dao->get_by_id($id);
+  }
 
 
 
