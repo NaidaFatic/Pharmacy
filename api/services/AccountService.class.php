@@ -20,7 +20,7 @@ class AccountService extends BaseService{
  public function add($account){
     // vadlidation
     if(!isset($account['email'])) throw new Exception("email is missing");
-
+    $account['token'] = md5(random_bytes(16));
     return parent::add($account);
   }
 
