@@ -47,15 +47,6 @@ class UserService extends BaseService{
   return $user;
 }
 
-public function confirm($token){
-  $account = $this->accountDao->get_user_by_token($token);
-
-  if(!isset($account['id'])) throw Exception("invalid token");
-
-  $this->accountDao->update_account_by_email($account['email'], ["status" => "ACTIVE"]);
-
-  //TODO send email to customer
-}
 
 
 }

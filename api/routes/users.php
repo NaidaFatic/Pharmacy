@@ -20,11 +20,6 @@ Flight::route('POST /users/register', function(){
     Flight::json(["message" => "Please check your email"]);
 });
 
-Flight::route('GET /users/confirm/@token', function($token){
-    Flight::userService()->confirm($token);
-    Flight::json(["message" => "Your account has been activated"]);
-});
-
 Flight::route('GET /users/@id', function($id){
     Flight::json(Flight::userService()->get_by_id($id));
 });

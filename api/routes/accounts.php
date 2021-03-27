@@ -77,7 +77,7 @@ Flight::route('PUT /accounts/@id', function($id){
 });
 
 /**
- * @OA\Post(path="/accounts/login", tags={"accounts"},
+ * @OA\Post(path="/accounts/login", tags={"accounts"}, description="Login user",
  *  @OA\RequestBody(description="Basic account info", required=true,
  *       @OA\MediaType( mediaType="application/json",
  *        @OA\Schema(
@@ -99,8 +99,7 @@ Flight::route('POST /accounts/login', function(){
  *  @OA\RequestBody(description="Basic account info", required=true,
  *       @OA\MediaType( mediaType="application/json",
  *        @OA\Schema(
- *         @OA\Property(property="email",type="string", required=true, example="example@gmail.com", description="email of user"),
- *         @OA\Property(property="password",type="string", required=true, example="123", description="password of user")
+ *         @OA\Property(property="email",type="string", required=true, example="example@gmail.com", description="Email of user")
  *      )
  *    )
  *  ),
@@ -110,7 +109,7 @@ Flight::route('POST /accounts/login', function(){
 Flight::route('POST /accounts/forgot', function(){
     $data = Flight::request()->data->getData();
     Flight::accountService()->forgot($data);
-    Flight::json(["message" => "recovery link has been send!"]);
+    Flight::json(["message" => "Recovery link has been send!"]);
 });
 
 
@@ -131,5 +130,16 @@ Flight::route('POST /accounts/reset', function(){
     $data = Flight::request()->data->getData();
     Flight::accountService()->reset($data);
     Flight::json(["message" => "Your passwrod has been changed"]);
+});
+
+/**
+ * @OA\Get(path="/accounts/confirm/{token}", tags={"accounts"}, description = "Confrime your token",
+ *     @OA\Parameter(type="string", in="path", name="token", default=123, description="Conformation token"),
+ *     @OA\Response(response="200", description="Send conformation token")
+ * )
+ */
+Flight::route('GET /accounts/confirm/@token', function($token){
+    Flight::accountService()->confirm($token);
+    Flight::json(["message" => "Your account has been activated"]);
 });
 ?>

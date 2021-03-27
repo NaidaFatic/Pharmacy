@@ -67,6 +67,15 @@ class AccountService extends BaseService{
   }
 
 
+  public function confirm($token){
+    $account = $this->dao->get_user_by_token($token);
+
+    if(!isset($account['id'])) throw Exception("invalid token");
+
+    $this->dao->update_account_by_email($account['email'], ["status" => "ACTIVE"]);
+
+    //TODO send email to customer
+  }
 
 
 }
