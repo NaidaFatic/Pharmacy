@@ -94,4 +94,42 @@ Flight::route('POST /accounts/login', function(){
     Flight::json(Flight::accountService()->login($data));
 });
 
+/**
+ * @OA\Post(path="/accounts/forgot", tags={"accounts"}, description="Forgot password",
+ *  @OA\RequestBody(description="Basic account info", required=true,
+ *       @OA\MediaType( mediaType="application/json",
+ *        @OA\Schema(
+ *         @OA\Property(property="email",type="string", required=true, example="example@gmail.com", description="email of user"),
+ *         @OA\Property(property="password",type="string", required=true, example="123", description="password of user")
+ *      )
+ *    )
+ *  ),
+ *  @OA\Response(response="200", description="Recovery token")
+ * )
+ */
+Flight::route('POST /accounts/forgot', function(){
+    $data = Flight::request()->data->getData();
+    Flight::accountService()->forgot($data);
+    Flight::json(["message" => "recovery link has been send!"]);
+});
+
+
+/**
+ * @OA\Post(path="/accounts/reset", tags={"accounts"}, description="Reset password",
+ *  @OA\RequestBody(description="Basic account info", required=true,
+ *       @OA\MediaType( mediaType="application/json",
+ *        @OA\Schema(
+ *         @OA\Property(property="token",type="string", required=true, example="1212121121212", description="Recovery token for user"),
+ *         @OA\Property(property="password",type="string", required=true, example="123", description="New password for user")
+ *      )
+ *    )
+ *  ),
+ *  @OA\Response(response="200", description="Reset password")
+ * )
+ */
+Flight::route('POST /accounts/reset', function(){
+    $data = Flight::request()->data->getData();
+    Flight::accountService()->reset($data);
+    Flight::json(["message" => "Your passwrod has been changed"]);
+});
 ?>

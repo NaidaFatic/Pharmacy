@@ -27,7 +27,17 @@ class SMTPClient{
 
     // Send the message
      $this->mailer->send($message);
+  }
 
+  public function send_recovery_user_token($account){
+    // Create a message
+    $message = (new Swift_Message('Reset Your password'))
+      ->setFrom(['naidafatic@gmail.com' => 'Pharmacy'])
+      ->setTo([$account['email']])
+      ->setBody('Here is the recovery token: '.$account['token']);
+
+    // Send the message
+     $this->mailer->send($message);
   }
 }
 
