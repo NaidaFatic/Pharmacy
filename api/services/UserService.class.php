@@ -13,7 +13,7 @@ class UserService extends BaseService{
       $this->accountDao = new AccountDao();
       $this->SMTPClient = new SMTPClient();
   }
-  
+
   public function register($account){
     try{
       $this->accountDao->beginTransaction();
@@ -26,7 +26,7 @@ class UserService extends BaseService{
 
     $account = $this->accountDao->add([
           "email" => $account['email'],
-          "password" => $account['password'],
+          "password" => md5($account['password']),
           "status" => "PENDING",
           "role" => "USER",
           "user_id" => $user['id'],
@@ -42,7 +42,7 @@ class UserService extends BaseService{
         throw $e;
       }
     }
-  //$this->SMTPClient->send_register_user_token($account);
+//  $this->SMTPClient->send_register_user_token($account);
 
   return $user;
 }

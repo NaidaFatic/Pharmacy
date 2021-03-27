@@ -18,8 +18,15 @@ class AccountService extends BaseService{
   }
 
   public function login($account){
-    $this->accountDao->get_user_by_email($account['email']);
-  
+    $db_user = $this->dao->get_account_by_email($account['email']);
+
+    if(!isset($db_user['id'])) throw new Exception("User does not exist", 400);
+
+    if($db_user['status'] != 'ACTIVE') throw new Exception("Account is not active", 400);
+
+    if($db_user['password'] != md5($account['password'])) throw new Exception("Invalid password", 400);
+
+    return $db_user;
   }
 
  public function add($account){
