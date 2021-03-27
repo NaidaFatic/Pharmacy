@@ -17,6 +17,11 @@ class AccountService extends BaseService{
     }
   }
 
+  public function login($account){
+    $this->accountDao->get_user_by_email($account['email']);
+  
+  }
+
  public function add($account){
     // vadlidation
     if(!isset($account['email'])) throw new Exception("email is missing");

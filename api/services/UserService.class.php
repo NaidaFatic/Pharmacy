@@ -1,15 +1,19 @@
 <?php
 require_once dirname(__FILE__)."/../dao/UserDao.class.php";
 require_once dirname(__FILE__)."/../dao/AccountDao.class.php";
-require_once dirname(__FILE__)."/BaseService.class.php";
+require_once dirname(__FILE__)."/../dao/AccountDao.class.php";
+require_once dirname(__FILE__)."/../clients/SMTPClient.class.php";
 
 class UserService extends BaseService{
   private $accountDao;
+  private $SMTPClient;
+
   public function __construct(){
       $this->dao = new UserDao();
       $this->accountDao = new AccountDao();
+      $this->SMTPClient = new SMTPClient();
   }
-
+  
   public function register($account){
     try{
       $this->accountDao->beginTransaction();
@@ -38,8 +42,7 @@ class UserService extends BaseService{
         throw $e;
       }
     }
-    // email is not added because u_k but user is!!!!!!
-  //send email with some token
+  //$this->SMTPClient->send_register_user_token($account);
 
   return $user;
 }

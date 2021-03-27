@@ -11,9 +11,13 @@ class AccountDao extends BaseDao{
       $this->update("accounts", $email, $account, "email");
   }
 
+  public function get_account_by_email($email){
+    return $this->query_unique("SELECT * FROM accounts WHERE email = :email", ["email" => $email]);
+  }
+    
   public function get_account($search, $offset, $limit, $order = "-id"){
     list($order_column, $order_direction) = self::parse_order($order);
-    
+
     return $this->query("SELECT *
                          FROM accounts
                          WHERE LOWER(email) LIKE CONCAT('%', :email, '%')
