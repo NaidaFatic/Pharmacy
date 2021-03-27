@@ -26,7 +26,7 @@ class AccountService extends BaseService{
 
     if(!isset($db_user['id'])) throw new Exception("Invalid token", 400);
 
-    $this->dao->update_account_by_email($db_user['email'], ['password' => md5($account['password'])]);
+    $this->dao->update_account_by_email($db_user['email'], ['password' => md5($account['password']), 'token' => NULL]);
 
 
   }
@@ -54,14 +54,14 @@ class AccountService extends BaseService{
 
     return $db_user;
   }
-
+/*
  public function add($account){
     // vadlidation
     if(!isset($account['email'])) throw new Exception("email is missing");
     $account['token'] = md5(random_bytes(16));
     return parent::add($account);
   }
-
+*/
   public function get_account_by_id($id){
     return $this->dao->get_by_id($id);
   }
@@ -72,7 +72,7 @@ class AccountService extends BaseService{
 
     if(!isset($account['id'])) throw Exception("invalid token");
 
-    $this->dao->update_account_by_email($account['email'], ["status" => "ACTIVE"]);
+    $this->dao->update_account_by_email($account['email'], ["status" => "ACTIVE", 'token' => NULL]);
 
     //TODO send email to customer
   }
