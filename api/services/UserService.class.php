@@ -42,7 +42,7 @@ class UserService extends BaseService{
         throw $e;
       }
     }
-//  $this->SMTPClient->send_register_user_token($account);
+  $this->SMTPClient->send_register_user_token($account);
 
   return $user;
 }

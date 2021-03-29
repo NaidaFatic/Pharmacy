@@ -23,7 +23,7 @@ class SMTPClient{
     $message = (new Swift_Message('Confirm your account'))
       ->setFrom(['naidafatic@gmail.com' => 'Pharmacy'])
       ->setTo([$account['email']])
-      ->setBody('Here is the confirmation link: http://localhost/project/Pharmacy/api/user/confirm/'.$account['token']);
+      ->setBody('Here is the confirmation link: http://localhost/project/Pharmacy/api/accounts/confirm/'.$account['token']);
 
     // Send the message
      $this->mailer->send($message);
