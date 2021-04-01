@@ -3,6 +3,7 @@ require_once dirname(__FILE__)."/../dao/AccountDao.class.php";
 require_once dirname(__FILE__)."/BaseService.class.php";
 require_once dirname(__FILE__)."/UserService.class.php";
 require_once dirname(__FILE__)."/../clients/SMTPClient.class.php";
+use \Firebase\JWT\JWT;
 
 class AccountService extends BaseService{
 
@@ -29,8 +30,6 @@ class AccountService extends BaseService{
     if(!isset($db_user['id'])) throw new Exception("Invalid token", 400);
 
     $this->dao->update_account_by_email($db_user['email'], ['password' => md5($account['password']), 'token' => NULL]);
-
-
   }
 
   public function forgot($account){
@@ -56,7 +55,9 @@ class AccountService extends BaseService{
 
     if($db_user['password'] != md5($account['password'])) throw new Exception("Invalid password", 400);
 
-    return $db_user;
+    $jwt = JWT::encode(["id" => $db_user["id"], "aid" => $db_user["user_id"], "r" => $db_user["role"]], "JWT SECRET");
+
+    return ["token" => $jwt];
   }
 /*
  public function add($account){
