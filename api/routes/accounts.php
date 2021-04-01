@@ -1,11 +1,14 @@
 <?php
+use \Firebase\JWT\JWT;
 /**
  * @OA\Info(title="Pharmacy", version="0.1")
  * @OA\OpenApi(
  *   @OA\Server(url="http://localhost/project/Pharmacy/api/", description="Development enviroment"),
  *   @OA\Server(url="http://Pharmacy.com", description="Host enviroment")
- * )
-  */
+ * ),
+ * @OA\SecurityScheme(
+ *      securityScheme="ApiKeyAuth", in="header", name="Authentication", type="apiKey")
+ */
 
   /**
  * @OA\Get(path="/accounts", tags={"accounts"},
@@ -27,13 +30,24 @@ Flight::route('GET /accounts', function(){
 });
 
 /**
- * @OA\Get(path="/accounts/{id}", tags={"accounts"},
+* @OA\Get(path="/accounts/{id}", tags={"accounts"}, security={{"ApiKeyAuth":{}}},
  *     @OA\Parameter(type="integer", in="path", name="id", default=1, description="get a account by id"),
  *     @OA\Response(response="200", description="Fetch individual account")
  * )
  */
 Flight::route('GET /accounts/@id', function($id){
-  Flight::json(Flight::accountService()->get_account_by_id($id)); //we use Flight::json to return-print the result
+  $headers = getallheaders();
+  $token = @$headers['Authentication'];
+  try{
+    $decoded = (array) JWT::decode($token, "JWT SECRET", ["HS256"]);
+    if($decoded['id'] == $id)
+      Flight::json(Flight::accountService()->get_account_by_id($id)); //we use Flight::json to return-print the result
+    else{
+      Flight::json(["message" => "Account not yours"], 403);
+    }
+  } catch (\Exception $e){
+    Flight::json(["message" => $e->getMessage()], 401);
+  }
 });
 
 /**
