@@ -1,4 +1,4 @@
-<?php
+<?php/*
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -25,5 +25,7 @@ $message = (new Swift_Message('Wonderful Subject'))
 // Send the message
 $result = $mailer->send($message);
 
-print_r($result);
+print_r($result);*/
+
+
 ?>

@@ -20,8 +20,24 @@ Flight::route('POST /users/register', function(){
     Flight::json(["message" => "Please check your email"]);
 });
 
+/**
+* @OA\Get(path="/users/{id}", tags={"users"}, security={{"ApiKeyAuth":{}}},
+ *     @OA\Parameter(type="integer", in="path", name="id", default=1, description="get a user by id"),
+ *     @OA\Response(response="200", description="Fetch individual user")
+ * )
+ */
 Flight::route('GET /users/@id', function($id){
     Flight::json(Flight::userService()->get_by_id($id));
 });
+
+/**
+ * @OA\Get(path="/user/{name}", tags={"users"},
+ *     @OA\Parameter(type="string", in="path", name="name", default="name", description="get a user by name"),
+ *     @OA\Response(response="200", description="Fetch individual user")
+ * )
+ */
+ Flight::route('GET /user/@name', function($name){
+    Flight::json(Flight::userService()->get_user_by_name($name));
+ });
 
 ?>

@@ -11,7 +11,7 @@ use \Firebase\JWT\JWT;
  */
 
   /**
- * @OA\Get(path="/accounts", tags={"accounts"},
+ * @OA\Get(path="/allaccounts", tags={"accounts", "get all accounts"}, security={{"ApiKeyAuth":{}}},
  *     @OA\Parameter(type="integer", in="query", name="offset", default=0, description="offset for pegination"),
  *     @OA\Parameter(type="integer", in="query", name="limit", default=25, description="limit for pegination"),
   *    @OA\Parameter(type="string", in="query", name="search", description="search string for accounts, case insesitive sreach"),
@@ -19,7 +19,7 @@ use \Firebase\JWT\JWT;
  *     @OA\Response(response="200", description="List all accounts")
  * )
  */
-Flight::route('GET /accounts', function(){
+Flight::route('GET /allaccounts', function(){
   $offset = Flight::query('offset', 0);
   $limit = Flight::query('limit', 10);
   $search = Flight::query('search');
@@ -30,28 +30,18 @@ Flight::route('GET /accounts', function(){
 });
 
 /**
-* @OA\Get(path="/accounts/{id}", tags={"accounts"}, security={{"ApiKeyAuth":{}}},
+ * @OA\Get(path="/accounts/{id}", tags={"accounts"}, security={{"ApiKeyAuth":{}}},
  *     @OA\Parameter(type="integer", in="path", name="id", default=1, description="get a account by id"),
  *     @OA\Response(response="200", description="Fetch individual account")
  * )
  */
 Flight::route('GET /accounts/@id', function($id){
-  $headers = getallheaders();
-  $token = @$headers['Authentication'];
-  try{
-    $decoded = (array) JWT::decode($token, "JWT SECRET", ["HS256"]);
-    if($decoded['id'] == $id)
-      Flight::json(Flight::accountService()->get_account_by_id($id)); //we use Flight::json to return-print the result
-    else{
-      Flight::json(["message" => "Account not yours"], 403);
-    }
-  } catch (\Exception $e){
-    Flight::json(["message" => $e->getMessage()], 401);
-  }
+    if(Flight::get('user')['id'] != $id) throw new Exception("This account is not yours!", 403);
+    Flight::json(Flight::accountService()->get_account_by_id($id)); //we use Flight::json to return-print the result
 });
 
 /**
- * @OA\Post(path="/accounts", tags={"accounts"},
+ * @OA\Post(path="/accounts", tags={"accounts"}, security={{"ApiKeyAuth":{}}},
  *  @OA\RequestBody(description="Basic account info", required=true,
  *       @OA\MediaType( mediaType="application/json",
  *        @OA\Schema(
@@ -70,7 +60,7 @@ Flight::route('POST /accounts', function(){
 });
 
 /**
- * @OA\Put(path="/accounts/{id}",tags={"accounts"},
+ * @OA\Put(path="/accounts/{id}",tags={"accounts"}, security={{"ApiKeyAuth":{}}},
  *     @OA\Parameter(@OA\Schema(type="integer"), in="path", name="id", example=1),
  *      @OA\RequestBody(description="Account is going to be updated", required=true,
  *       @OA\MediaType( mediaType="application/json",
@@ -147,7 +137,7 @@ Flight::route('POST /accounts/reset', function(){
 });
 
 /**
- * @OA\Get(path="/accounts/confirm/{token}", tags={"accounts"}, description = "Confrime your token",
+ * @OA\Get(path="/accounts/confirm/{token}", tags={"accounts"},
  *     @OA\Parameter(type="string", in="path", name="token", default=123, description="Conformation token"),
  *     @OA\Response(response="200", description="Send conformation token")
  * )

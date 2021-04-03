@@ -47,6 +47,9 @@ class UserService extends BaseService{
   return $user;
 }
 
+public function get_user_by_name($id){
+  return $this->dao->get_by_name($id);
+}
 
 
 }

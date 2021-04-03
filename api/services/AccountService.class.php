@@ -55,7 +55,7 @@ class AccountService extends BaseService{
 
     if($db_user['password'] != md5($account['password'])) throw new Exception("Invalid password", 400);
 
-    $jwt = JWT::encode(["id" => $db_user["id"], "aid" => $db_user["user_id"], "r" => $db_user["role"]], "JWT SECRET");
+    $jwt = \Firebase\JWT\JWT::encode(["id" => $db_user["id"], "uid" => $db_user["user_id"], "r" => $db_user["role"]], "JWT SECRET");
 
     return ["token" => $jwt];
   }
