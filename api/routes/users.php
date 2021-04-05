@@ -1,6 +1,6 @@
 <?php
 /**
- * @OA\Post(path="/register", tags={"users"},
+ * @OA\Post(path="/register", tags={"login"},
  *  @OA\RequestBody(description="Basic user info", required=true,
  *       @OA\MediaType( mediaType="application/json",
  *        @OA\Schema(
@@ -31,12 +31,12 @@ Flight::route('GET /users/@id', function($id){
 });
 
 /**
- * @OA\Get(path="/user/{name}", tags={"users"},
+ * @OA\Get(path="/users/{name}", tags={"users"},
  *     @OA\Parameter(type="string", in="path", name="name", default="name", description="get a user by name"),
  *     @OA\Response(response="200", description="Fetch individual user")
  * )
  */
- Flight::route('GET /user/@name', function($name){
+ Flight::route('GET /users/@name', function($name){
     Flight::json(Flight::userService()->get_user_by_name($name));
  });
 
