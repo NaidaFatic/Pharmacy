@@ -1,6 +1,6 @@
 <?php
 /**
- * @OA\Post(path="/users/register", tags={"users"},
+ * @OA\Post(path="/register", tags={"users"},
  *  @OA\RequestBody(description="Basic user info", required=true,
  *       @OA\MediaType( mediaType="application/json",
  *        @OA\Schema(
@@ -14,7 +14,7 @@
  *  @OA\Response(response="200", description="Add individual account")
  * )
  */
-Flight::route('POST /users/register', function(){
+Flight::route('POST /register', function(){
     $data=Flight::request()->data->getData();            // where is the data stored before the class metod
     Flight::userService()->register($data);
     Flight::json(["message" => "Please check your email"]);

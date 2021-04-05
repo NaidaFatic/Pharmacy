@@ -13,6 +13,8 @@ class Config{
   const SMTP_USER = "";
   const SMTP_PASSWORD = "";
 
+  const JWP_SECRET = "JWT SECRET";
+
 }
 
 ?>

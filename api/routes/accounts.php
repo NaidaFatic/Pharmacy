@@ -1,5 +1,6 @@
 <?php
 use \Firebase\JWT\JWT;
+require_once dirname(__FILE__)."/middleware.php";
 /**
  * @OA\Info(title="Pharmacy", version="0.1")
  * @OA\OpenApi(
@@ -36,8 +37,8 @@ Flight::route('GET /allaccounts', function(){
  * )
  */
 Flight::route('GET /accounts/@id', function($id){
-    if(Flight::get('user')['id'] != $id) throw new Exception("This account is not yours!", 403);
-    Flight::json(Flight::accountService()->get_account_by_id($id)); //we use Flight::json to return-print the result
+  if (Flight::get('user')['id'] != $id) throw new Exception("This account is not for you", 403);
+  Flight::json(Flight::accountService()->get_by_id($id));
 });
 
 /**
@@ -81,7 +82,7 @@ Flight::route('PUT /accounts/@id', function($id){
 });
 
 /**
- * @OA\Post(path="/accounts/login", tags={"accounts"}, description="Login user",
+ * @OA\Post(path="/login", tags={"accounts"}, description="Login user",
  *  @OA\RequestBody(description="Basic account info", required=true,
  *       @OA\MediaType( mediaType="application/json",
  *        @OA\Schema(
@@ -93,13 +94,13 @@ Flight::route('PUT /accounts/@id', function($id){
  *  @OA\Response(response="200", description="Login user")
  * )
  */
-Flight::route('POST /accounts/login', function(){
+Flight::route('POST /login', function(){
     $data = Flight::request()->data->getData();
     Flight::json(Flight::accountService()->login($data));
 });
 
 /**
- * @OA\Post(path="/accounts/forgot", tags={"accounts"}, description="Forgot password",
+ * @OA\Post(path="/forgot", tags={"accounts"}, description="Forgot password",
  *  @OA\RequestBody(description="Basic account info", required=true,
  *       @OA\MediaType( mediaType="application/json",
  *        @OA\Schema(
@@ -110,7 +111,7 @@ Flight::route('POST /accounts/login', function(){
  *  @OA\Response(response="200", description="Recovery token")
  * )
  */
-Flight::route('POST /accounts/forgot', function(){
+Flight::route('POST /forgot', function(){
     $data = Flight::request()->data->getData();
     Flight::accountService()->forgot($data);
     Flight::json(["message" => "Recovery link has been send!"]);
@@ -118,7 +119,7 @@ Flight::route('POST /accounts/forgot', function(){
 
 
 /**
- * @OA\Post(path="/accounts/reset", tags={"accounts"}, description="Reset password",
+ * @OA\Post(path="/reset", tags={"accounts"}, description="Reset password",
  *  @OA\RequestBody(description="Basic account info", required=true,
  *       @OA\MediaType( mediaType="application/json",
  *        @OA\Schema(
@@ -130,19 +131,19 @@ Flight::route('POST /accounts/forgot', function(){
  *  @OA\Response(response="200", description="Reset password")
  * )
  */
-Flight::route('POST /accounts/reset', function(){
+Flight::route('POST /reset', function(){
     $data = Flight::request()->data->getData();
     Flight::accountService()->reset($data);
     Flight::json(["message" => "Your passwrod has been changed"]);
 });
 
 /**
- * @OA\Get(path="/accounts/confirm/{token}", tags={"accounts"},
+ * @OA\Get(path="/confirm/{token}", tags={"accounts"},
  *     @OA\Parameter(type="string", in="path", name="token", default=123, description="Conformation token"),
  *     @OA\Response(response="200", description="Send conformation token")
  * )
  */
-Flight::route('GET /accounts/confirm/@token', function($token){
+Flight::route('GET /confirm/@token', function($token){
     Flight::accountService()->confirm($token);
     Flight::json(["message" => "Your account has been activated"]);
 });

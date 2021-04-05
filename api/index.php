@@ -12,8 +12,7 @@ require_once dirname(__FILE__)."/services/MedicineService.class.php";
 Flight::set('flight.log.errors', TRUE);
 
  //error handling for our API
- /*
-Flight::map('error', function(Exception $ex){
+/*Flight::map('error', function(Exception $ex){
   Flight::json(["message" => $ex->getMessage()], $ex->getCode()? $ex->getCode(): 500);
 });*/
 
@@ -29,6 +28,12 @@ Flight::map('query', function($name, $defaul_value = NULL){
 //  Flight::json(Flight::accountDao()->get_all());
 });
 
+/* utility function for getting header parameters */
+Flight::map('header', function($name){
+  $headers = getallheaders();
+  return @$headers[$name];
+});
+
 //swagger documentation
 Flight::route('GET /swagger', function(){
   $openapi = @\OpenApi\scan(dirname(__FILE__)."/routes");
@@ -39,8 +44,6 @@ Flight::route('GET /swagger', function(){
 Flight::route('GET /', function(){
   Flight::redirect('/docs');
 });
-
-
 
 /* register Bussiness Logic layer services */
 Flight::register('accountService', 'AccountService');
