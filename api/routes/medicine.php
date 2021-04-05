@@ -24,7 +24,8 @@ Flight::route('GET /users/medicines', function(){ //why only admin can?????
  *         @OA\Property(property="name",type="string", required="true", example="name", description="name for medicine"),
  *         @OA\Property(property="company_name",type="string", required="true", example="company name", description="who made this medicine"),
  *         @OA\Property(property="price",type="double", required="true", example="0.0", description="price of medicie"),
- *       @OA\Property(property="description",type="string", required="true", example="description", description="decription of medicine")
+ *         @OA\Property(property="description",type="string", required="true", example="description", description="decription of medicine"),
+ *         @OA\Property(property="quantity",type="int", required="true", example=10, description="quantity of medicine")
  *      )
  *    )
  *  ),

@@ -21,10 +21,17 @@ class MedicineService extends BaseService{
 
   public function add($medicine){
     try{
-      $medicine['added_at'] = date(Config::DATE_FORMAT);
-      return parent::add($medicine);
+      $data = [
+        "name" => $medicine["name"],
+        "company_name" => $medicine["company_name"],
+        "price" => $medicine["price"],
+        "description" => $medicine["description"],
+        "added_at" => date(Config::DATE_FORMAT),
+        "quantity" => $medicine["quantity"]
+      ];
+    return parent::add($data);
     }catch(\Exception $e){
-    throw new \Exception($e);
+    throw new \Exception($e->getMessage(), 400, $e);
 
     }
   }
