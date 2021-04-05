@@ -54,7 +54,7 @@ Flight::register('medicineService', 'MedicineService');
 require_once dirname(__FILE__)."/routes/middleware.php";
 require_once dirname(__FILE__)."/routes/accounts.php";
 require_once dirname(__FILE__)."/routes/users.php";
-require_once dirname(__FILE__)."/routes/medicines.php";
+require_once dirname(__FILE__)."/routes/medicine.php";
 
 
 Flight::start();

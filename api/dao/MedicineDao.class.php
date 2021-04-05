@@ -6,22 +6,18 @@ class MedicineDao extends BaseDao{
   public function __construct(){
     parent::__construct("medicines");
   }
-
-  public function get_medicine_by_price($price){
-    return $this->query("SELECT * FROM medicines WHERE price = :price", ["price" => $price]);
-  }
-
-  public function get_medicines_by_name($name, $offset, $limit, $search, $order){
+  
+  public function get_medicines_by_name($offset, $limit, $name, $order){
     list($order_column, $order_direction) = self::parse_order($order);
-    $params = ["name" => $name];
+    $params = ["name" => strtolower($name)];
 
     $query = "SELECT * FROM medicines
-                        WHERE name = :name ";
+                        WHERE LOWER(name) = :name ";
     if(isset($search)){
-      $query .="OR (LOWER(description) LIKE CONCAT('%', :search, '%'))
-                  OR LOWER(company_name) LIKE CONCAT('%', :search, '%') ";
+      $query .="OR (LOWER(description) LIKE CONCAT('%', :name, '%'))
+                  OR LOWER(name) LIKE CONCAT('%', :name, '%') ";
 
-      $params['search'] = strtolower($search);
+      $params['name'] = strtolower($name);
     }
 
     $query .="ORDER BY ${order_column} ${order_direction} ";
@@ -29,11 +25,6 @@ class MedicineDao extends BaseDao{
 
     return $this->query($query, $params);
   }
-
-  public function update_medicine_by_name($name, $entity){
-    $this->update("medicines", $name, $entity, "name");
-  }
-
 
 }
 

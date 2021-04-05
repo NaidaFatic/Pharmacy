@@ -5,7 +5,7 @@ function startsWith ($string, $startString)
     $len = strlen($startString);
     return (substr($string, 0, $len) === $startString);
 }
-Flight::route('/user/*', function(){
+Flight::route('/users/*', function(){
   try {
       $user = (array)\Firebase\JWT\JWT::decode(Flight::header("Authentication"), Config::JWP_SECRET, ["HS256"]);
       if (Flight::request()->method != "GET" && $user["r"] == "USER_READ_ONLY"){

@@ -31,7 +31,7 @@ Flight::route('GET /users/@id', function($id){
 });
 
 /**
- * @OA\Get(path="/users/{name}", tags={"users"},
+ * @OA\Get(path="/users/{name}", tags={"users"}, security={{"ApiKeyAuth":{}}},
  *     @OA\Parameter(type="string", in="path", name="name", default="name", description="get a user by name"),
  *     @OA\Response(response="200", description="Fetch individual user")
  * )

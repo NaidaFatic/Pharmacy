@@ -15,8 +15,8 @@ require_once dirname(__FILE__)."/middleware.php";
  * @OA\Get(path="/admin/accounts", tags={"accounts", "admin"}, security={{"ApiKeyAuth":{}}},
  *     @OA\Parameter(type="integer", in="query", name="offset", default=0, description="offset for pegination"),
  *     @OA\Parameter(type="integer", in="query", name="limit", default=25, description="limit for pegination"),
-  *    @OA\Parameter(type="string", in="query", name="search", description="search string for accounts, case insesitive sreach"),
-   *   @OA\Parameter(type="sting", in="query", name="order", default="-id", description="sort for return elemnts, -id asccrending, +id descenign based on id"),
+ *    @OA\Parameter(type="string", in="query", name="search", description="search string for accounts, case insesitive sreach"),
+ *   @OA\Parameter(type="sting", in="query", name="order", default="-id", description="sort for return elemnts, -id asccrending, +id descenign based on id"),
  *     @OA\Response(response="200", description="List all accounts")
  * )
  */
@@ -150,7 +150,7 @@ Flight::route('GET /confirm/@token', function($token){
  *     @OA\Response(response="200", description="Fetch user account")
  * )
  */
-Flight::route('GET /user/account', function(){
+Flight::route('GET /users/account', function(){
   Flight::json(Flight::accountService()->get_by_id(Flight::get('user')['id']));
 });
 ?>
