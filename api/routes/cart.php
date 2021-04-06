@@ -4,7 +4,7 @@
  *     @OA\Response(response="200", description="List medicines for user")
  * )
  */
-Flight::route('GET /users/cart', function(){
+Flight::route('GET /users/cart', function(){ //why only admin can?????
     Flight::json(Flight::cartService()->get_accounts_medicines(Flight::get('user')['id']));
 });
 

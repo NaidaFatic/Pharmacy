@@ -1,6 +1,6 @@
 <?php
 /**
- * @OA\Get(path="/users/medicines", tags={"users", "medicines"}, security={{"ApiKeyAuth": {}}},
+ * @OA\Get(path="/medicines", tags={"users", "medicines"},
  *     @OA\Parameter(type="integer", in="query", name="offset", default=0, description="Offset for pagination"),
  *     @OA\Parameter(type="integer", in="query", name="limit", default=25, description="Limit for pagination"),
  *     @OA\Parameter(type="string", in="query", name="search", description="Search string for medicines. Case insensitive search."),
@@ -8,7 +8,7 @@
  *     @OA\Response(response="200", description="List medicines for user")
  * )
  */
-Flight::route('GET /users/medicines', function(){ //why only admin can?????
+Flight::route('GET /medicines', function(){ 
   $offset = Flight::query('offset', 0);
   $limit = Flight::query('limit', 25);
   $search = Flight::query('search');
