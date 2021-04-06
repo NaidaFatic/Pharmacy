@@ -7,24 +7,37 @@ class CartService extends BaseService{
       $this->dao = new CartDao();
   }
 
- public function get_accounts_medicines($aid){
-   return $this->dao->get_medicine_in_cart_by_account($aid);
+ public function get_accounts_medicines($account){
+   return $this->dao->get_medicine_in_cart_by_account($account);
  }
 
-   public function add($medicine){
-     try{
-       $data = [
-         "quantity" => $medicine["quantity"],
-         "STATUS" => "IN_CART",
-         "medicine_id" => $medicine["medicine_id"],
-         "account_id" => $medicine["account_id"]
-       ];
+ public function add($medicine){
+    try{
+      $data = [
+       "quantity" => $medicine["quantity"],
+       "STATUS" => "IN_CART",
+       "medicine_id" => $medicine["medicine_id"],
+       "account_id" => $medicine["account_id"]
+         ];
      return parent::add($data);
-     }catch(\Exception $e){
+    }catch(\Exception $e){
      throw new \Exception($e->getMessage(), 400, $e);
-
      }
-   }
  }
+
+ public function remove_medicine($account, $id){
+   $this->dao->alter_cart_by_account($account, $id);
+ }
+
+ public function get_total($account){
+   return $this->dao->get_total_price_by_account($account);
+ }
+
+ public function buy_medicine($account){
+   $status = "BOUGHT";
+   return $this->dao->update_status($account, $status);
+ }
+
+}
 
 ?>
