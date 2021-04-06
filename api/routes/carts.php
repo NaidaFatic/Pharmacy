@@ -9,6 +9,15 @@ Flight::route('GET /users/cart', function(){ //why only admin can?????
 });
 
 /**
+ * @OA\Get(path="/admin/cart", tags={"admin", "carts"}, security={{"ApiKeyAuth": {}}},
+ *     @OA\Response(response="200", description="List medicines for user")
+ * )
+ */
+Flight::route('GET /admin/cart', function(){
+    Flight::json(Flight::cartService()->get_accounts_medicines());
+});
+
+/**
  * @OA\Post(path="/users/cart", tags={"users" ,"carts"}, security={{"ApiKeyAuth": {}}},
  *  @OA\RequestBody(description="Add medicine", required=true,
  *       @OA\MediaType( mediaType="application/json",

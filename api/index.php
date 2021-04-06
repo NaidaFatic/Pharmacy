@@ -57,8 +57,8 @@ Flight::register('cartService', 'CartService');
 require_once dirname(__FILE__)."/routes/middleware.php";
 require_once dirname(__FILE__)."/routes/accounts.php";
 require_once dirname(__FILE__)."/routes/users.php";
-require_once dirname(__FILE__)."/routes/medicine.php";
-require_once dirname(__FILE__)."/routes/cart.php";
+require_once dirname(__FILE__)."/routes/medicines.php";
+require_once dirname(__FILE__)."/routes/carts.php";
 
 
 Flight::start();
