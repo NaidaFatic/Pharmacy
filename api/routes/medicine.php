@@ -1,6 +1,6 @@
 <?php
 /**
- * @OA\Get(path="/users/medicines", tags={"admin", "medicines"}, security={{"ApiKeyAuth": {}}},
+ * @OA\Get(path="/users/medicines", tags={"users", "medicines"}, security={{"ApiKeyAuth": {}}},
  *     @OA\Parameter(type="integer", in="query", name="offset", default=0, description="Offset for pagination"),
  *     @OA\Parameter(type="integer", in="query", name="limit", default=25, description="Limit for pagination"),
  *     @OA\Parameter(type="string", in="query", name="search", description="Search string for medicines. Case insensitive search."),
@@ -25,7 +25,7 @@ Flight::route('GET /users/medicines', function(){ //why only admin can?????
  *         @OA\Property(property="company_name",type="string", required="true", example="company name", description="who made this medicine"),
  *         @OA\Property(property="price",type="double", required="true", example="0.0", description="price of medicie"),
  *         @OA\Property(property="description",type="string", required="true", example="description", description="decription of medicine"),
- *         @OA\Property(property="quantity",type="int", required="true", example=10, description="quantity of medicine")
+ *         @OA\Property(property="quantity",type="integer", required="true", example=10, description="quantity of medicine")
  *      )
  *    )
  *  ),
@@ -34,8 +34,7 @@ Flight::route('GET /users/medicines', function(){ //why only admin can?????
  */
 Flight::route('POST /admin/medicines', function(){
     $data=Flight::request()->data->getData();
-    Flight::medicineService()->add($data);
-    Flight::json(["message" => "Medicine added"]);
+    Flight::json(Flight::medicineService()->add($data));
 });
 
 /**
@@ -46,7 +45,9 @@ Flight::route('POST /admin/medicines', function(){
  *         @OA\Schema(
  *           @OA\Property(property="name",type="string", example="new name", description="name of medicine"),
  *           @OA\Property(property="company_name",type="string", example="company name", description="company name"),
- *           @OA\Property(property="price",type="double", example="0.0", description="new price for medicine")
+ *           @OA\Property(property="price",type="double", example="0.0", description="new price for medicine"),
+ *           @OA\Property(property="description",type="string", required="true", example="description", description="decription of medicine"),
+ *           @OA\Property(property="quantity",type="int", required="true", example=10, description="quantity of medicine")
  *      )
  *    )
  *  ),

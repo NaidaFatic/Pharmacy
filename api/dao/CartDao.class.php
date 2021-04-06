@@ -8,8 +8,8 @@ class CartDao extends BaseDao
   }
 
   public function get_medicine_in_cart_by_account($id){
-    return $this->query_unique("SELECT m.name FROM carts c, medicines m
-                          WHERE c.medicine_id= m.id AND account_id= :id", ["id" => $id]);
+    return $this->query_unique("SELECT * FROM carts
+                          WHERE status != :status AND account_id = :id", ["id" => $id, "status" => "BOUGHT"]);
   }
 
   public function get_total_price_by_account($id){
