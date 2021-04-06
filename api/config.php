@@ -14,7 +14,7 @@ class Config{
   const SMTP_PASSWORD = "";
 
   const JWP_SECRET = "JWT SECRET";
-
+  const JWP_TIME = 604800;
 }
 
 ?>

@@ -15,15 +15,15 @@ class CartDao extends BaseDao
   public function get_total_price_by_account($id){
      $data = $this->query_unique("SELECT SUM(m.price * c.quantity) AS total FROM carts c, medicines m
                           WHERE c.medicine_id= m.id AND account_id = :id", ["id" => $id]);
-     if($data['total'] != null)
-        return $data['total'];
-    else return "0.00";
+     if($data == null)
+        return "0.00";
+    else return $data['total'];
   }
 
    public function alter_cart_by_account($account, $medicine){
     $data = $this->get_medicine($account, $medicine);
 
-    if($data != null){                                                                                          //user can remove his itmes
+    if(!isset($data)){                                                                                          //user can remove his itmes
         $query = "DELETE FROM carts WHERE account_id= :account_id AND medicine_id= :medicine_id";
         $stmt = $this->connection->prepare($query);
         $params=["account_id" => $account, "medicine_id" => $medicine];
@@ -36,7 +36,7 @@ class CartDao extends BaseDao
  public function update_status($account, $status){                                                               //change status to bought
    $data = $this->query_unique("SELECT * FROM carts
                          WHERE account_id = :id", ["id" => $account]);
-    if($data != null){
+    if(!isset($data)){
       $query = "UPDATE carts SET status = :status WHERE account_id= :account_id";
       $stmt = $this->connection->prepare($query);
       $params=["status" => $status, "account_id" => $account];
