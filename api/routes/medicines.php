@@ -38,6 +38,16 @@ Flight::route('GET /medicines', function(){
 });
 
 /**
+ * @OA\Get(path="/users/medicines/{id}", tags={"medicines", "users"}, security={{"ApiKeyAuth":{}}},
+ *     @OA\Parameter(type="integer", in="path", name="id", default=1, description="get a medicine by id"),
+ *     @OA\Response(response="200", description="Fetch individual medicine")
+ * )
+ */
+Flight::route('GET /users/medicines/@id', function($id){
+  Flight::json(Flight::medicineService()->get_by_id($id));
+});
+
+/**
  * @OA\Put(path="/admin/medicines/{id}",tags={"medicines", "admin"}, security={{"ApiKeyAuth":{}}},
  *     @OA\Parameter(@OA\Schema(type="integer"), in="path", name="id", example=1),
  *      @OA\RequestBody(description="Medicine is going to be updated", required=true,

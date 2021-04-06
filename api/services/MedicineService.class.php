@@ -18,7 +18,6 @@ class MedicineService extends BaseService{
     }
   }
 
-
   public function add($medicine){
     try{
       $data = [
@@ -35,9 +34,6 @@ class MedicineService extends BaseService{
 
     }
   }
-
-
-
 
 }
 
