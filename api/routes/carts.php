@@ -6,7 +6,6 @@
  */
 Flight::route('GET /users/individual/cart', function(){
    Flight::json(Flight::cartService()->get_accounts_medicines(Flight::get('user')['id']));
-
 });
 
 /**
