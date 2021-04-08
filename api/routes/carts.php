@@ -1,11 +1,12 @@
 <?php
 /**
- * @OA\Get(path="/users/cart", tags={"users", "carts"}, security={{"ApiKeyAuth": {}}},
+ * @OA\Get(path="/users/individual/cart", tags={"users", "carts"}, security={{"ApiKeyAuth": {}}},
  *     @OA\Response(response="200", description="List medicines for user")
  * )
  */
-Flight::route('GET /users/cart', function(){ //why only admin can?????
-    Flight::json(Flight::cartService()->get_accounts_medicines(Flight::get('user')['id']));
+Flight::route('GET /users/individual/cart', function(){
+   Flight::json(Flight::cartService()->get_accounts_medicines(Flight::get('user')['id']));
+
 });
 
 /**

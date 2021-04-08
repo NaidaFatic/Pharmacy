@@ -27,16 +27,16 @@ Flight::route('POST /register', function(){
  * )
  */
 Flight::route('GET /users/@id', function($id){
-    Flight::json(Flight::userService()->get_by_id($id));
+   Flight::json(Flight::userService()->get_by_id($id));
 });
 
 /**
- * @OA\Get(path="/users/{name}", tags={"users"}, security={{"ApiKeyAuth":{}}},
+ * @OA\Get(path="/users/name/{name}", tags={"users"}, security={{"ApiKeyAuth":{}}},
  *     @OA\Parameter(type="string", in="path", name="name", default="name", description="get a user by name"),
  *     @OA\Response(response="200", description="Fetch individual user")
  * )
  */
- Flight::route('GET /users/@name', function($name){
+ Flight::route('GET /users/name/@name', function($name){
     Flight::json(Flight::userService()->get_user_by_name($name));
  });
 
