@@ -14,7 +14,7 @@ class CartDao extends BaseDao
 
   public function get_total_price_by_account($id){
      $data = $this->query_unique("SELECT SUM(m.price * c.quantity) AS total FROM carts c, medicines m
-                          WHERE c.medicine_id= m.id AND account_id = :id", ["id" => $id]);
+                          WHERE c.medicine_id= m.id AND account_id = :id AND status = :status", ["id" => $id, "status" => "IN_CART"]);
      if($data['total'] == null)
         return "0.00";
     else return $data['total'];

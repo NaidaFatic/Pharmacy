@@ -8,14 +8,15 @@ require_once dirname(__FILE__)."/services/AccountService.class.php";
 require_once dirname(__FILE__)."/services/UserService.class.php";
 require_once dirname(__FILE__)."/services/MedicineService.class.php";
 require_once dirname(__FILE__)."/services/CartService.class.php";
+require_once dirname(__FILE__)."/services/PurchaseService.class.php";
 
 //$dao = new AccountDao(); // cant do this has to be flight class!!
 Flight::set('flight.log.errors', TRUE);
 
  //error handling for our API
-Flight::map('error', function(Exception $ex){
+/*Flight::map('error', function(Exception $ex){
   Flight::json(["message" => $ex->getMessage()], $ex->getCode()? $ex->getCode(): 500);
-});
+});*/
 
 
 // utility function for reading query parameters from url
@@ -51,6 +52,7 @@ Flight::register('accountService', 'AccountService');
 Flight::register('userService', 'UserService');
 Flight::register('medicineService', 'MedicineService');
 Flight::register('cartService', 'CartService');
+Flight::register('purchaseService', 'PurchaseService');
 
 /* include all routes */
 require_once dirname(__FILE__)."/routes/middleware.php";
@@ -58,6 +60,7 @@ require_once dirname(__FILE__)."/routes/accounts.php";
 require_once dirname(__FILE__)."/routes/users.php";
 require_once dirname(__FILE__)."/routes/medicines.php";
 require_once dirname(__FILE__)."/routes/carts.php";
+require_once dirname(__FILE__)."/routes/purchases.php";
 
 
 Flight::start();
