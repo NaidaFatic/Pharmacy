@@ -1,34 +1,22 @@
 <?php
 require_once dirname(__FILE__)."/BaseDao.class.php";
+require_once dirname(__FILE__)."/CartDao.class.php";
 
 class PurchaseDao extends BaseDao
 {
   function __construct()
   {
     parent:: __construct("purchases");
+    $this->cartDao = new CartDao();
   }
 
  public function add_purchase($purchase){
-   $ids = $this->query("SELECT id FROM carts WHERE account_id = :id AND status = :status", ["id" => $purchase["account_id"], "status" => "IN_CART"]);
+   $ids = $this->query("SELECT id FROM carts WHERE account_id = :id AND status = :status", ["id" => $purchase["account_id"], "status" => "BOUGHT"]);
 
    foreach($ids as $i){
-
-     try{
-
-       $data = [
-        "city" => $purchase["city"],
-        "zip" => $purchase["zip"],
-        "phone_number" => $purchase["phone_number"],
-        "date" => date(Config::DATE_FORMAT),
-        "account_id" => $purchase["account_id"],
-        "cart_id" => $i['id']
-          ];
-
-     parent::add($data);
-
-     } catch(\Exception $e) {
-      throw new \Exception($e->getMessage(), 400, $e);
-     }
+     $purchase["cart_id"] = $i['id'];
+     parent::add($purchase);
+     $this->cartDao->update_status($purchase["account_id"], "PURCHASED");
     }
    }
 

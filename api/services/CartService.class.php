@@ -38,6 +38,10 @@ class CartService extends BaseService{
    return $this->dao->update_status($account, $status);
  }
 
+ public function get_medicine_id($id){
+   return $this->dao->get_medicine_by_cart($id);
+ }
+
 }
 
 ?>

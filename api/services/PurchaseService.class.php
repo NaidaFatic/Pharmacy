@@ -1,17 +1,25 @@
 <?php
 require_once dirname(__FILE__)."/../dao/PurchaseDao.class.php";
-require_once dirname(__FILE__)."/MedicineService.class.php";
 
 class PurchaseService extends BaseService{
 
   public function __construct(){
       $this->dao = new PurchaseDao();
-      $this->medicineDao = new MedicineDao();
   }
 
  public function add($purchase){
-    $this->dao->add_purchase($purchase);
-    $this->reduce_quantity($purchase['cart_id']);
+   try{
+     $data = [
+      "city" => $purchase["city"],
+      "zip" => $purchase["zip"],
+      "phone_number" => $purchase["phone_number"],
+      "date" => date(Config::DATE_FORMAT),
+      "account_id" => $purchase["account_id"],
+        ];
+    $this->dao->add_purchase($data);
+   } catch(\Exception $e) {
+    throw new \Exception($e->getMessage(), 400, $e);
+  }
  }
 
  public function get_purchase($offset, $limit, $search, $order){
@@ -26,10 +34,6 @@ class PurchaseService extends BaseService{
  public function remove($id){
    $this->dao->remove_by_id($id);
  }
-
-private function reduce_quantity($cart){
-  
-}
 
 
 }

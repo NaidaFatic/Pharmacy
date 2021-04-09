@@ -49,11 +49,13 @@ class CartDao extends BaseDao
 
   }
 
-
 private function get_medicine($account, $medicine){
-  $data = $this->query_unique("SELECT * FROM carts
+  return $data = $this->query_unique("SELECT * FROM carts
                         WHERE medicine_id = :medicine AND account_id = :id", ["id" => $account, "medicine" => $medicine]);
-  return $data;
+ }
+
+ public function get_medicine_by_cart($id){
+   return $this->query_unique("SELECT medicine_id FROM carts WHERE id = :id", ["id" => $id]);
  }
 }
 
