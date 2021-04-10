@@ -11,7 +11,7 @@ class CartDao extends BaseDao
 
   public function get_medicine_in_cart_by_account($id){
     return $this->query("SELECT * FROM carts
-                          WHERE status != :status AND account_id = :id", ["id" => $id, "status" => "BOUGHT"]); //show only one that is not bought!!!
+                          WHERE status = :status AND account_id = :id", ["id" => $id, "status" => "IN_CART"]); //show only one that is not bought!!!
   }
 
   public function get_total_price_by_account($id){
