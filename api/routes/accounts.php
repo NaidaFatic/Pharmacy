@@ -1,6 +1,8 @@
 <?php
 use \Firebase\JWT\JWT;
 require_once dirname(__FILE__)."/middleware.php";
+require_once dirname(__FILE__)."/../config.php";
+
 /**
  * @OA\Info(title="Pharmacy", version="0.1")
  * @OA\OpenApi(
@@ -74,7 +76,6 @@ Flight::route('POST /admin/accounts', function(){
  */
 Flight::route('PUT /admin/accounts/@id', function($id){
   $data = Flight::request()->data->getData();
-  //print_r($data); //when we print in json when in print_r?
   Flight::json(Flight::accountService()->update($id, $data));
 });
 
@@ -92,8 +93,7 @@ Flight::route('PUT /admin/accounts/@id', function($id){
  * )
  */
 Flight::route('POST /login', function(){
-    $data = Flight::request()->data->getData();
-    Flight::json(Flight::accountService()->login($data));
+    Flight::json(Flight::JWT(Flight::accountService()->login(Flight::request()->data->getData())));
 });
 
 /**
@@ -129,9 +129,7 @@ Flight::route('POST /forgot', function(){
  * )
  */
 Flight::route('POST /reset', function(){
-    $data = Flight::request()->data->getData();
-    Flight::accountService()->reset($data);
-    Flight::json(["message" => "Your passwrod has been changed"]);
+    Flight::json(Flight::JWT(Flight::accountService()->reset(Flight::request()->data->getData())));
 });
 
 /**
@@ -141,8 +139,7 @@ Flight::route('POST /reset', function(){
  * )
  */
 Flight::route('GET /confirm/@token', function($token){
-    Flight::accountService()->confirm($token);
-    Flight::json(["message" => "Your account has been activated"]);
+    Flight::json(Flight::JWT(Flight::accountService()->confirm($token)));
 });
 
 /**

@@ -14,6 +14,7 @@ class AccountService extends BaseService{
       $this->SMTPmailer = new SMTPClient();
 
   }
+
   public function get_accounts($search, $offset, $limit, $order){
     if($search){
         return $this->dao->get_account($search, $offset, $limit, $order);
@@ -31,6 +32,8 @@ class AccountService extends BaseService{
     if(!isset($db_user['id'])) throw new Exception("Invalid token", 400);
 
     $this->dao->update_account_by_email($db_user['email'], ['password' => md5($account['password']), 'token' => NULL]);
+
+    return $db_user;
   }
 
   public function forgot($account){
@@ -44,7 +47,7 @@ class AccountService extends BaseService{
     $db_user = $this->update($db_user['id'], ['token' => md5(random_bytes(16)), 'token_created_at' => date(Config::DATE_FORMAT)]);
 
     // send email
-    $this->SMTPmailer->send_recovery_user_token($db_user);
+    //$this->SMTPmailer->send_recovery_user_token($db_user);
   }
 
   public function login($account){
@@ -56,15 +59,12 @@ class AccountService extends BaseService{
 
     if($db_user['password'] != md5($account['password'])) throw new Exception("Invalid password", 400);
 
-    $jwt = \Firebase\JWT\JWT::encode(["exp" => (time() + Config::JWT_TIME), "id" => $db_user["id"], "uid" => $db_user["user_id"], "r" => $db_user["role"]], Config::JWP_SECRET);
-
-    return ["token" => $jwt];
+    return $db_user;
   }
 
   public function get_account_by_id($id){
     return $this->dao->get_by_id($id);
   }
-
 
   public function confirm($token){
     $account = $this->dao->get_user_by_token($token);
@@ -72,6 +72,8 @@ class AccountService extends BaseService{
     if(!isset($account['id'])) throw Exception("invalid token");
 
     $this->dao->update_account_by_email($account['email'], ["status" => "ACTIVE", 'token' => NULL]);
+
+    return $account;
   }
 }
 

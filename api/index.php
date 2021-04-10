@@ -36,6 +36,12 @@ Flight::map('header', function($name){
   return @$headers[$name];
 });
 
+/* utility function for generating JWT token */
+Flight::map('JWT', function($db_user){
+  $jwt = \Firebase\JWT\JWT::encode(["exp" => (time() + Config::JWT_TIME), "id" => $db_user["id"], "uid" => $db_user["user_id"], "r" => $db_user["role"]], Config::JWP_SECRET);
+  return ["token" => $jwt];
+});
+
 //swagger documentation
 Flight::route('GET /swagger', function(){
   $openapi = @\OpenApi\scan(dirname(__FILE__)."/routes");

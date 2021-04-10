@@ -23,7 +23,7 @@ class PurchaseService extends BaseService{
       "account_id" => $purchase["account_id"]
         ];
     $this->dao->add_purchase($data);
-  // $this->SMTPmailer->send_user_purchase($purchase, $account);
+  // $this->SMTPmailer->send_user_purchase($purchase, $account);       // TODO: set the medicine_id in mail
    } catch(\Exception $e) {
     throw new \Exception($e->getMessage(), 400, $e);
   }
