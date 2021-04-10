@@ -6,7 +6,7 @@ class MedicineDao extends BaseDao{
   public function __construct(){
     parent::__construct("medicines");
   }
-  
+
   public function get_medicines_by_name($offset, $limit, $name, $order){
     list($order_column, $order_direction) = self::parse_order($order);
     $params = ["name" => strtolower($name)];
@@ -24,6 +24,10 @@ class MedicineDao extends BaseDao{
     $query .="LIMIT ${limit} OFFSET ${offset}";
 
     return $this->query($query, $params);
+  }
+
+  public function update_quantity($id, $quantity){
+    $this->update($id,'quantity', $quantity);
   }
 
 }

@@ -14,7 +14,7 @@ class AccountDao extends BaseDao{
   public function get_account_by_email($email){
     return $this->query_unique("SELECT * FROM accounts WHERE email = :email", ["email" => $email]);
   }
-    
+
   public function get_account($search, $offset, $limit, $order = "-id"){
     list($order_column, $order_direction) = self::parse_order($order);
 

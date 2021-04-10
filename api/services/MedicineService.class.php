@@ -3,7 +3,6 @@ require_once dirname(__FILE__)."/../dao/MedicineDao.class.php";
 require_once dirname(__FILE__)."/BaseService.class.php";
 
 class MedicineService extends BaseService{
-  private $userDao;
 
   public function __construct(){
     $this->dao = new MedicineDao();

@@ -39,6 +39,16 @@ class SMTPClient{
     // Send the message
      $this->mailer->send($message);
   }
+
+  public function send_user_purchase($purchase, $account){
+    $message = (new Swift_Message('Your purchase'))
+      ->setFrom(['naidafatic@gmail.com' => 'Pharmacy'])
+      ->setTo([$account['email']])
+      ->setBody('Here is the order. City:'.$purchase['city'].' Zip: '.$purchase['zip'].$purchase['phone_number']);
+
+    // Send the message
+     $this->mailer->send($message);
+  }
 }
 
 ?>

@@ -60,14 +60,7 @@ class AccountService extends BaseService{
 
     return ["token" => $jwt];
   }
-/*
- public function add($account){
-    // vadlidation
-    if(!isset($account['email'])) throw new Exception("email is missing");
-    $account['token'] = md5(random_bytes(16));
-    return parent::add($account);
-  }
-*/
+
   public function get_account_by_id($id){
     return $this->dao->get_by_id($id);
   }
@@ -79,11 +72,7 @@ class AccountService extends BaseService{
     if(!isset($account['id'])) throw Exception("invalid token");
 
     $this->dao->update_account_by_email($account['email'], ["status" => "ACTIVE", 'token' => NULL]);
-
-    //TODO send email to customer
   }
-
-
 }
 
 ?>
