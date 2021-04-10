@@ -27,7 +27,15 @@ class MedicineDao extends BaseDao{
   }
 
   public function update_quantity($id, $quantity){
-    $this->update($id,'quantity', $quantity);
+    $query = "UPDATE medicines SET quantity = :quantity
+               WHERE id = :id";
+    $stmt = $this->connection->prepare($query);
+    $params=["id" => $id, "quantity" => $quantity];
+    $stmt -> execute($params);
+  }
+
+  public function get_quantity($id){
+    return $this->query_unique("SELECT quantity FROM medicines WHERE id = :id", ["id" => $id]);
   }
 
 }

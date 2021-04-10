@@ -17,7 +17,7 @@ Flight::route('POST /users/purchases', function(){
     $data=Flight::request()->data->getData();
     $data["account_id"] = Flight::get('user')['id'];
     Flight::purchaseService()->add($data);
-    Flight::json(["message" => "Medicine purchased!"]);
+    Flight::json(["message" => "Medicine purchased! Check email!"]);
 });
 
 /**

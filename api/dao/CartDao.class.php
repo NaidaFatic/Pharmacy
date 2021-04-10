@@ -1,10 +1,12 @@
 <?php
 require_once dirname(__FILE__)."/BaseDao.class.php";
+require_once dirname(__FILE__)."/MedicineDao.class.php";
 
 class CartDao extends BaseDao
 {
   public function __construct(){
     parent::__construct("carts");
+    $this->medicineDao = new MedicineDao();
   }
 
   public function get_medicine_in_cart_by_account($id){
@@ -57,6 +59,21 @@ private function get_medicine($account, $medicine){
  public function get_medicine_by_cart($id){
    return $this->query_unique("SELECT medicine_id FROM carts WHERE id = :id", ["id" => $id]);
  }
+
+ public function change_quantity($account){
+   $ids = $this->get_medicine_in_cart_by_account($account);
+
+   foreach($ids as $id){
+
+     $quantity = $this->medicineDao->get_quantity($id['medicine_id']);
+     $new = $quantity['quantity'] - $id['quantity'];
+     if($new < 0)
+         $new = 0;
+     $this->medicineDao->update_quantity($id['medicine_id'], $new);
+   }
+ }
+
+
 }
 
 ?>

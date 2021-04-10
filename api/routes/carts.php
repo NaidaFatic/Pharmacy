@@ -59,7 +59,7 @@ Flight::route('GET /users/total/cart', function(){                              
  */
 Flight::route('PUT /users/buy/cart', function(){                               //buy item from cart
   Flight::cartService()->buy_medicine(Flight::get('user')['id']);
-  Flight::json(["message" => "Medicines bought from cart! Check your email!"]);
+  Flight::json(["message" => "Medicines bought from cart!"]);
 });
 
 
