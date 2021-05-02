@@ -11,7 +11,7 @@ class UserService extends BaseService{
   public function __construct(){
       $this->dao = new UserDao();
       $this->accountDao = new AccountDao();
-      $this->SMTPClient = new SMTPClient();
+      //$this->SMTPClient = new SMTPClient();
   }
 
   public function register($account){

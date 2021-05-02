@@ -11,7 +11,7 @@ class AccountService extends BaseService{
   public function __construct(){
       $this->dao = new AccountDao();
       $this->userDao = new UserDao();
-      $this->SMTPmailer = new SMTPClient();
+    //  $this->SMTPmailer = new SMTPClient();
 
   }
 

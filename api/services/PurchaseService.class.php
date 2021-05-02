@@ -8,7 +8,7 @@ class PurchaseService extends BaseService{
   public function __construct(){
       $this->dao = new PurchaseDao();
       $this->accountDao = new AccountDao();
-      $this->SMTPmailer = new SMTPClient();
+      //$this->SMTPmailer = new SMTPClient();
   }
 
  public function add($purchase){
