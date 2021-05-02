@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @OA\Post(path="/register", tags={"login"},
  *  @OA\RequestBody(description="Basic user info", required=true,
@@ -15,7 +16,7 @@
  * )
  */
 Flight::route('POST /register', function(){
-    $data=Flight::request()->data->getData();            
+    $data=Flight::request()->data->getData();
     Flight::userService()->register($data);
     Flight::json(["message" => "Please check your email"]);
 });

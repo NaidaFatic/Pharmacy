@@ -22,11 +22,10 @@ class CartDao extends BaseDao{
      } else return $data['total'];
   }
 
-
-   public function alter_cart_by_account($account, $medicine){
+  public function alter_cart_by_account($account, $medicine){
     $data = $this->get_medicine($account, $medicine);
 
-    if($data != null){                                                                                          //user can remove his itmes
+    if($data != null){
         $query = "DELETE FROM carts WHERE account_id= :account_id AND medicine_id= :medicine_id";
         $stmt = $this->connection->prepare($query);
         $params=["account_id" => $account, "medicine_id" => $medicine];
@@ -36,7 +35,7 @@ class CartDao extends BaseDao{
     }
   }
 
- public function update_status($account, $status){
+  public function update_status($account, $status){
    if($status == "BOUGHT"){
      $data = $this->query_unique("SELECT * FROM carts
                            WHERE account_id = :id AND status = :status", ["id" => $account, "status" =>"IN_CART"]);
@@ -58,7 +57,7 @@ class CartDao extends BaseDao{
 
   }
 
-private function get_medicine($account, $medicine){
+ private function get_medicine($account, $medicine){
   return $data = $this->query_unique("SELECT * FROM carts
                         WHERE medicine_id = :medicine AND account_id = :id", ["id" => $account, "medicine" => $medicine]);
  }

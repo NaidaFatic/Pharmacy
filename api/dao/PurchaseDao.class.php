@@ -3,7 +3,7 @@ require_once dirname(__FILE__)."/BaseDao.class.php";
 require_once dirname(__FILE__)."/CartDao.class.php";
 
 class PurchaseDao extends BaseDao{
-  
+    
  function __construct(){
     parent:: __construct("purchases");
     $this->cartDao = new CartDao();

@@ -27,4 +27,5 @@ Flight::route('/admin/*', function(){
     die;
   }
 });
+
 ?>

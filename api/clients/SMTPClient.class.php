@@ -3,7 +3,7 @@ require_once dirname(__FILE__).'/../config.php';
 require_once dirname(__FILE__).'/../../vendor/autoload.php';
 
 class SMTPClient{
-  
+
   private $mailer;
 
   public function __construct(){

@@ -19,7 +19,6 @@ Flight::map('error', function(Exception $ex){
 });
 
 // utility function for reading query parameters from url
-
 Flight::map('query', function($name, $defaul_value = NULL){
   $request = Flight::request();
   $query_param = @$request->query->getData()[$name];

@@ -13,7 +13,7 @@ require_once dirname(__FILE__)."/../config.php";
  *      securityScheme="ApiKeyAuth", in="header", name="Authentication", type="apiKey")
  */
 
-  /**
+/**
  * @OA\Get(path="/admin/accounts", tags={"accounts", "admin"}, security={{"ApiKeyAuth":{}}},
  *     @OA\Parameter(type="integer", in="query", name="offset", default=0, description="offset for pegination"),
  *     @OA\Parameter(type="integer", in="query", name="limit", default=25, description="limit for pegination"),
@@ -113,7 +113,6 @@ Flight::route('POST /forgot', function(){
     Flight::accountService()->forgot($data);
     Flight::json(["message" => "Recovery link has been send!"]);
 });
-
 
 /**
  * @OA\Post(path="/reset", tags={"login"}, description="Reset password",

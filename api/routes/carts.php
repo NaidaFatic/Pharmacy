@@ -36,7 +36,7 @@ Flight::route('POST /users/cart', function(){
  *     @OA\Response(response="200", description="Remove medicine from cart")
  * )
  */
-Flight::route('PUT /users/cart/@id', function($id){                               //remove item from cart
+Flight::route('PUT /users/cart/@id', function($id){
   Flight::cartService()->remove_medicine(Flight::get('user')['id'], $id);
   Flight::json(["message" => "Medicine removed from cart!"]);
 });
@@ -46,7 +46,7 @@ Flight::route('PUT /users/cart/@id', function($id){                             
  *     @OA\Response(response="200", description="List total for user")
  * )
  */
-Flight::route('GET /users/total/cart', function(){                                //cant same name and same method
+Flight::route('GET /users/total/cart', function(){
     Flight::json(Flight::cartService()->get_total(Flight::get('user')['id']));
 });
 
@@ -57,12 +57,9 @@ Flight::route('GET /users/total/cart', function(){                              
  *     @OA\Response(response="200", description="Change status in cart")
  * )
  */
-Flight::route('PUT /users/buy/cart', function(){                               //buy item from cart
+Flight::route('PUT /users/buy/cart', function(){
   Flight::cartService()->buy_medicine(Flight::get('user')['id']);
   Flight::json(["message" => "Medicines bought from cart!"]);
 });
-
-
-//buy
 
 ?>

@@ -2,7 +2,7 @@
 require_once dirname(__FILE__)."/../dao/CartDao.class.php";
 
 class CartService extends BaseService{
-  
+
  public function __construct(){
       $this->dao = new CartDao();
   }

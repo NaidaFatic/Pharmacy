@@ -6,6 +6,7 @@ class BaseService {
   public function get_by_id($id){
     return $this->dao->get_by_id($id);
   }
+
   public function add($data){
     return $this->dao->add($data);
   }
@@ -14,6 +15,7 @@ class BaseService {
     $this->dao->update_by_id($id, $data);
     return $this->dao->get_by_id($id);
   }
+  
 }
 
 ?>

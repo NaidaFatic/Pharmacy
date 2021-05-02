@@ -69,5 +69,4 @@ Flight::route('PUT /admin/medicines/@id', function($id){
   Flight::json(Flight::medicineService()->update($id, $data));
 });
 
-
 ?>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @OA\Post(path="/users/purchases", tags={"users" ,"purchases"}, security={{"ApiKeyAuth": {}}},
  *  @OA\RequestBody(description="Add medicine", required=true,
@@ -48,6 +49,5 @@ Flight::route('PUT /admin/purchases/@id', function($id){
   Flight::purchaseService()->remove($id);
   Flight::json(["message" => "Purchase deleted"]);
 });
-
 
 ?>

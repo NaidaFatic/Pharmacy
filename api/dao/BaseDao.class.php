@@ -35,10 +35,9 @@ class BaseDao{
    $order_column = trim($this->connection->quote(substr($order, 1)),"'");
 
    return [$order_column, $order_direction];
- }
+  }
 
-  public function __construct($table)
-  {
+  public function __construct($table){
     $this->table= $table;
     try {
       $this->connection = new PDO("mysql:host=".Config::DB_HOST().";dbname=".Config::DB_SCHEME(), Config::DB_USERNAME(), Config::DB_PASSWORD());
@@ -81,7 +80,7 @@ class BaseDao{
     return reset($results);
   }
 
-  protected function update($table, $id, $entity, $id_column = "id"){ //id is default value
+  protected function update($table, $id, $entity, $id_column = "id"){
     $query = "UPDATE ${table} SET ";
     foreach($entity as $name => $value){
       $query.=$name."= :".$name. ", "; //insert statment is in a form of name = :name!! value is after :
@@ -105,9 +104,9 @@ class BaseDao{
 
   public function get_by_name($name){
     return $this->query("SELECT * FROM " .$this->table. " WHERE name = :name", ["name" => $name]);
- }
+  }
 
- public function get_all($offset=0, $limit=25, $order="-id"){
+  public function get_all($offset=0, $limit=25, $order="-id"){
 
    list($order_column, $order_direction) = self::parse_order($order);
 
@@ -116,11 +115,8 @@ class BaseDao{
                                         LIMIT ${limit} OFFSET ${offset}", []);
  }
 
- public function get_by_id($id){
+  public function get_by_id($id){
    return $this->query_unique("SELECT * FROM " .$this->table. " WHERE id = :id", ["id" => $id]);
+ }
 }
-
-}
-
-
 ?>
