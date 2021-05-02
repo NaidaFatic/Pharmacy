@@ -10,7 +10,7 @@
  *      )
  *    )
  *  ),
- *  @OA\Response(response="200", description="Add medicine")
+ *  @OA\Response(response="200", description="Purchase medicine")
  * )
  */
 Flight::route('POST /users/purchases', function(){

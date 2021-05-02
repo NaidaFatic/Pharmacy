@@ -15,7 +15,7 @@
  * )
  */
 Flight::route('POST /register', function(){
-    $data=Flight::request()->data->getData();            // where is the data stored before the class metod
+    $data=Flight::request()->data->getData();            
     Flight::userService()->register($data);
     Flight::json(["message" => "Please check your email"]);
 });
