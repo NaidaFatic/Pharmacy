@@ -2,10 +2,9 @@
 require_once dirname(__FILE__)."/BaseDao.class.php";
 require_once dirname(__FILE__)."/CartDao.class.php";
 
-class PurchaseDao extends BaseDao
-{
-  function __construct()
-  {
+class PurchaseDao extends BaseDao{
+  
+ function __construct(){
     parent:: __construct("purchases");
     $this->cartDao = new CartDao();
   }
@@ -24,6 +23,11 @@ class PurchaseDao extends BaseDao
     return $this->get_by_id($search);
  }
 
+ public function get_carts($purchase){
+   $ids = $this->query("SELECT * FROM carts WHERE account_id = :id AND status = :status", ["id" => $purchase["account_id"], "status" => "BOUGHT"]);
+   return $ids;
+ }
+
  public function remove_by_id($id){
    $data = $this->query_unique("SELECT * FROM purchases WHERE id = :id", ["id" => $id]);
 
@@ -35,6 +39,14 @@ class PurchaseDao extends BaseDao
    } else {
      throw new \Exception("There is no purchase with this id", 404);
    }
+ }
+
+ public function get_total_price_by_account($id){
+    $data = $this->query_unique("SELECT SUM(m.price * c.quantity) AS total FROM carts c, medicines m
+                         WHERE c.medicine_id= m.id AND account_id = :id AND status = :status", ["id" => $id, "status" => "BOUGHT"]);
+    if($data['total'] == null)
+       return "0.00";
+   else return  $data['total'];
  }
 
 }

@@ -2,13 +2,14 @@
 require_once dirname(__FILE__)."/../dao/PurchaseDao.class.php";
 require_once dirname(__FILE__)."/../dao/AccountDao.class.php";
 require_once dirname(__FILE__)."/../clients/SMTPClient.class.php";
+require_once dirname(__FILE__)."/../utilities.php";
 
 class PurchaseService extends BaseService{
 
-  public function __construct(){
+ public function __construct(){
       $this->dao = new PurchaseDao();
       $this->accountDao = new AccountDao();
-      //$this->SMTPmailer = new SMTPClient();
+      $this->SMTPmailer = new SMTPClient();
   }
 
  public function add($purchase){
@@ -22,9 +23,13 @@ class PurchaseService extends BaseService{
       "date" => date(Config::DATE_FORMAT),
       "account_id" => $purchase["account_id"]
         ];
+
+    $price = $this->dao->get_total_price_by_account($account['id']);
+    $carts = $this->dao->get_carts($purchase);
+    $order = Util::GET_ORDER($carts);
     $this->dao->add_purchase($data);
-  // $this->SMTPmailer->send_user_purchase($purchase, $account);       // TODO: set the medicine_id in mail
-   } catch(\Exception $e) {
+    $this->SMTPmailer->send_user_purchase($purchase, $account, $order,$price);
+     } catch(\Exception $e) {
     throw new \Exception($e->getMessage(), 400, $e);
   }
  }

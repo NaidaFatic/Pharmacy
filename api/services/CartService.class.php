@@ -2,8 +2,8 @@
 require_once dirname(__FILE__)."/../dao/CartDao.class.php";
 
 class CartService extends BaseService{
-
-  public function __construct(){
+  
+ public function __construct(){
       $this->dao = new CartDao();
   }
 
@@ -30,7 +30,7 @@ class CartService extends BaseService{
  }
 
  public function get_total($account){
-   return $this->dao->get_total_price_by_account($account);
+  return $this->dao->get_total_price_by_account($account);
  }
 
  public function buy_medicine($account){

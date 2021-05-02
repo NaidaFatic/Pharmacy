@@ -2,8 +2,7 @@
 require_once dirname(__FILE__)."/BaseDao.class.php";
 require_once dirname(__FILE__)."/MedicineDao.class.php";
 
-class CartDao extends BaseDao
-{
+class CartDao extends BaseDao{
   public function __construct(){
     parent::__construct("carts");
     $this->medicineDao = new MedicineDao();
@@ -17,10 +16,12 @@ class CartDao extends BaseDao
   public function get_total_price_by_account($id){
      $data = $this->query_unique("SELECT SUM(m.price * c.quantity) AS total FROM carts c, medicines m
                           WHERE c.medicine_id= m.id AND account_id = :id AND status = :status", ["id" => $id, "status" => "IN_CART"]);
-     if($data['total'] == null)
-        return "0.00";
-    else return $data['total'];
+
+     if($data['total'] == null){
+       return "0.00";
+     } else return $data['total'];
   }
+
 
    public function alter_cart_by_account($account, $medicine){
     $data = $this->get_medicine($account, $medicine);
@@ -35,15 +36,21 @@ class CartDao extends BaseDao
     }
   }
 
- public function update_status($account, $status){                                                               //change status to bought
-   $data = $this->query_unique("SELECT * FROM carts
-                         WHERE account_id = :id", ["id" => $account]);
-    if($data != null){
-      $query = "UPDATE carts SET status = :status WHERE account_id= :account_id";
+ public function update_status($account, $status){
+   if($status == "BOUGHT"){
+     $data = $this->query_unique("SELECT * FROM carts
+                           WHERE account_id = :id AND status = :status", ["id" => $account, "status" =>"IN_CART"]);
+      $query = "UPDATE carts SET status = :status WHERE account_id= :account_id AND status = 'IN_CART' ";
+   }else{
+     $data = $this->query_unique("SELECT * FROM carts
+                           WHERE account_id = :id", ["id" => $account]);
+     $query = "UPDATE carts SET status = :status WHERE account_id= :account_id AND status = 'BOUGHT'";
+   }
+
+    if($data!=null){
       $stmt = $this->connection->prepare($query);
       $params=["status" => $status, "account_id" => $account];
       $stmt -> execute($params);
-      //send email in purchaseService
     } else {
       throw new \Exception("Nothing in cart", 404);
 
@@ -71,6 +78,10 @@ private function get_medicine($account, $medicine){
          $new = 0;
      $this->medicineDao->update_quantity($id['medicine_id'], $new);
    }
+ }
+
+ public function get_quantity($id){
+   return $this->query_unique("SELECT quantity FROM carts WHERE id = :id", ["id" => $id]);
  }
 
 

@@ -2,18 +2,17 @@
 
 class Util{
 
-  public static function TO_STRING($array){
-    $string="";
-    foreach($array as $i){
-      $string =$string.', '.$i;
+  public static function GET_ORDER($carts){
+    $string ="";
+
+    foreach($carts as $id){
+      $string = $string.", ".$id['medicine_id']." => ".$id['quantity'];
     }
-     $string = substr($string, 1);
+
+    $string = substr($string, 2);
     return $string;
   }
 
 }
-
-
-
 
 ?>
