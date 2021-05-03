@@ -22,7 +22,7 @@
 
 </head>
 
-<body class="bg-gradient-primary">
+<body class="bg-gradient-primary" style="display:none;">
 
     <div class="container">
 
@@ -85,6 +85,14 @@
     <script src="assets/js/sb-admin-2.min.js"></script>
 
     <script type="text/javascript">
+
+      $(function(){
+        if(window.localStorage.getItem("token")){
+          window.location = "index.html";
+        }else{
+          $('body').show();
+        }
+      });
       function doLogin(){
         /** ajax call **/
         var login_info = {
@@ -93,6 +101,7 @@
         };
         $("#login-link").prop('disabled', true);
         $.post( "http://localhost/project/Pharmacy/api/login", login_info ).done(function(data){
+            window.localStorage.setItem("token", data.token);
             window.location = "index.html";
          }).fail(function(error) {
            $("#login-link").prop('disabled', false);

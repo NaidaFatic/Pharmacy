@@ -25,7 +25,7 @@
 
 </head>
 
-<body id="page-top">
+<body id="page-top" style="display:none;">
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -160,7 +160,7 @@
 
             <!-- Main Content -->
             <div id="content">
-              
+
               <!-- Topbar -->
               <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
@@ -437,8 +437,13 @@
     <script type="text/javascript">
       $(document).ready(function() {
         var app = $.jQuerySPApp({defaultView  : "dashboard"}); // initialize
-        // run app
         app.run();
+        if(!window.localStorage.getItem("token")){
+          window.location = "login.html";
+        }else{
+          $('body').show();
+        }
+
       });
     </script>
 
