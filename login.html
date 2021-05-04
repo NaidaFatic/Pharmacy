@@ -178,7 +178,7 @@
         </div>
       </div>
 
-      <div class="container d-none"  id="password-form-container">
+      <div class="container d-none"  id="reset-form-container">
           <!-- Outer Row -->
       <div class="row justify-content-center">
         <div class="col-xl-10 col-lg-12 col-md-9 ">
@@ -195,12 +195,14 @@
                                       and we'll send you a link to reset your password!</p>
                               </div>
                               <form class="user">
+                                <input type="hidden" class="form-control form-control-user"
+                                    id="change-password-token">
                                   <div class="form-group">
-                                      <input type="email" class="form-control form-control-user"
-                                          id="newPassword" aria-describedby="new-password"
+                                      <input type="password" class="form-control form-control-user"
+                                          id="new-password" aria-describedby="new-password"
                                           placeholder="Enter New Password...">
                                   </div>
-                                  <button onclick="doResetPassword()" href="#" class="btn btn-primary btn-user btn-block">
+                                  <button onclick="doResetPassword()" href="#" class="btn btn-primary btn-user btn-block" id="reset-link">
                                       Reset Password
                                   </button>
                               </form>
@@ -238,7 +240,44 @@
         }else{
           $('body').show();
         }
+        var url = new URLSearchParams(window.location.search);
+        if(url.has('token')){
+          $("#change-password-token").val(url.get('token'));
+          showResetPasswordForm();
+        }
       });
+
+      function showRegisterForm(){
+        $("#login-form-container").addClass("d-none");
+        $("#forgot-form-container").addClass("d-none");
+        $("#password-form-container").addClass("d-none");
+        $("#register-form-container").removeClass("d-none");
+        $("#reset-form-container").addClass("d-none");
+      }
+
+      function showForgotForm(){
+        $("#login-form-container").addClass("d-none");
+        $("#register-form-container").addClass("d-none");
+        $("#password-form-container").addClass("d-none");
+        $("#reset-form-container").addClass("d-none");
+        $("#forgot-form-container").removeClass("d-none");
+      }
+
+      function showLoginForm(){
+        $("#login-form-container").removeClass("d-none");
+        $("#register-form-container").addClass("d-none");
+        $("#password-form-container").addClass("d-none");
+        $("#forgot-form-container").addClass("d-none");
+        $("#reset-form-container").addClass("d-none");
+      }
+
+      function showResetPasswordForm(){
+        $("#login-form-container").addClass("d-none");
+        $("#register-form-container").addClass("d-none");
+        $("#password-form-container").addClass("d-none");
+        $("#forgot-form-container").addClass("d-none");
+        $("#reset-form-container").removeClass("d-none");
+      }
 
       function doLogin(){
         /** ajax call **/
@@ -256,41 +295,20 @@
         });
       }
 
-      function showRegisterForm(){
-        $("#login-form-container").addClass("d-none");
-        $("#forgot-form-container").addClass("d-none");
-        $("#password-form-container").addClass("d-none");
-        $("#register-form-container").removeClass("d-none");
-      }
-
-      function showForgotForm(){
-        $("#login-form-container").addClass("d-none");
-        $("#register-form-container").addClass("d-none");
-        $("#password-form-container").addClass("d-none");
-        $("#forgot-form-container").removeClass("d-none");
-      }
-
-      function showLoginForm(){
-        $("#login-form-container").removeClass("d-none");
-        $("#register-form-container").addClass("d-none");
-        $("#password-form-container").addClass("d-none");
-        $("#forgot-form-container").addClass("d-none");
-      }
-
       function doRegister(){
-      /** ajax call **/
-      var register_info = {
+       /** ajax call **/
+       var register_info = {
         "email":  $("#register-email").val(),
         "password":  $("#register-password").val(),
         "name":  $("#firstName").val(),
         "surname":  $("#lastName").val()
-      };
-      var password = document.getElementById("register-password")
+       };
+       var password = document.getElementById("register-password")
         , confirm_password = document.getElementById("register-repeat-password");
 
-      $("#register-link").prop('disabled', true);
-      if(password.value == confirm_password.value){
-      $.post( "http://localhost/project/Pharmacy/api/register", register_info ).done(function(data){
+       $("#register-link").prop('disabled', true);
+       if(password.value == confirm_password.value){
+       $.post( "http://localhost/project/Pharmacy/api/register", register_info ).done(function(data){
         console.log(data);
         $("#register-form-container").addClass("d-none");
         $("#form-alert").removeClass("d-none");
@@ -298,13 +316,12 @@
        }).fail(function(error) {
          $("#register-link").prop('disabled', false);
          alert( error.responseJSON.message );
-      });}
-      else{
+       });}
+       else{
         $("#register-link").prop('disabled', false);
           confirm_password.setCustomValidity("Passwords don't match!");
+       }
       }
-
-    }
 
       function doForgotPassword(){
         var forgot_info = {
@@ -314,10 +331,9 @@
         $("#forgot-link").prop('disabled', true);
         $.post( "http://localhost/project/Pharmacy/api/forgot", forgot_info ).done(function(data){
           console.log(data);
-          alert("forgot");
           $("#forgot-form-container").addClass("d-none");
           $("#form-alert").removeClass("d-none");
-          $("#form-alert .alert").html(data.message);
+          $("#form-alert .alert").html("Recovery link on a way!");
          }).fail(function(error) {
           $("#forgot-link").prop('disabled', false);
           $("#forgot-form-container").addClass("d-none");
@@ -326,6 +342,22 @@
         });
       }
 
+      function doResetPassword(){
+        var reset_info = {
+          "token" : $("#change-password-token").val(),
+          "password" : $("#new-password").val()
+        }
+        $("#reset-link").prop('disabled', true);
+        $.post( "http://localhost/project/Pharmacy/api/reset", reset_info ).done(function(data){
+          console.log(data);
+          window.localStorage.setItem("token", data.token);
+          window.location = "index.html";
+         }).fail(function(error) {
+          $("#reset-link").prop('disabled', false);
+          alert(error.responseJSON.message);
+        });
+
+      }
     </script>
 
 </body>
