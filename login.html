@@ -71,7 +71,7 @@
         </div>
 
 
-        <div class="container d-none"  id="register-form-alert" style="margin-top:50px">
+        <div class="container d-none"  id="form-alert" style="margin-top:50px">
             <div class="alert alert-success" role="alert">
                 Successful registration!
             </div>
@@ -158,9 +158,9 @@
                                             id="exampleInputEmail" aria-describedby="forgot-email"
                                             placeholder="Enter Email Address...">
                                     </div>
-                                    <a onclick="doForgot()" href="#" class="btn btn-primary btn-user btn-block">
+                                    <button id="forgot-link" onclick="doForgotPassword()" href="#" class="btn btn-primary btn-user btn-block">
                                         Reset Password
-                                    </a>
+                                    </button>
                                 </form>
                                 <hr>
                                 <div class="text-center">
@@ -177,6 +177,48 @@
           </div>
         </div>
       </div>
+
+      <div class="container d-none"  id="password-form-container">
+          <!-- Outer Row -->
+      <div class="row justify-content-center">
+        <div class="col-xl-10 col-lg-12 col-md-9 ">
+          <div class="card o-hidden border-0 shadow-lg my-5">
+              <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                  <div class="row">
+                      <div class="col-lg-6 d-none d-lg-block bg-password-image"></div>
+                      <div class="col-lg-6">
+                          <div class="p-5">
+                              <div class="text-center">
+                                  <h1 class="h4 text-gray-900 mb-2">Forgot Your Password?</h1>
+                                  <p class="mb-4">We get it, stuff happens. Just enter your new password below
+                                      and we'll send you a link to reset your password!</p>
+                              </div>
+                              <form class="user">
+                                  <div class="form-group">
+                                      <input type="email" class="form-control form-control-user"
+                                          id="newPassword" aria-describedby="new-password"
+                                          placeholder="Enter New Password...">
+                                  </div>
+                                  <button onclick="doResetPassword()" href="#" class="btn btn-primary btn-user btn-block">
+                                      Reset Password
+                                  </button>
+                              </form>
+                              <hr>
+                              <div class="text-center">
+                                  <a onClick="showRegisterForm()" class="small" href="#">Create an Account!</a>
+                              </div>
+                              <div class="text-center">
+                                  <a onClick="showLoginForm()" class="small" href="#">Already have an account? Login!</a>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -197,6 +239,7 @@
           $('body').show();
         }
       });
+
       function doLogin(){
         /** ajax call **/
         var login_info = {
@@ -213,25 +256,28 @@
         });
       }
 
-    function showRegisterForm(){
+      function showRegisterForm(){
         $("#login-form-container").addClass("d-none");
         $("#forgot-form-container").addClass("d-none");
+        $("#password-form-container").addClass("d-none");
         $("#register-form-container").removeClass("d-none");
     }
 
-    function showForgotForm(){
+      function showForgotForm(){
         $("#login-form-container").addClass("d-none");
         $("#register-form-container").addClass("d-none");
+        $("#password-form-container").addClass("d-none");
         $("#forgot-form-container").removeClass("d-none");
     }
 
-    function showLoginForm(){
+      function showLoginForm(){
         $("#login-form-container").removeClass("d-none");
         $("#register-form-container").addClass("d-none");
+        $("#password-form-container").addClass("d-none");
         $("#forgot-form-container").addClass("d-none");
-    }
+      }
 
-    function doRegister(){
+      function doRegister(){
       /** ajax call **/
       var register_info = {
         "email":  $("#register-email").val(),
@@ -247,8 +293,8 @@
       $.post( "http://localhost/project/Pharmacy/api/register", register_info ).done(function(data){
         console.log(data);
         $("#register-form-container").addClass("d-none");
-        $("#register-form-alert").removeClass("d-none");
-        $("#register-form-alert .alert").html(data.message);
+        $("#form-alert").removeClass("d-none");
+        $("#form-alert .alert").html(data.message);
        }).fail(function(error) {
          $("#register-link").prop('disabled', false);
          alert( error.responseJSON.message );
@@ -259,6 +305,26 @@
       }
 
     }
+
+      function doForgotPassword(){
+        var forgot_info = {
+          "email":  $("#forgot-email").val()
+        };
+
+        $("#forgot-link").prop('disabled', true);
+        $.post( "http://localhost/project/Pharmacy/api/forgot", forgot_info ).done(function(data){
+          console.log(data);
+          alert("forgot");
+          $("#forgot-form-container").addClass("d-none");
+          $("#form-alert").removeClass("d-none");
+          $("#form-alert .alert").html(data.message);
+         }).fail(function(error) {
+          $("#forgot-link").prop('disabled', false);
+          $("#forgot-form-container").addClass("d-none");
+          $("#form-alert").removeClass("d-none");
+          $("#form-alert .alert").html(error.responseJSON.message);
+        });
+      }
 
     </script>
 
