@@ -18,7 +18,7 @@
 Flight::route('POST /register', function(){
     $data=Flight::request()->data->getData();
     Flight::userService()->register($data);
-    Flight::json(["message" => "Please check your email"]);
+    Flight::json(["message" => "Successful registration! Please check your email!"]);
 });
 
 /**
