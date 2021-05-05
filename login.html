@@ -96,11 +96,11 @@
                                 <form class="user" id="register-form">
                                     <div class="form-group row">
                                         <div class="col-sm-6 mb-3 mb-sm-0">
-                                            <input name="firstName" type="text" class="form-control form-control-user"
+                                            <input name="name" type="text" class="form-control form-control-user"
                                                 placeholder="First Name">
                                         </div>
                                         <div class="col-sm-6">
-                                            <input name="lastName" type="text" class="form-control form-control-user"
+                                            <input name="surname" type="text" class="form-control form-control-user"
                                                 placeholder="Last Name">
                                         </div>
                                     </div>
@@ -198,7 +198,7 @@
                               </div>
                               <form class="user" id="reset-form">
                                 <input type="hidden" class="form-control form-control-user"
-                                    id="change-password-token">
+                                    name="token" id="change-password-token">
                                   <div class="form-group">
                                       <input name="password" type="password" class="form-control form-control-user"
                                              aria-describedby="new-password" placeholder="Enter New Password...">
@@ -300,7 +300,6 @@
 
       function doRegister(){
        /** ajax call **/
-
        var password = document.getElementById("register-password")
         , confirm_password = document.getElementById("register-repeat-password");
 
@@ -341,7 +340,6 @@
 
         $("#reset-link").prop('disabled', true);
         $.post("api/reset", jsonize_form("#reset-form")).done(function(data){
-          console.log(data);
           window.localStorage.setItem("token", data.token);
           window.location = "index.html";
          }).fail(function(error) {
