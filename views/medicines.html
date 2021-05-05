@@ -1,0 +1,69 @@
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Medicines</h1>
+    <p class="mb-4">All of the medicines<a target="_blank"</p>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Medicines</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="medicine-tables" class="table table-bordered"  width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Company Name</th>
+                            <th>Price</th>
+                            <th>Description</th>
+                            <th>Added At</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Company Name</th>
+                            <th>Price</th>
+                            <th>Description</th>
+                            <th>Added At</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.container-fluid -->
+
+<script type="text/javascript">
+  getMedicines();
+
+  function getMedicines(){
+    $.get( "api/medicines", function( data ) {
+      console.log(data);
+      var html ="";
+      for(var i=0; i<data.length; i++){
+        html+='<tr>'
+                +'<td>'+data[i].id+'</td>'
+                +'<td>'+data[i].name+'</td>'
+                +'<td>'+data[i].company_name+'</td>'
+                +'<td>'+data[i].price+'</td>'
+                +'<td>'+data[i].description+'</td>'
+                +'<td>'+data[i].added_at+'</td>'
+                +'<td>'+data[i].quantity+'</td>'
+              +'</tr>';
+       }
+      $("#medicine-tables tbody").html(html);
+    });
+  }
+</script>
