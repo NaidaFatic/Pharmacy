@@ -39,7 +39,7 @@ class AccountService extends BaseService{
    //generate token - and save it to db
     $db_user = $this->update($db_user['id'], ['token' => md5(random_bytes(16)), 'token_created_at' => date(Config::DATE_FORMAT)]);
     // send email
-    $this->SMTPmailer->send_recovery_user_token($db_user);
+    //$this->SMTPmailer->send_recovery_user_token($db_user);
   }
 
   public function login($account){
@@ -62,7 +62,7 @@ class AccountService extends BaseService{
 
     return $account;
   }
-  
+
 }
 
 ?>

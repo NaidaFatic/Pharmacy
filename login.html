@@ -20,6 +20,9 @@
     <!-- Custom styles for this template-->
     <link href="assets/css/sb-admin-2.min.css" rel="stylesheet">
 
+    <!--toastr-->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+
 </head>
 
 <body class="bg-gradient-primary">
@@ -40,15 +43,14 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                     </div>
-                                    <form class="user">
+                                    <form class="user" id="login-form">
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
-                                                id="email" aria-describedby="emailHelp"
+                                            <input name="email" type="email" class="form-control form-control-user"
                                                 placeholder="Enter Email Address...">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                id="password" placeholder="Password">
+                                            <input name="password" type="password" class="form-control form-control-user"
+                                                placeholder="Password">
                                         </div>
                                         <button id="login-link" onclick="doLogin()" class="btn btn-primary btn-user btn-block">
                                             Login
@@ -91,24 +93,24 @@
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                                 </div>
-                                <form class="user">
+                                <form class="user" id="register-form">
                                     <div class="form-group row">
                                         <div class="col-sm-6 mb-3 mb-sm-0">
-                                            <input type="text" class="form-control form-control-user" id="firstName"
+                                            <input name="firstName" type="text" class="form-control form-control-user"
                                                 placeholder="First Name">
                                         </div>
                                         <div class="col-sm-6">
-                                            <input type="text" class="form-control form-control-user" id="lastName"
+                                            <input name="lastName" type="text" class="form-control form-control-user"
                                                 placeholder="Last Name">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <input type="email" class="form-control form-control-user" id="register-email"
-                                            placeholder="Email Address">
+                                        <input name="email" type="email" class="form-control form-control-user"
+                                              placeholder="Email Address">
                                     </div>
                                     <div class="form-group row">
                                         <div class="col-sm-6 mb-3 mb-sm-0">
-                                            <input type="password" class="form-control form-control-user"
+                                            <input name="password" type="password" class="form-control form-control-user"
                                                 id="register-password" placeholder="Password">
                                         </div>
                                         <div class="col-sm-6">
@@ -152,10 +154,10 @@
                                     <p class="mb-4">We get it, stuff happens. Just enter your email address below
                                         and we'll send you a link to reset your password!</p>
                                 </div>
-                                <form class="user">
+                                <form class="user" id="forgot-form">
                                     <div class="form-group">
-                                        <input type="email" class="form-control form-control-user"
-                                            id="exampleInputEmail" aria-describedby="forgot-email"
+                                        <input name="email" type="email" class="form-control form-control-user"
+                                              aria-describedby="forgot-email"
                                             placeholder="Enter Email Address...">
                                     </div>
                                     <button id="forgot-link" onclick="doForgotPassword()" href="#" class="btn btn-primary btn-user btn-block">
@@ -194,13 +196,12 @@
                                   <p class="mb-4">We get it, stuff happens. Just enter your new password below
                                       and we'll send you a link to reset your password!</p>
                               </div>
-                              <form class="user">
+                              <form class="user" id="reset-form">
                                 <input type="hidden" class="form-control form-control-user"
                                     id="change-password-token">
                                   <div class="form-group">
-                                      <input type="password" class="form-control form-control-user"
-                                          id="new-password" aria-describedby="new-password"
-                                          placeholder="Enter New Password...">
+                                      <input name="password" type="password" class="form-control form-control-user"
+                                             aria-describedby="new-password" placeholder="Enter New Password...">
                                   </div>
                                   <button onclick="doResetPassword()" href="#" class="btn btn-primary btn-user btn-block" id="reset-link">
                                       Reset Password
@@ -224,7 +225,12 @@
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="assets/js/utils.js"></script>
+
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!--toastr-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -281,41 +287,33 @@
 
       function doLogin(){
         /** ajax call **/
-        var login_info = {
-          "email" : $("#email").val(),
-          "password" : $("#password").val()
-        };
+
         $("#login-link").prop('disabled', true);
-        $.post( "http://localhost/project/Pharmacy/api/login", login_info ).done(function(data){
+        $.post("api/login", jsonize_form("#login-form") ).done(function(data){
             window.localStorage.setItem("token", data.token);
             window.location = "index.html";
          }).fail(function(error) {
            $("#login-link").prop('disabled', false);
-           alert( error.responseJSON.message );
+           toastr.error( error.responseJSON.message );
         });
       }
 
       function doRegister(){
        /** ajax call **/
-       var register_info = {
-        "email":  $("#register-email").val(),
-        "password":  $("#register-password").val(),
-        "name":  $("#firstName").val(),
-        "surname":  $("#lastName").val()
-       };
+
        var password = document.getElementById("register-password")
         , confirm_password = document.getElementById("register-repeat-password");
 
        $("#register-link").prop('disabled', true);
        if(password.value == confirm_password.value){
-       $.post( "http://localhost/project/Pharmacy/api/register", register_info ).done(function(data){
+       $.post("api/register", jsonize_form("#register-form") ).done(function(data){
         console.log(data);
         $("#register-form-container").addClass("d-none");
         $("#form-alert").removeClass("d-none");
         $("#form-alert .alert").html(data.message);
        }).fail(function(error) {
          $("#register-link").prop('disabled', false);
-         alert( error.responseJSON.message );
+         toastr.error( error.responseJSON.message );
        });}
        else{
         $("#register-link").prop('disabled', false);
@@ -324,12 +322,9 @@
       }
 
       function doForgotPassword(){
-        var forgot_info = {
-          "email":  $("#forgot-email").val()
-        };
 
         $("#forgot-link").prop('disabled', true);
-        $.post( "http://localhost/project/Pharmacy/api/forgot", forgot_info ).done(function(data){
+        $.post("api/forgot", jsonize_form("#forgot-form") ).done(function(data){
           console.log(data);
           $("#forgot-form-container").addClass("d-none");
           $("#form-alert").removeClass("d-none");
@@ -343,18 +338,15 @@
       }
 
       function doResetPassword(){
-        var reset_info = {
-          "token" : $("#change-password-token").val(),
-          "password" : $("#new-password").val()
-        }
+
         $("#reset-link").prop('disabled', true);
-        $.post( "http://localhost/project/Pharmacy/api/reset", reset_info ).done(function(data){
+        $.post("api/reset", jsonize_form("#reset-form")).done(function(data){
           console.log(data);
           window.localStorage.setItem("token", data.token);
           window.location = "index.html";
          }).fail(function(error) {
           $("#reset-link").prop('disabled', false);
-          alert(error.responseJSON.message);
+          toastr.error(error.responseJSON.message);
         });
 
       }
