@@ -9,6 +9,36 @@
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Medicines</h6>
         </div>
+        <div class="container-fluid">
+        <form id="addMedicines">
+        <div class="form-group">
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" class="form-control" id="inputName" placeholder="Name" name="name" required minlength="3">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Company Name</label>
+          <input type="text" class="form-control" id="inputCompany" placeholder="Company Name" name="company_name" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputDescription">Description</label>
+            <input type="text" class="form-control" id="inputDescription"  name="description" required>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="inputQunatity">Qunatity</label>
+            <input type="number" min="0" step="any" class="form-control" id="inputQunatity" name="quantity" required>
+          </div>
+          <div class="form-group col-md-2">
+            <label for="inputPrice">Price</label>
+            <input type="number" min="0" step="any"  class="form-control" id="inputPrice" name="price" required>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Add</button>
+      </form>
+    </div>
+
         <div class="card-body">
             <div class="table-responsive">
                 <table id="medicine-tables" class="table table-bordered"  width="100%" cellspacing="0">
@@ -46,7 +76,30 @@
 <!-- /.container-fluid -->
 
 <script type="text/javascript">
+
+  $("#addMedicines").validate({
+  submitHandler: function(form) {
+    console.log(jsonize_form($(form)));
+    addMedicines(jsonize_form($(form)));
+  }
+ });
+
   getMedicines();
+
+  function addMedicines(medicines){
+    $.ajax({
+      url:"api/admin/medicines",
+      type: "POST",
+      data: medicines,
+      beforeSend: function(xhr){xhr.setRequestHeader('Authentication', localStorage.getItem("token"));},
+      success: function(data){
+        console.log(data);
+      },
+      error: function(jqXHR, textStatus, errorThrow){
+        console.log(jqXHR);
+      }
+    });
+  }
 
   function getMedicines(){
     $.get( "api/medicines", function( data ) {
@@ -66,4 +119,4 @@
       $("#medicine-tables tbody").html(html);
     });
   }
-</script>
+ </script>
