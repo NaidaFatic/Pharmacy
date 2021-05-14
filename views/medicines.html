@@ -6,9 +6,6 @@
     <p class="mb-4">All of the medicines<a target="_blank"</p>
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Medicines</h6>
-        </div>
           <div class="container-fluid">
             <br>
     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#medicineModal">
@@ -142,7 +139,8 @@
                 +'<td>'+data[i].quantity+'</td>'
               +'</tr>';
        }
-      $("#medicine-tables tbody").html(html);
+      $("#medicine-tables tbody").html(html);      
+      $('#medicine-tables').DataTable();
     });
   }
  </script>
