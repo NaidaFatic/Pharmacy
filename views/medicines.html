@@ -49,6 +49,7 @@
        <div class="modal-dialog" role="document"  style="max-width: 1200px;" >
       <div class="modal-content">
         <form id="addMedicines">
+          <input type="hidden" name="id" />
          <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Add Medicine</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -97,12 +98,43 @@
 
   $("#addMedicines").validate({
   submitHandler: function(form) {
-    console.log(jsonize_form($(form)));
-    addMedicines(jsonize_form($(form)));
+    var data = jsonize_form($(form));
+
+    console.log(data);
+     if (data.id){
+         console.log("nn");
+       updateMedicines(data);
+     }else{
+       console.log("ff");
+       addMedicines(data);
+     }
   }
  });
 
   getMedicines();
+
+  function updateMedicines(medicines){
+    console.log(medicines);
+    $.ajax({
+         url: "api/admin/medicines/"+medicines.id,
+         type: "PUT",
+         data: JSON.stringify(medicines),
+         contentType: "application/json",
+         beforeSend: function(xhr){xhr.setRequestHeader('Authentication', localStorage.getItem("token"));},
+         success: function(data) {
+           toastr.success("Medicine has been updated");
+           getMedicines();
+           $("#addMedicines").trigger("reset");
+           $("#addMedicines *[name='id']").val("");
+           $('#medicineModal').modal("hide");
+           console.log(data);
+         },
+         error: function(jqXHR, textStatus, errorThrown ){
+           toastr.error(jqXHR.responseJSON.message);
+           console.log(jqXHR);
+         }
+      });
+  }
 
   function addMedicines(medicines){
     $.ajax({
@@ -129,23 +161,35 @@
       processing: true,
       serverSide: true,
       bDestroy: true,
-    //  pagingType: "simple",
+     //pagingType: "simple",
       ajax: {
         url: "api/medicines",
         type: "GET",
         beforeSend: function(xhr){
         xhr.setRequestHeader('Authentication', localStorage.getItem("token"));},
-        dataSrc: "",
+        dataSrc:  function(resp){
+          console.log(resp);
+          return resp;
+        },
         data: function( d ) {
           d.offset=d.start;
           d.limit=d.length;
           d.search=d.search.value;
           d.order = encodeURIComponent((d.order[0].dir == 'asc' ? "-" : "+")+d.columns[d.order[0].column].data);
+
+          delete d.start;
+          delete d.length;
+          delete d.columns;
+          delete d.draw;
           console.log(d);
         }
        },
         columns:[
-            { "data": "id" },
+            { "data": "id",
+              "render": function ( data, type, row, meta ) {
+               return '<span class="badge">'+data+'</span><a class="pull-right" style="font-size: 15px; cursor: pointer;" onclick="openMedicineModal('+data+')"><i class="fa fa-edit"></i></a>';
+            }
+            },
             { "data": "name" },
             { "data": "company_name" },
             { "data": "price" },
@@ -154,23 +198,28 @@
             { "data": "quantity" }
         ],
 
-    });}/*
-    $.get( "api/medicines", function( data ) {
-      console.log(data);
-      var html ="";
-      for(var i=0; i<data.length; i++){
-        html+='<tr>'
-                +'<td>'+data[i].id+'</td>'
-                +'<td>'+data[i].name+'</td>'
-                +'<td>'+data[i].company_name+'</td>'
-                +'<td>'+data[i].price+'</td>'
-                +'<td>'+data[i].description+'</td>'
-                +'<td>'+data[i].added_at+'</td>'
-                +'<td>'+data[i].quantity+'</td>'
-              +'</tr>';
-       }
-      $("#medicine-tables tbody").html(html);
-      $('#medicine-tables').DataTable();
-    });*/
+    });}
+
+    function openMedicineModal(id){
+    $.ajax({
+         url: "api/users/medicines/"+id,
+         type: "GET",
+         beforeSend: function(xhr){xhr.setRequestHeader('Authentication', localStorage.getItem("token"));},
+         success: function(data) {
+           $("#addMedicines *[name='id']").val(data.id);
+           $("#addMedicines *[name='name']").val(data.name);
+           $("#addMedicines *[name='company_name']").val(data.company_name);
+           $("#addMedicines *[name='price']").val(data.price);
+           $("#addMedicines *[name='description']").val(data.description);
+           $("#addMedicines *[name='added_at']").val(data.added_at);
+           $("#addMedicines *[name='quantity']").val(data.quantity);
+           $("#medicineModal").modal("show");
+          // console.log(data);
+         },
+         error: function(jqXHR, textStatus, errorThrown ){
+           console.log(jqXHR);
+         }
+      });
+  }
 
  </script>
