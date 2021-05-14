@@ -33,7 +33,7 @@ Flight::route('GET /medicines', function(){
   $offset = Flight::query('offset', 0);
   $limit = Flight::query('limit', 25);
   $search = Flight::query('search');
-  $order = "-id";//Flight::query('order', '-id');
+  $order = Flight::query('order', '-id');
   Flight::json(Flight::medicineService()->get_medicines($offset, $limit, $search, $order));
 });
 
