@@ -125,7 +125,36 @@
   }
 
   function getMedicines(){
-    $.get( "api/medicines?order="+encodeURIComponent("+id"), function( data ) {
+    $("#medicine-tables").DataTable({
+      processing: true,
+      serverSide: true,
+      bDestroy: true,
+    //  pagingType: "simple",
+      ajax: {
+        url: "api/medicines",
+        type: "GET",
+        beforeSend: function(xhr){
+        xhr.setRequestHeader('Authentication', localStorage.getItem("token"));},
+        dataSrc: "",
+        data: function( d ) {
+          d.offset=d.start;
+          d.limit=d.length;
+          d.search=d.search.value;
+          console.log(d);
+        }
+       },
+        columns:[
+            { "data": "id" },
+            { "data": "name" },
+            { "data": "company_name" },
+            { "data": "price" },
+            { "data": "description" },
+            { "data": "added_at" },
+            { "data": "quantity" }
+        ],
+
+    });}/*
+    $.get( "api/medicines", function( data ) {
       console.log(data);
       var html ="";
       for(var i=0; i<data.length; i++){
@@ -139,8 +168,8 @@
                 +'<td>'+data[i].quantity+'</td>'
               +'</tr>';
        }
-      $("#medicine-tables tbody").html(html);      
+      $("#medicine-tables tbody").html(html);
       $('#medicine-tables').DataTable();
-    });
-  }
+    });*/
+
  </script>
