@@ -84,7 +84,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Add</button>
+        <button type="submit" class="btn btn-primary">Save</button>
       </div>
       </form>
       </div>
@@ -99,13 +99,10 @@
   $("#addMedicines").validate({
   submitHandler: function(form) {
     var data = jsonize_form($(form));
-
     console.log(data);
      if (data.id){
-         console.log("nn");
        updateMedicines(data);
      }else{
-       console.log("ff");
        addMedicines(data);
      }
   }
@@ -161,7 +158,23 @@
       processing: true,
       serverSide: true,
       bDestroy: true,
-     //pagingType: "simple",
+      pagingType: "simple",
+      preDrawCallback: function(settings){
+        if(settings.aoData.length < settings._iDisplayLength){
+          settings._iRecordsTotal=0;
+          settings._iRecordsDisplay=0;
+        }else{
+          settings._iRecordsTotal=100;
+          settings._iRecordsDisplay=100;
+        }
+        console.log(settings);
+      },language: {
+            "lengthMenu": "Display _MENU_ records per page",
+            "zeroRecords": "Nothing found - sorry",
+            "info": "Showing page _PAGE_",
+            "infoEmpty": "End of pages",
+            "infoFiltered": ""
+        },
       ajax: {
         url: "api/medicines",
         type: "GET",
