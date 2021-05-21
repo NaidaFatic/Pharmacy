@@ -160,21 +160,26 @@
       bDestroy: true,
       pagingType: "simple",
       preDrawCallback: function(settings){
-        if(settings.aoData.length < settings._iDisplayLength){
+        if ( settings.jqXHR){
+        settings._iRecordsTotal = settings.jqXHR.getResponseHeader('total-records');
+          settings._iRecordsDisplay = settings.jqXHR.getResponseHeader('total-records');
+      }
+        /*if(settings.aoData.length < settings._iDisplayLength){
           settings._iRecordsTotal=0;
           settings._iRecordsDisplay=0;
         }else{
           settings._iRecordsTotal=100;
           settings._iRecordsDisplay=100;
         }
-        console.log(settings);
-      },language: {
+        console.log(settings);*/
+      },
+    /*  language: {
             "lengthMenu": "Display _MENU_ records per page",
             "zeroRecords": "Nothing found - sorry",
             "info": "Showing page _PAGE_",
             "infoEmpty": "End of pages",
             "infoFiltered": ""
-        },
+        },*/
       ajax: {
         url: "api/medicines",
         type: "GET",

@@ -8,12 +8,12 @@ class MedicineService extends BaseService{
     $this->dao = new MedicineDao();
   }
 
-  public function get_medicines($offset, $limit, $search, $order){
+  public function get_medicines($offset, $limit, $search, $order, $total  = FALSE){
     if($search){
-        return $this->dao->get_medicines_by_name($offset, $limit, $search, $order);
+        return $this->dao->get_medicines_by_name($offset, $limit, $search, $order, $total);
     }
     else{
-      return $this->dao->get_all($offset, $limit, $order);
+      return $this->dao->get_all($offset, $limit, $order, $total);
     }
   }
 

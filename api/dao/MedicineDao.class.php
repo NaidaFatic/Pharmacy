@@ -7,11 +7,15 @@ class MedicineDao extends BaseDao{
     parent::__construct("medicines");
   }
 
-  public function get_medicines_by_name($offset, $limit, $search, $order){
+  public function get_medicines_by_name($offset, $limit, $search, $order, $total = FALSE){
     list($order_column, $order_direction) = self::parse_order($order);
     $params = [];
-    $query = "SELECT *
-              FROM medicines
+    if($total){
+      $query = "SELECT COUNT(*) AS total ";
+    }else{
+      $query = "SELECT * ";
+    }
+    $query .= "FROM medicines
               WHERE 1 = 1 ";
 
     if (isset($search)){
@@ -19,10 +23,14 @@ class MedicineDao extends BaseDao{
       $params['search'] = strtolower($search);
     }
 
-    $query .="ORDER BY ${order_column} ${order_direction} ";
-    $query .="LIMIT ${limit} OFFSET ${offset}";
+    if($total){
+      return $this->query_unique($query, $params);
+    }else{
+      $query .="ORDER BY ${order_column} ${order_direction} ";
+      $query .="LIMIT ${limit} OFFSET ${offset}";
 
-    return $this->query($query, $params);
+      return $this->query($query, $params);
+    }
   }
 
   public function update_quantity($id, $quantity){
