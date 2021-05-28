@@ -8,11 +8,11 @@ class Config{
   }
 
   public static function DB_USERNAME(){
-    return Config::get_env("DB_USERNAME", "pharmacy");
+    return Config::get_env("DB_USERNAME", "root");
   }
 
   public static function DB_PASSWORD(){
-    return Config::get_env("DB_PASSWORD", "pharmacy");
+    return Config::get_env("DB_PASSWORD", "");
   }
 
   public static function DB_SCHEME(){

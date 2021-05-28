@@ -14,9 +14,9 @@ require_once dirname(__FILE__)."/services/PurchaseService.class.php";
 Flight::set('flight.log.errors', TRUE);
 
  //error handling for our API
-Flight::map('error', function(Exception $ex){
+/*Flight::map('error', function(Exception $ex){
   Flight::json(["message" => $ex->getMessage()], $ex->getCode()? $ex->getCode(): 500);
-});
+});*/
 
 // utility function for reading query parameters from url
 Flight::map('query', function($name, $defaul_value = NULL){
