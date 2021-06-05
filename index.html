@@ -382,10 +382,8 @@
           window.location = "login.html";
         }else{
           var user_info=AUtils.parse_jwt(window.localStorage.getItem("token"));
-          if(user_info.r != "ADMIN"){
-              $(".admin-stuff").remove();
-          }
-            $('body').show();
+          AUtils.admin_required(user_info);
+          $('body').show();
         }
       });
 

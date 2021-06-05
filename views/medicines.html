@@ -45,13 +45,13 @@
         </div>
     </div>
 </div>
-    <div class="modal fade" id="medicineModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+    <div class="modal fade" id="medicineModal  admin-stuff" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
        <div class="modal-dialog" role="document"  style="max-width: 1200px;" >
       <div class="modal-content">
         <form id="addMedicines">
           <input type="hidden" name="id" />
          <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add Medicine</h5>
+        <h5 class="modal-title " id="exampleModalLabel">Add Medicine</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -95,5 +95,7 @@
 <!-- /.container-fluid -->
 
 <script type="text/javascript">
- Medicines.init();
+  var user_info=AUtils.parse_jwt(window.localStorage.getItem("token"));
+  AUtils.admin_required(user_info);
+  Medicines.init();
  </script>

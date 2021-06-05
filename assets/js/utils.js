@@ -24,4 +24,10 @@ static parse_jwt(token) {
     }).join(''));
     return JSON.parse(jsonPayload);
   }
+
+static admin_required(user_info){
+  if(user_info.r != "ADMIN"){
+      $(".admin-stuff").remove();
+  }
+}
 }
