@@ -52,16 +52,16 @@
                                             <input name="password" type="password" class="form-control form-control-user"
                                                 placeholder="Password">
                                         </div>
-                                        <button id="login-link" onclick="doLogin()" class="btn btn-primary btn-user btn-block">
+                                        <button id="login-link" onclick="Login.login()" class="btn btn-primary btn-user btn-block">
                                             Login
                                         </button>
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a onclick="showForgotForm()" class="small" href="#">Forgot Password?</a>
+                                        <a onclick="Login.show_forgot_form()" class="small" href="#">Forgot Password?</a>
                                     </div>
                                     <div class="text-center">
-                                        <a onClick="showRegisterForm()" class="small" href="#" >Create an Account!</a>
+                                        <a onClick="Login.show_register_form()" class="small" href="#" >Create an Account!</a>
                                     </div>
                                 </div>
                             </div>
@@ -118,16 +118,16 @@
                                                 id="register-repeat-password" placeholder="Repeat Password">
                                         </div>
                                     </div>
-                                    <button id="register-link" onClick="doRegister()" href="#" class="btn btn-primary btn-user btn-block">
+                                    <button id="register-link" onClick="Login.register()" href="#" class="btn btn-primary btn-user btn-block">
                                         Register Account
                                     </button>
                                 </form>
                                 <hr>
                                 <div class="text-center">
-                                    <a onClick="showForgotForm()" class="small" href="#">Forgot Password?</a>
+                                    <a onClick="Login.show_forgot_form()" class="small" href="#">Forgot Password?</a>
                                 </div>
                                 <div class="text-center">
-                                    <a onclick="showLoginForm()" class="small" href="#">Already have an account? Login!</a>
+                                    <a onclick="Login.show_login_form()" class="small" href="#">Already have an account? Login!</a>
                                 </div>
                             </div>
                         </div>
@@ -160,16 +160,16 @@
                                               aria-describedby="forgot-email"
                                             placeholder="Enter Email Address...">
                                     </div>
-                                    <button id="forgot-link" onclick="doForgotPassword()" href="#" class="btn btn-primary btn-user btn-block">
+                                    <button id="forgot-link" onclick="Login.forgot_password()" href="#" class="btn btn-primary btn-user btn-block">
                                         Reset Password
                                     </button>
                                 </form>
                                 <hr>
                                 <div class="text-center">
-                                    <a onClick="showRegisterForm()" class="small" href="#">Create an Account!</a>
+                                    <a onClick="Login.show_register_form()" class="small" href="#">Create an Account!</a>
                                 </div>
                                 <div class="text-center">
-                                    <a onClick="showLoginForm()" class="small" href="#">Already have an account? Login!</a>
+                                    <a onClick="Login.show_login_form()" class="small" href="#">Already have an account? Login!</a>
                                 </div>
                             </div>
                         </div>
@@ -203,16 +203,16 @@
                                       <input name="password" type="password" class="form-control form-control-user"
                                              aria-describedby="new-password" placeholder="Enter New Password...">
                                   </div>
-                                  <button onclick="doResetPassword()" href="#" class="btn btn-primary btn-user btn-block" id="reset-link">
+                                  <button onclick="Login.reset_password()" href="#" class="btn btn-primary btn-user btn-block" id="reset-link">
                                       Reset Password
                                   </button>
                               </form>
                               <hr>
                               <div class="text-center">
-                                  <a onClick="showRegisterForm()" class="small" href="#">Create an Account!</a>
+                                  <a onClick="show_register_form()" class="small" href="#">Create an Account!</a>
                               </div>
                               <div class="text-center">
-                                  <a onClick="showLoginForm()" class="small" href="#">Already have an account? Login!</a>
+                                  <a onClick="Login.show_login_form()" class="small" href="#">Already have an account? Login!</a>
                               </div>
                           </div>
                       </div>
@@ -226,6 +226,8 @@
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="assets/js/utils.js"></script>
+    <script src="assets/js/controllers/login.js"></script>
+    <script src="assets/js/restClient.js"></script>
 
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
@@ -239,115 +241,7 @@
     <script src="assets/js/sb-admin-2.min.js"></script>
 
     <script type="text/javascript">
-
-      $(function(){
-        if(window.localStorage.getItem("token")){
-          window.location = "index.html";
-        }else{
-          $('body').show();
-        }
-        var url = new URLSearchParams(window.location.search);
-        if(url.has('token')){
-          $("#change-password-token").val(url.get('token'));
-          showResetPasswordForm();
-        }
-      });
-
-      function showRegisterForm(){
-        $("#login-form-container").addClass("d-none");
-        $("#forgot-form-container").addClass("d-none");
-        $("#password-form-container").addClass("d-none");
-        $("#register-form-container").removeClass("d-none");
-        $("#reset-form-container").addClass("d-none");
-      }
-
-      function showForgotForm(){
-        $("#login-form-container").addClass("d-none");
-        $("#register-form-container").addClass("d-none");
-        $("#password-form-container").addClass("d-none");
-        $("#reset-form-container").addClass("d-none");
-        $("#forgot-form-container").removeClass("d-none");
-      }
-
-      function showLoginForm(){
-        $("#login-form-container").removeClass("d-none");
-        $("#register-form-container").addClass("d-none");
-        $("#password-form-container").addClass("d-none");
-        $("#forgot-form-container").addClass("d-none");
-        $("#reset-form-container").addClass("d-none");
-      }
-
-      function showResetPasswordForm(){
-        $("#login-form-container").addClass("d-none");
-        $("#register-form-container").addClass("d-none");
-        $("#password-form-container").addClass("d-none");
-        $("#forgot-form-container").addClass("d-none");
-        $("#reset-form-container").removeClass("d-none");
-      }
-
-      function doLogin(){
-        /** ajax call **/
-
-        $("#login-link").prop('disabled', true);
-        $.post("api/login", AUtils.jsonize_form("#login-form") ).done(function(data){
-            window.localStorage.setItem("token", data.token);
-            window.location = "index.html";
-         }).fail(function(error) {
-           $("#login-link").prop('disabled', false);
-           toastr.error( error.responseJSON.message );
-        });
-      }
-
-      function doRegister(){
-       /** ajax call **/
-       var password = document.getElementById("register-password")
-        , confirm_password = document.getElementById("register-repeat-password");
-
-       $("#register-link").prop('disabled', true);
-       if(password.value == confirm_password.value){
-       $.post("api/register", AUtils.jsonize_form("#register-form") ).done(function(data){
-        console.log(data);
-        $("#register-form-container").addClass("d-none");
-        $("#form-alert").removeClass("d-none");
-        $("#form-alert .alert").html(data.message);
-       }).fail(function(error) {
-         $("#register-link").prop('disabled', false);
-         toastr.error( error.responseJSON.message );
-       });}
-       else{
-        $("#register-link").prop('disabled', false);
-          confirm_password.setCustomValidity("Passwords don't match!");
-       }
-      }
-
-      function doForgotPassword(){
-
-        $("#forgot-link").prop('disabled', true);
-        $.post("api/forgot", AUtils.jsonize_form("#forgot-form") ).done(function(data){
-          console.log(data);
-          $("#forgot-form-container").addClass("d-none");
-          $("#form-alert").removeClass("d-none");
-          $("#form-alert .alert").html("Recovery link on a way!");
-         }).fail(function(error) {
-          $("#forgot-link").prop('disabled', false);
-          $("#forgot-form-container").addClass("d-none");
-          $("#form-alert").removeClass("d-none");
-          $("#form-alert .alert").html(error.responseJSON.message);
-        });
-      }
-
-      function doResetPassword(){
-
-        $("#reset-link").prop('disabled', true);
-        $.post("api/reset", AUtils.jsonize_form("#reset-form")).done(function(data){
-          window.localStorage.setItem("token", data.token);
-          window.location = "index.html";
-         }).fail(function(error) {
-          $("#reset-link").prop('disabled', false);
-          toastr.error(error.responseJSON.message);
-        });
-
-      }
+      Login.init();
     </script>
 
 </body>
