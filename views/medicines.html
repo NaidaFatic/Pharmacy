@@ -98,7 +98,7 @@
 
   $("#addMedicines").validate({
   submitHandler: function(form) {
-    var data = jsonize_form($(form));
+    var data = AUtils.jsonize_form($(form));
     console.log(data);
      if (data.id){
        updateMedicines(data);
@@ -225,13 +225,7 @@
          type: "GET",
          beforeSend: function(xhr){xhr.setRequestHeader('Authentication', localStorage.getItem("token"));},
          success: function(data) {
-           $("#addMedicines *[name='id']").val(data.id);
-           $("#addMedicines *[name='name']").val(data.name);
-           $("#addMedicines *[name='company_name']").val(data.company_name);
-           $("#addMedicines *[name='price']").val(data.price);
-           $("#addMedicines *[name='description']").val(data.description);
-           $("#addMedicines *[name='added_at']").val(data.added_at);
-           $("#addMedicines *[name='quantity']").val(data.quantity);
+           AUtils.json2form("#addMedicines", data);
            $("#medicineModal").modal("show");
           // console.log(data);
          },
