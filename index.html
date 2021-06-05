@@ -357,6 +357,8 @@
 
     <!-- Utilites JS -->
     <script src="./assets/js/utils.js"></script>
+    <script src="./assets/js/restClient.js"></script>
+    <script src="./assets/js/controllers/medicines.js"></script>
 
     <!-- DataTable JS -->
     <script type="text/javascript" src="//cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.js"></script>
@@ -368,8 +370,11 @@
 
     <script type="text/javascript">
       $(document).ready(function() {
+        
         var app = $.jQuerySPApp({defaultView  : "dashboard"}); // initialize
+        app.route({view : "medicines", load : "medicines.html", onReady: function() { Medicines.init() }});
         app.run();
+
         if(!window.localStorage.getItem("token")){
           window.location = "login.html";
         }else{

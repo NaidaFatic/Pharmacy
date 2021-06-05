@@ -289,7 +289,7 @@
         /** ajax call **/
 
         $("#login-link").prop('disabled', true);
-        $.post("api/login", jsonize_form("#login-form") ).done(function(data){
+        $.post("api/login", AUtils.jsonize_form("#login-form") ).done(function(data){
             window.localStorage.setItem("token", data.token);
             window.location = "index.html";
          }).fail(function(error) {
@@ -305,7 +305,7 @@
 
        $("#register-link").prop('disabled', true);
        if(password.value == confirm_password.value){
-       $.post("api/register", jsonize_form("#register-form") ).done(function(data){
+       $.post("api/register", AUtils.jsonize_form("#register-form") ).done(function(data){
         console.log(data);
         $("#register-form-container").addClass("d-none");
         $("#form-alert").removeClass("d-none");
@@ -323,7 +323,7 @@
       function doForgotPassword(){
 
         $("#forgot-link").prop('disabled', true);
-        $.post("api/forgot", jsonize_form("#forgot-form") ).done(function(data){
+        $.post("api/forgot", AUtils.jsonize_form("#forgot-form") ).done(function(data){
           console.log(data);
           $("#forgot-form-container").addClass("d-none");
           $("#form-alert").removeClass("d-none");
@@ -339,7 +339,7 @@
       function doResetPassword(){
 
         $("#reset-link").prop('disabled', true);
-        $.post("api/reset", jsonize_form("#reset-form")).done(function(data){
+        $.post("api/reset", AUtils.jsonize_form("#reset-form")).done(function(data){
           window.localStorage.setItem("token", data.token);
           window.location = "index.html";
          }).fail(function(error) {
