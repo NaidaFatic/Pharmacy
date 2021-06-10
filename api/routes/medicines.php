@@ -73,23 +73,13 @@ Flight::route('PUT /admin/medicines/@id', function($id){
 
 
 /**
- * @OA\Get(path="/admin/medicines_chart", tags={"medicines", "admin"}, security={{"ApiKeyAuth": {}}},
+ * @OA\Get(path="/admin/medicines/chart", tags={"medicines", "admin"}, security={{"ApiKeyAuth": {}}},
  *     @OA\Parameter(type="string", in="query", name="search", description="Search string for accounts. Case insensitive search."),
  *     @OA\Response(response="200", description="Get medicinechart data")
  * )
  */
-Flight::route('GET /admin/medicines_chart', function(){
-  $user["account_id"] = Flight::get('user')['id'];
-  $search = Flight::query('search');
-
-  $data = [
-    [ 'year' => '2008', 'value' => 20 ],
-    [ 'year' => '2009', 'value' => 10 ],
-    [ 'year' => '2010', 'value' => 50 ],
-    [ 'year' => '2011', 'value' => 5 ],
-    [ 'year' => '2012', 'value'=> 20 ]
-  ];
-
-  Flight::json($data);
+Flight::route('GET /admin/medicines/chart', function(){
+  $res=Flight::medicineService()->getChart();
+  Flight::json($res);
 });
 ?>
