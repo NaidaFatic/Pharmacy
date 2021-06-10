@@ -111,12 +111,12 @@ class Medicines{
   }
 
   static chart(){
-    RestClient.get("api/admin/medicines_chart", function(chart_data){
+    RestClient.get("api/admin/medicines/chart", function(chart_data){
       new Morris.Line({
         element: 'chart-container',
         data: chart_data,
-        xkey: 'year',
-        ykeys: ['value'],
+        xkey: 'mon',
+        ykeys: ['cnt'],
         labels: ['Value']
       });
     });
