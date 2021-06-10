@@ -50,4 +50,14 @@ Flight::route('PUT /admin/purchases/@id', function($id){
   Flight::json(["message" => "Purchase deleted"]);
 });
 
+/**
+ * @OA\Get(path="/admin/purchases/chart", tags={"purchases", "admin"}, security={{"ApiKeyAuth": {}}},
+ *     @OA\Parameter(type="string", in="query", name="search", description="Search string for accounts. Case insensitive search."),
+ *     @OA\Response(response="200", description="Get medicinechart data")
+ * )
+ */
+Flight::route('GET /admin/purchases/chart', function(){
+  $res=Flight::purchaseService()->getChart();
+  Flight::json($res);
+});
 ?>

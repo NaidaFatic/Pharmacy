@@ -3,7 +3,7 @@ require_once dirname(__FILE__)."/BaseDao.class.php";
 require_once dirname(__FILE__)."/CartDao.class.php";
 
 class PurchaseDao extends BaseDao{
-    
+
  function __construct(){
     parent:: __construct("purchases");
     $this->cartDao = new CartDao();
@@ -47,6 +47,11 @@ class PurchaseDao extends BaseDao{
     if($data['total'] == null)
        return "0.00";
    else return  $data['total'];
+ }
+
+ public function get_chart_all(){
+   $no = 1;
+   return $this->query("SELECT DATE_FORMAT(DATE, '%Y-%m') mon, COUNT(*) cnt FROM purchases WHERE 1 = 1 GROUP BY DATE_FORMAT(DATE, '%Y-%m')", ["no" => $no]);
  }
 
 }

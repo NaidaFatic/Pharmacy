@@ -46,7 +46,10 @@ class PurchaseService extends BaseService{
  public function remove($id){
    $this->dao->remove_by_id($id);
  }
-
+ 
+ public function getChart(){
+   return $this->dao->get_chart_all();
+ }
 
 }
 

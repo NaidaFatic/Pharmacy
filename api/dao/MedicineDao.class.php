@@ -50,6 +50,11 @@ class MedicineDao extends BaseDao{
     return $this->query("SELECT DATE_FORMAT(added_at, '%Y-%m') mon, COUNT(*) cnt FROM medicines WHERE 1 = :no GROUP BY DATE_FORMAT(added_at, '%Y-%m')", ["no" => $no]);
   }
 
+  public function get_chart_company(){
+    $no = 1;
+    return $this->query("SELECT company_name label, SUM(quantity) value FROM medicines WHERE 1 = :no GROUP BY company_name", ["no" => $no]);
+  }
+
 }
 
 ?>

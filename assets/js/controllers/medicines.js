@@ -112,13 +112,24 @@ class Medicines{
 
   static chart(){
     RestClient.get("api/admin/medicines/chart", function(chart_data){
-      new Morris.Line({
-        element: 'chart-container',
+      new Morris.Area({
+        element: 'medicines-container',
         data: chart_data,
         xkey: 'mon',
         ykeys: ['cnt'],
-        labels: ['Value']
+        labels: ['Medicines']
       });
+
+    });
+  }
+
+  static chartCompany(){
+    RestClient.get("api/admin/medicines/chart/company", function(chart_data){
+      new Morris.Donut({
+        element: 'company-container',
+        data: chart_data
+      });
+
     });
   }
 

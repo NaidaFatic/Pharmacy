@@ -1,5 +1,22 @@
-<div id="chart-container" style="width=450; height=400"></div>
+<div style="overflow: hidden; margin-left: 50px;">
+  <div style="float:left;">
+    <h2 style="margin-left: 20px;">Added medicines per month:</h2>
+    <div id="medicines-container" style="min-height: 500px; min-width: 700px; float:left; "></div>
+  </div>
+  <div style="float:left; width: 150px; min-height: 500px;"></div>
+  <div style="float:left;">
+    <h2 style="margin-left: 20px;">Added purchases per month</h2>
+      <div id="purchases-container" style="min-height: 500px; min-width: 700px; float:left; "></div>
+  </div>
+</div>
+
+<div style="margin: auto; width: 50%; margin-top: 100px;">
+  <h2 style="margin: auto; width: 80%;">Distribution of medicines by companies</h2>
+    <div id="company-container" style="min-height: 500px; min-width: 700px; float:left; "></div>
+</div>
 
 <script>
 Medicines.chart();
+Purchases.chart();
+Medicines.chartCompany();
 </script>

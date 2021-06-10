@@ -82,4 +82,15 @@ Flight::route('GET /admin/medicines/chart', function(){
   $res=Flight::medicineService()->getChart();
   Flight::json($res);
 });
+
+/**
+ * @OA\Get(path="/admin/medicines/chart/company", tags={"medicines", "admin"}, security={{"ApiKeyAuth": {}}},
+ *     @OA\Parameter(type="string", in="query", name="search", description="Search string for accounts. Case insensitive search."),
+ *     @OA\Response(response="200", description="Get medicinechart data")
+ * )
+ */
+Flight::route('GET /admin/medicines/chart/company', function(){
+  $res=Flight::medicineService()->getChartCompany();
+  Flight::json($res);
+});
 ?>

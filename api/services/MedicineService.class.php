@@ -38,6 +38,10 @@ class MedicineService extends BaseService{
     return $this->dao->get_chart_all();
   }
 
+  public function getChartCompany(){
+    return $this->dao->get_chart_company();
+  }
+
 }
 
 ?>
