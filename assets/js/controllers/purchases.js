@@ -9,7 +9,6 @@ static chart(){
       ykeys: ['cnt'],
       labels: ['Purchases']
     });
-
   });
 }
 

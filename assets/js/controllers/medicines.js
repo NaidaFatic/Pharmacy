@@ -59,7 +59,7 @@ class Medicines{
             "infoFiltered": ""
         },
       ajax: {
-        url: "api/medicines",
+        url: "//localhost/project/Pharmacy/api/medicines",
         type: "GET",
         beforeSend: function(xhr){
         xhr.setRequestHeader('Authentication', localStorage.getItem("token"));},

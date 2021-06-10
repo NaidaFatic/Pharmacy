@@ -87,7 +87,7 @@
             <!-- Nav Item - Users -->
             <li class="nav-item">
                 <a class="nav-link" href="#carts">
-                    <i class="fas fa-fw fas fa-carts"></i>
+                    <i class="fas fa-fw fas fa-shopping-cart"></i>
                 <span>Carts</span></a>
             <li>
 
@@ -269,6 +269,8 @@
     <script type="text/javascript">
       $(document).ready(function() {
         var app = $.jQuerySPApp({defaultView  : "dashboard"}); // initialize
+        app.route({view : "medicines", load : "medicines.html", onReady: function() { Medicines.init() }});
+        app.route({view : "carts", load : "admin/carts.html", onReady: function() { Carts.init() }});
         app.run();
         if(!window.localStorage.getItem("token")){
           window.location = "login.html";
