@@ -19,7 +19,7 @@ class Carts{
           columns:[
               { "data": "id",
                 "render": function ( data, type, row, meta ) {
-                 return '<div style="min-width:60px"><span class="badge">'+data+'</span><a class="pull-right admin-stuff" style="font-size: 15px; cursor: pointer;" onclick="Medicines.preEdit('+data+')"><i class="fa fa-edit"></i></a></div>';
+                 return data;
               }
               },
               { "data": "quantity" },

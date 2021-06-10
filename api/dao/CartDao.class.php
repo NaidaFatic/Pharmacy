@@ -84,8 +84,9 @@ class CartDao extends BaseDao{
  }
 
  public function get_carts(){
+   $s=1;
    return $this->query("SELECT * FROM carts
-                         WHERE status = :status", ["status" => "IN_CART"]); //show only one that is not bought!!!
+                         WHERE 1 = :status", ["status" => $s]); //show only one that is not bought!!!
  }
 
 }
