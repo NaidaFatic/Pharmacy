@@ -2,7 +2,8 @@ class Medicines{
 
   static init(){
     $("#addMedicines").validate({
-    submitHandler: function(form) {
+    submitHandler: function(form, event) {
+      event.preventDefault();
       var data = AUtils.jsonize_form($(form));
       console.log(data);
       if (data.id){
@@ -12,7 +13,22 @@ class Medicines{
        }
       }
      });
-   Medicines.getAll();
+
+    AUtils.admin_required();
+    Medicines.getAll();
+  }
+
+  static chart(){
+    RestClient.get("api/admin/medicines/chart", function(chart_data){
+      new Morris.Area({
+        element: 'medicines-container',
+        data: chart_data,
+        xkey: 'mon',
+        ykeys: ['cnt'],
+        labels: ['Medicines']
+      });
+
+    });
   }
 
   static getAll(){
@@ -87,7 +103,7 @@ class Medicines{
       toastr.success("Medicine added");
       console.log(data);
       $("#addMedicines").trigger("reset");
-      $("#medicineModal").modal("hide");
+      $('#medicineModal').modal("hide");
       Medicines.getAll();
     });
   }
@@ -107,19 +123,6 @@ class Medicines{
    RestClient.get("api/users/medicines/"+id, function(data){
       AUtils.json2form("#addMedicines", data);
       $("#medicineModal").modal("show");
-    });
-  }
-
-  static chart(){
-    RestClient.get("api/admin/medicines/chart", function(chart_data){
-      new Morris.Area({
-        element: 'medicines-container',
-        data: chart_data,
-        xkey: 'mon',
-        ykeys: ['cnt'],
-        labels: ['Medicines']
-      });
-
     });
   }
 

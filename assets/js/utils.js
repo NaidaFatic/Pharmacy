@@ -26,6 +26,7 @@ static parse_jwt(token) {
   }
 
 static admin_required(user_info){
+  var user_info=AUtils.parse_jwt(window.localStorage.getItem("token"));
   if(user_info.r != "ADMIN"){
       $(".admin-stuff").remove();
   }

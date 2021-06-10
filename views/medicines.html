@@ -45,7 +45,7 @@
         </div>
     </div>
 </div>
-    <div class="modal fade" id="medicineModal  admin-stuff" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+    <div class="modal fade admin-stuff" id="medicineModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
        <div class="modal-dialog" role="document"  style="max-width: 1200px;" >
       <div class="modal-content">
         <form id="addMedicines">
@@ -91,11 +91,4 @@
   </div>
 </div>
 
-
 <!-- /.container-fluid -->
-
-<script type="text/javascript">
-  var user_info=AUtils.parse_jwt(window.localStorage.getItem("token"));
-  AUtils.admin_required(user_info);
-  Medicines.init();
- </script>

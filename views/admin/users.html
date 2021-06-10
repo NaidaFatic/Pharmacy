@@ -1,8 +1,137 @@
-<canvas id="myChart" width="250" height="200"></canvas>
+<!-- Begin Page Content -->
+<div class="container-fluid">
 
-<div id="chart-container" style="height: 250px;"></div>
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Carts</h1>
+    <p class="mb-4">All of the carts<a target="_blank"</p>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+          <div class="container-fluid">
+            <br>
+    </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="cart-tables" class="table table-bordered"  width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Quantity</th>
+                            <th>Status</th>
+                            <th>Medicine ID</th>
+                            <th>Account ID</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                          <th>ID</th>
+                          <th>Quantity</th>
+                          <th>Status</th>
+                          <th>Medicine ID</th>
+                          <th>Account ID</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
 
-<script src="./assets/js/controllers/medicines.js"></script>
-<script>
-Medicines.chart();
-</script>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- /.container-fluid -->
+<script type="text/javascript">
+  $("#addMedicines").validate({
+  submitHandler: function(form) {
+    var data = jsonize_form($(form));
+    console.log(data);
+     if (data.id){
+       updateMedicines(data);
+     }else{
+       addMedicines(data);
+     }
+  }
+ });
+  getMedicines();
+  function updateMedicines(medicines){
+    console.log(medicines);
+    $.ajax({
+         url: "api/admin/medicines/"+medicines.id,
+         type: "PUT",
+         data: JSON.stringify(medicines),
+         contentType: "application/json",
+         beforeSend: function(xhr){xhr.setRequestHeader('Authentication', localStorage.getItem("token"));},
+         success: function(data) {
+           toastr.success("Medicine has been updated");
+           getMedicines();
+           $("#addMedicines").trigger("reset");
+           $("#addMedicines *[name='id']").val("");
+           $('#medicineModal').modal("hide");
+           console.log(data);
+         },
+         error: function(jqXHR, textStatus, errorThrown ){
+           toastr.error(jqXHR.responseJSON.message);
+           console.log(jqXHR);
+         }
+      });
+  }
+
+  function getMedicines(){
+    $("#medicine-tables").DataTable({
+      processing: true,
+      serverSide: true,
+      bDestroy: true,
+      pagingType: "simple",
+      preDrawCallback: function(settings){
+        if(settings.aoData.length < settings._iDisplayLength){
+          settings._iRecordsTotal=0;
+          settings._iRecordsDisplay=0;
+        }else{
+          settings._iRecordsTotal=100;
+          settings._iRecordsDisplay=100;
+        }
+        console.log(settings);
+      },language: {
+            "lengthMenu": "Display _MENU_ records per page",
+            "zeroRecords": "Nothing found - sorry",
+            "info": "Showing page _PAGE_",
+            "infoEmpty": "End of pages",
+            "infoFiltered": ""
+        },
+      ajax: {
+        url: "api/medicines",
+        type: "GET",
+        beforeSend: function(xhr){
+        xhr.setRequestHeader('Authentication', localStorage.getItem("token"));},
+        dataSrc:  function(resp){
+          console.log(resp);
+          return resp;
+        },
+        data: function( d ) {
+          d.offset=d.start;
+          d.limit=d.length;
+          d.search=d.search.value;
+          d.order = encodeURIComponent((d.order[0].dir == 'asc' ? "-" : "+")+d.columns[d.order[0].column].data);
+          delete d.start;
+          delete d.length;
+          delete d.columns;
+          delete d.draw;
+          console.log(d);
+        }
+       },
+        columns:[
+            { "data": "id",
+              "render": function ( data, type, row, meta ) {
+               return '<span class="badge">'+data+'</span><a class="pull-right" style="font-size: 15px; cursor: pointer;" onclick="openMedicineModal('+data+')"><i class="fa fa-edit"></i></a>';
+            }
+            },
+            { "data": "name" },
+            { "data": "company_name" },
+            { "data": "price" },
+            { "data": "description" },
+            { "data": "added_at" },
+            { "data": "quantity" }
+        ],
+    });}
+
+ </script>

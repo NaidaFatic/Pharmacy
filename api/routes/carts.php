@@ -51,6 +51,15 @@ Flight::route('GET /users/total/cart', function(){
 });
 
 /**
+ * @OA\Get(path="/admin/cart", tags={"admin", "carts"}, security={{"ApiKeyAuth": {}}},
+ *     @OA\Response(response="200", description="List total for user")
+ * )
+ */
+Flight::route('GET /admin/cart', function(){
+    Flight::json(Flight::cartService()->get_carts());
+});
+
+/**
  * @OA\Put(path="/users/buy/cart",tags={"carts", "users"}, security={{"ApiKeyAuth":{}}},
  *      @OA\RequestBody(description="Medicine is going to be bought", required=true,
  *      @OA\MediaType( mediaType="application/json") ),
