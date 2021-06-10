@@ -1,0 +1,98 @@
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Charts</h1>
+    <p class="mb-4">All of the charts<a target="_blank"</p>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+          <div class="container-fluid">
+            <br>
+    </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="medicine-tables" class="table table-bordered"  width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Company Name</th>
+                            <th>Price</th>
+                            <th>Description</th>
+                            <th>Added At</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Company Name</th>
+                            <th>Price</th>
+                            <th>Description</th>
+                            <th>Added At</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="modal fade" id="medicineModal  admin-stuff" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+       <div class="modal-dialog" role="document"  style="max-width: 1200px;" >
+      <div class="modal-content">
+        <form id="addMedicines">
+          <input type="hidden" name="id" />
+         <div class="modal-header">
+        <h5 class="modal-title " id="exampleModalLabel">Add Medicine</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+          <div class="modal-body">
+        <div class="form-group">
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" class="form-control" id="inputName" placeholder="Name" name="name" required minlength="3">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Company Name</label>
+          <input type="text" class="form-control" id="inputCompany" placeholder="Company Name" name="company_name" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputDescription">Description</label>
+            <input type="text" class="form-control" id="inputDescription"  name="description" required>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="inputQunatity">Qunatity</label>
+            <input type="number" min="0" step="any" class="form-control" id="inputQunatity" name="quantity" required>
+          </div>
+          <div class="form-group col-md-2">
+            <label for="inputPrice">Price</label>
+            <input type="number" min="0" step="any"  class="form-control" id="inputPrice" name="price" required>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+      </form>
+      </div>
+  </div>
+</div>
+
+
+<!-- /.container-fluid -->
+
+<script type="text/javascript">
+  var user_info=AUtils.parse_jwt(window.localStorage.getItem("token"));
+  AUtils.admin_required(user_info);
+  Medicines.init();
+ </script>
