@@ -17,7 +17,7 @@ class Carts{
              "infoFiltered": ""
          },
        ajax: {
-         url: "api/admin/cart",
+         url: "api/users/individual/cart",
          type: "GET",
          beforeSend: function(xhr){
          xhr.setRequestHeader('Authentication', localStorage.getItem("token"));},
