@@ -52,12 +52,23 @@ Flight::route('PUT /admin/purchases/@id', function($id){
 
 /**
  * @OA\Get(path="/admin/purchases/chart", tags={"purchases", "admin"}, security={{"ApiKeyAuth": {}}},
- *     @OA\Parameter(type="string", in="query", name="search", description="Search string for accounts. Case insensitive search."),
- *     @OA\Response(response="200", description="Get medicinechart data")
+ *     @OA\Response(response="200", description="Get purchase chart data")
  * )
  */
 Flight::route('GET /admin/purchases/chart', function(){
   $res=Flight::purchaseService()->getChart();
   Flight::json($res);
 });
+
+/**
+ * @OA\Get(path="/admin/purchases/individual/{id}", tags={"purchases", "admin"}, security={{"ApiKeyAuth": {}}},
+ *     @OA\Parameter(@OA\Schema(type="integer"), in="path", name="id", example=1),
+ *     @OA\RequestBody(description="Purchase", required=true),
+ *     @OA\Response(response="200", description="Get purchase data")
+ * )
+ */
+Flight::route('GET /admin/purchases/individual/@id', function($id){
+  Flight::json(Flight::purchaseService()->getPurchase($id));
+});
+
 ?>

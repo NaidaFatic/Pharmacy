@@ -39,10 +39,6 @@ class Medicines{
       responsive: true,
       pagingType: "simple",
       preDrawCallback: function(settings){
-      /*  if ( settings.jqXHR){
-        settings._iRecordsTotal = settings.jqXHR.getResponseHeader('total-records');
-          settings._iRecordsDisplay = settings.jqXHR.getResponseHeader('total-records');
-      }*/
         if(settings.aoData.length < settings._iDisplayLength){
           settings._iRecordsTotal=0;
           settings._iRecordsDisplay=0;
@@ -59,7 +55,7 @@ class Medicines{
             "infoFiltered": ""
         },
       ajax: {
-        url: "//localhost/project/Pharmacy/api/medicines",
+        url: "api/medicines",
         type: "GET",
         beforeSend: function(xhr){
         xhr.setRequestHeader('Authentication', localStorage.getItem("token"));},
@@ -96,8 +92,6 @@ class Medicines{
      });
   }
 
-
-
   static add(medicine){
     RestClient.post("api/admin/medicines", medicine, function(data){
       toastr.success("Medicine added");
@@ -121,8 +115,10 @@ class Medicines{
 
   static preEdit(id){
    RestClient.get("api/users/medicines/"+id, function(data){
+   console.log(data);
       AUtils.json2form("#addMedicines", data);
       $("#medicineModal").modal("show");
+      console.log(data);
     });
   }
 

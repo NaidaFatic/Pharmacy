@@ -258,6 +258,7 @@
     <script src="./assets/js/controllers/medicines.js"></script>
     <script src="./assets/js/controllers/purchases.js"></script>
     <script src="./assets/js/controllers/carts.js"></script>
+    <script src="./assets/js/controllers/users.js"></script>
 
     <!-- JQuery validation JS -->
     <script src="//cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
@@ -271,6 +272,8 @@
         var app = $.jQuerySPApp({defaultView  : "dashboard"}); // initialize
         app.route({view : "medicines", load : "medicines.html", onReady: function() { Medicines.init() }});
         app.route({view : "carts", load : "admin/carts.html", onReady: function() { Carts.init() }});
+        app.route({view : "users", load : "admin/users.html", onReady: function() { Users.init() }});
+        app.route({view : "purchases", load : "admin/purchases.html", onReady: function() { Purchases.init() }});
         app.run();
         if(!window.localStorage.getItem("token")){
           window.location = "login.html";
