@@ -275,7 +275,7 @@
                                   Admin
                                 <div class="dropdown-divider"></div>
                               </a>
-                              <a class="dropdown-item" href="#">
+                              <a class="dropdown-item" href="#profile">
                                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                   Profile
                               </a>
@@ -300,6 +300,7 @@
                 <section id="carts" data-load="carts.html" ></section>
                 <section id="medicines" data-load="medicines.html" ></section>
                 <section id="purchases" data-load="purchases.html" ></section>
+                <section id="profile" data-load="profile.html" ></section>
               </main>
 
             </div>
@@ -355,6 +356,7 @@
     <script src="./assets/js/controllers/medicines.js"></script>
     <script src="./assets/js/controllers/users/carts.js"></script>
     <script src="./assets/js/controllers/users/purchases.js"></script>
+    <script src="./assets/js/controllers/users/profiles.js"></script>
 
     <!-- JQuery validation JS -->
     <script src="//cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
@@ -371,6 +373,7 @@
         app.route({view : "medicines", load : "medicines.html", onReady: function() { Medicines.init() }});
         app.route({view : "carts", load : "carts.html", onReady: function() { Carts.init() }});
         app.route({view : "purchases", load : "purchases.html", onReady: function() { Purchases.init() }});
+        app.route({view : "profile", load : "profile.html", onReady: function() { Profiles.init() }});
         app.run();
 
         if(!window.localStorage.getItem("token")){

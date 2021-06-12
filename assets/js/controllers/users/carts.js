@@ -22,7 +22,6 @@ class Carts{
     Carts.getCarts();
   }
 
-
   static getCarts(){
     $("#cart-tables").DataTable({
        processing: true,
@@ -66,7 +65,7 @@ class Carts{
       });
      }
 
-     static purchase(cart){
+  static purchase(cart){
        RestClient.post("api/users/purchases", cart, function(data){
          toastr.success("Medicine purchased! Check Your email!");
          $("#cartModal").trigger("reset");
@@ -75,7 +74,7 @@ class Carts{
        });
      }
 
-     static update(cart){
+  static update(cart){
        RestClient.put("api/users/cart/update/"+cart.id, cart, function(data){
          $("#byuCart").trigger("reset");
          $("#byuCart *[name='id']").val("");
@@ -87,11 +86,11 @@ class Carts{
        });
      }
 
-     static preEdit(id){
+  static preEdit(id){
       RestClient.get("api/users/cart/"+id, function(data){
          AUtils.json2form("#byuCart", data);
          $("#byuModal").modal("show");
        });
-
      }
+
 }

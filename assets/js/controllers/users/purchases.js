@@ -4,7 +4,6 @@ class Purchases{
     Purchases.getAll();
   }
 
-
   static getAll(){
     $("#purchases-tables").DataTable({
       processing: true,
