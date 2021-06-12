@@ -5,7 +5,6 @@ class Medicines{
     submitHandler: function(form, event) {
       event.preventDefault();
       var data = AUtils.jsonize_form($(form));
-      console.log(data);
       if (data.id){
          Medicines.update(data);
       }else{
@@ -13,7 +12,15 @@ class Medicines{
        }
       }
      });
-
+     $("#addCartMedicines").validate({
+     submitHandler: function(form, event) {
+       event.preventDefault();
+       var data = AUtils.jsonize_form($(form));
+       if (data.id){
+          Medicines.inCart(data);
+       }
+       }
+      });
     AUtils.admin_required();
     Medicines.getAll();
   }
@@ -32,6 +39,7 @@ class Medicines{
   }
 
   static getAll(){
+    var user_info=AUtils.parse_jwt(window.localStorage.getItem("token"));
     $("#medicine-tables").DataTable({
       processing: true,
       serverSide: true,
@@ -60,7 +68,6 @@ class Medicines{
         beforeSend: function(xhr){
         xhr.setRequestHeader('Authentication', localStorage.getItem("token"));},
         dataSrc:  function(resp){
-          console.log(resp);
           return resp;
         },
         data: function( d ) {
@@ -73,13 +80,17 @@ class Medicines{
           delete d.length;
           delete d.columns;
           delete d.draw;
-          console.log(d);
         }
        },
         columns:[
             { "data": "id",
               "render": function ( data, type, row, meta ) {
-               return '<div style="min-width:60px"><span class="badge">'+data+'</span><a class="pull-right admin-stuff" style="font-size: 15px; cursor: pointer;" onclick="Medicines.preEdit('+data+')"><i class="fa fa-edit"></i></a></div>';
+               if(user_info.r == "ADMIN"){
+                   return '<div class="edit" style="min-width:60px"><span class="badge admin-stuff">'+data+'</span><a class="pull-right admin-stuff" style="font-size: 15px; cursor: pointer;" onclick="Medicines.preEdit('+data+')"><i class="fa fa-edit admin-stuff"></i></a>'+
+                   '<a class="pull-right" style="font-size: 15px; cursor: pointer; margin-left: 10px;" onclick="Medicines.preCart('+data+')"><i class="fas fa-shopping-bag"></i></a></div>';
+               }else{
+                 return '<div class="cart_in" style="min-width:60px"><span class="badge">'+data+'</span><a class="pull-right" style="font-size: 15px; cursor: pointer;" onclick="Medicines.preCart('+data+')"><i class="fas fa-shopping-bag"></i></a></div>';
+               }
             }
             },
             { "data": "name" },
@@ -95,7 +106,6 @@ class Medicines{
   static add(medicine){
     RestClient.post("api/admin/medicines", medicine, function(data){
       toastr.success("Medicine added");
-      console.log(data);
       $("#addMedicines").trigger("reset");
       $('#medicineModal').modal("hide");
       Medicines.getAll();
@@ -109,16 +119,30 @@ class Medicines{
       $("#addMedicines *[name='id']").val("");
       $('#medicineModal').modal("hide");
       Medicines.getAll();
-      console.log(data);
     });
   }
 
   static preEdit(id){
    RestClient.get("api/users/medicines/"+id, function(data){
-   console.log(data);
       AUtils.json2form("#addMedicines", data);
       $("#medicineModal").modal("show");
-      console.log(data);
+    });
+  }
+
+  static preCart(id){
+   RestClient.get("api/users/medicines/"+id, function(data){
+      AUtils.json2form("#addCartMedicines", data);
+      $("#userMedicineModal").modal("show");
+    });
+  }
+
+  static inCart(medicine){
+    RestClient.post("api/users/cart/"+medicine.id, medicine, function(data){
+      toastr.success("Medicine has been added to cart");
+      $("#addCartMedicines").trigger("reset");
+      $("#addCartMedicines *[name='id']").val("");
+      $('#userMedicineModal').modal("hide");
+      Medicines.getAll();
     });
   }
 

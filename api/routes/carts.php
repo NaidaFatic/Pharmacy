@@ -9,21 +9,22 @@ Flight::route('GET /users/individual/cart', function(){
 });
 
 /**
- * @OA\Post(path="/users/cart", tags={"users" ,"carts"}, security={{"ApiKeyAuth": {}}},
- *  @OA\RequestBody(description="Add medicine", required=true,
- *       @OA\MediaType( mediaType="application/json",
- *        @OA\Schema(
- *         @OA\Property(property="quantity",type="integer", required="true", example=1, description="qunatity of medicine"),
- *         @OA\Property(property="medicine_id",type="integer", required="true", example=1, description="which medicine to buy")
+ * @OA\Post(path="/users/cart/{id}", tags={"users" ,"carts"}, security={{"ApiKeyAuth": {}}},
+ *     @OA\Parameter(@OA\Schema(type="integer"), in="path", name="id", example=1),
+ *        @OA\RequestBody(description="Add medicine", required=true,
+ *        @OA\MediaType( mediaType="application/json",
+ *         @OA\Schema(
+ *         @OA\Property(property="quantity",type="integer", required="true", example=1, description="qunatity of medicine")
  *      )
  *    )
  *  ),
  *  @OA\Response(response="200", description="Add medicine")
  * )
  */
-Flight::route('POST /users/cart', function(){
+Flight::route('POST /users/cart/@id', function($id){
     $data=Flight::request()->data->getData();
     $data["account_id"] = Flight::get('user')['id'];
+    $data["medicine_id"] = $id;
     Flight::cartService()->add($data);
     Flight::json(["message" => "Medicine added to cart!"]);
 });
