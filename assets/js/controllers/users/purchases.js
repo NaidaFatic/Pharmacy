@@ -1,48 +1,25 @@
 class Purchases{
 
   static init(){
-    $("#addPurchases").validate({
-    submitHandler: function(form, event) {
-      event.preventDefault();
-      var data = AUtils.jsonize_form($(form));
-      console.log(data);
-      if (data.id){
-         Purchases.update(data);
-      }else{
-         Purchases.add(data);
-       }
-      }
-     });
-
     Purchases.getAll();
   }
 
 
   static getAll(){
+    var user_info=AUtils.parse_jwt(window.localStorage.getItem("token"));
     $("#purchases-tables").DataTable({
       processing: true,
-      serverSide: true,
       bDestroy: true,
       responsive: true,
       pagingType: "simple",
-      preDrawCallback: function(settings){
-        if(settings.aoData.length < settings._iDisplayLength){
-          settings._iRecordsTotal=0;
-          settings._iRecordsDisplay=0;
-        }else{
-          settings._iRecordsTotal=100;
-          settings._iRecordsDisplay=100;
-        }
-        console.log(settings);
-        },
       language: {
-            "zeroRecords": "Nothing found - sorry",
+            "zeroRecords": "No purchases",
             "info": "Showing page _PAGE_",
             "infoEmpty": "End of pages",
             "infoFiltered": ""
         },
       ajax: {
-        url: "api/admin/purchases",
+        url: "api/users/medicines/"+user_info.id,
         type: "GET",
         beforeSend: function(xhr){
         xhr.setRequestHeader('Authentication', localStorage.getItem("token"));},
@@ -51,22 +28,16 @@ class Purchases{
           return resp;
         },
         data: function( d ) {
-          d.offset=d.start;
-          d.limit=d.length;
-          d.search=d.search.value;
-          d.order = encodeURIComponent((d.order[0].dir == 'asc' ? "-" : "+")+d.columns[d.order[0].column].data);
-
           delete d.start;
           delete d.length;
           delete d.columns;
           delete d.draw;
-          console.log(d);
         }
        },
         columns:[
             { "data": "id",
               "render": function ( data, type, row, meta ) {
-                return '<div style="min-width:60px"><span class="badge">'+data+'</span><a class="pull-right admin-stuff" style="font-size: 15px; cursor: pointer;" onclick="Purchases.preEdit('+data+')"><i class="fa fa-edit"></i></a></div>';
+                return data;
             }
             },
             { "data": "city" },
@@ -79,34 +50,5 @@ class Purchases{
      });
   }
 
-  static preEdit(id){
-   RestClient.get("api/admin/purchases/individual/"+id, function(data){
-   console.log(data);
-      AUtils.json2form("#addPurchases", data);
-      $("#purchasesModal").modal("show");
-      console.log(data.phone_number);
-    });
-  }
-  static update(purchases){
-    RestClient.put("api/admin/purchases/"+purchases.id, purchases, function(data){
-      toastr.success("Purchase has been deleted");
-      $("#addPurchases").trigger("reset");
-      $('#purchasesModal').modal("hide");
-      Purchases.getAll();
-      console.log(data);
-    });
-  }
-
-static chart(){
-  RestClient.get("api/admin/purchases/chart", function(chart_data){
-    new Morris.Area({
-      element: 'purchases-container',
-      data: chart_data,
-      xkey: 'mon',
-      ykeys: ['cnt'],
-      labels: ['Purchases']
-    });
-  });
-}
 
 }

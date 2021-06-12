@@ -11,7 +11,7 @@ class Carts{
        responsive: true,
        pagingType: "simple",
        language: {
-             "zeroRecords": "Nothing found - sorry",
+             "zeroRecords": "Nothing in cart",
              "info": "Showing page _PAGE_",
              "infoEmpty": "End of pages",
              "infoFiltered": ""

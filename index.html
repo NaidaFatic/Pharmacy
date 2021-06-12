@@ -354,6 +354,7 @@
     <script src="./assets/js/restClient.js"></script>
     <script src="./assets/js/controllers/medicines.js"></script>
     <script src="./assets/js/controllers/users/carts.js"></script>
+    <script src="./assets/js/controllers/users/purchases.js"></script>
 
     <!-- JQuery validation JS -->
     <script src="//cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
@@ -368,6 +369,8 @@
 
         var app = $.jQuerySPApp({defaultView  : "dashboard"}); // initialize
         app.route({view : "medicines", load : "medicines.html", onReady: function() { Medicines.init() }});
+        app.route({view : "carts", load : "carts.html", onReady: function() { Carts.init() }});
+        app.route({view : "purchases", load : "purchases.html", onReady: function() { Purchases.init() }});
         app.run();
 
         if(!window.localStorage.getItem("token")){
