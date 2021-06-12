@@ -6,7 +6,6 @@ class Purchases{
 
 
   static getAll(){
-    var user_info=AUtils.parse_jwt(window.localStorage.getItem("token"));
     $("#purchases-tables").DataTable({
       processing: true,
       bDestroy: true,
@@ -19,7 +18,7 @@ class Purchases{
             "infoFiltered": ""
         },
       ajax: {
-        url: "api/users/medicines/"+user_info.id,
+        url: "api/users/purchases/individual",
         type: "GET",
         beforeSend: function(xhr){
         xhr.setRequestHeader('Authentication', localStorage.getItem("token"));},
@@ -44,7 +43,6 @@ class Purchases{
             { "data": "zip" },
             { "data": "phone_number" },
             { "data": "date" },
-            { "data": "account_id" },
             { "data": "cart_id" }
         ]
      });

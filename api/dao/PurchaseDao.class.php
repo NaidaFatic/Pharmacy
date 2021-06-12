@@ -20,7 +20,7 @@ class PurchaseDao extends BaseDao{
    }
 
  public function get_purchase_by_id($search){
-    return $this->get_by_id($search);
+    return $this->query("SELECT * FROM purchases WHERE account_id = :id", ["id" => $search]);
  }
 
  public function get_carts($purchase){
