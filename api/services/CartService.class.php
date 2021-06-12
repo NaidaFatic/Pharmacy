@@ -47,6 +47,13 @@ class CartService extends BaseService{
    return $this->dao->get_carts();
  }
 
+ public function get_cart($id){
+   return $this->dao->get_by_id($id);
+ }
+
+ public function update($id, $data){
+   return parent::update($id, $data);
+ }
 }
 
 ?>

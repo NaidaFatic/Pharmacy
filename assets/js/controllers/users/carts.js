@@ -1,10 +1,29 @@
 class Carts{
 
   static init(){
-    Carts.getPurchases();
+  $("#byuCart").validate({
+   submitHandler: function(form, event) {
+    event.preventDefault();
+    var data = AUtils.jsonize_form($(form));
+    console.log(data);
+    if (data.id){
+       Carts.update(data);
+      }
+     }
+  });
+  $("#addCart").validate({
+     submitHandler: function(form, event) {
+      event.preventDefault();
+      var data = AUtils.jsonize_form($(form));
+      console.log(data);
+      Carts.purchase(data);
+      }
+  });
+    Carts.getCarts();
   }
 
-  static getPurchases(){
+
+  static getCarts(){
     $("#cart-tables").DataTable({
        processing: true,
        bDestroy: true,
@@ -36,7 +55,7 @@ class Carts{
          columns:[
              { "data": "id",
                "render": function ( data, type, row, meta ) {
-                return data;
+                return '<div style="min-width:60px"><span class="badge">'+data+'</span><a class="pull-right" style="font-size: 15px; cursor: pointer;" onclick="Carts.preEdit('+data+')"><i class="fa fa-edit"></i></a></div>';
              }
            },
            { "data": "quantity" },
@@ -47,4 +66,32 @@ class Carts{
       });
      }
 
+     static purchase(cart){
+       RestClient.post("api/users/purchases", cart, function(data){
+         toastr.success("Medicine purchased! Check Your email!");
+         $("#cartModal").trigger("reset");
+         $('#cartModal').modal("hide");
+         Carts.getCarts();
+       });
+     }
+
+     static update(cart){
+       RestClient.put("api/users/cart/update/"+cart.id, cart, function(data){
+         $("#byuCart").trigger("reset");
+         $("#byuCart *[name='id']").val("");
+         $('#byuModal').modal("hide");
+       });
+       RestClient.put("api/users/buy/cart", cart, function(data){
+         Carts.getCarts();
+         console.log(data);
+       });
+     }
+
+     static preEdit(id){
+      RestClient.get("api/users/cart/"+id, function(data){
+         AUtils.json2form("#byuCart", data);
+         $("#byuModal").modal("show");
+       });
+
+     }
 }
