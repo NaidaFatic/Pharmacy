@@ -22,13 +22,13 @@ class CartDao extends BaseDao{
      } else return $data['total'];
   }
 
-  public function alter_cart_by_account($account, $medicine){
-    $data = $this->get_medicine($account, $medicine);
+  public function alter_cart_by_account($account, $id){
+    $data = parent::get_by_id($id);
 
     if($data != null){
-        $query = "DELETE FROM carts WHERE account_id= :account_id AND medicine_id= :medicine_id";
+        $query = "DELETE FROM carts WHERE account_id= :account_id AND id= :id";
         $stmt = $this->connection->prepare($query);
-        $params=["account_id" => $account, "medicine_id" => $medicine];
+        $params=["account_id" => $account, "id" => $id];
         $stmt -> execute($params);
     } else {
       throw new \Exception("Not found in cart", 404);
@@ -85,8 +85,7 @@ class CartDao extends BaseDao{
 
  public function get_carts(){
    $s=1;
-   return $this->query("SELECT * FROM carts
-                         WHERE 1 = :status", ["status" => $s]); //show only one that is not bought!!!
+   return $this->query("SELECT * FROM carts WHERE 1 = :status", ["status" => $s]);
  }
 
 }

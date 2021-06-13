@@ -5,9 +5,8 @@ class Carts{
    submitHandler: function(form, event) {
     event.preventDefault();
     var data = AUtils.jsonize_form($(form));
-    console.log(data);
     if (data.id){
-       Carts.update(data);
+    Carts.update(data);
       }
      }
   });
@@ -18,7 +17,7 @@ class Carts{
       console.log(data);
       Carts.purchase(data);
       }
-  });
+     });
     Carts.getCarts();
   }
 
@@ -66,6 +65,10 @@ class Carts{
      }
 
   static purchase(cart){
+      RestClient.put("api/users/buy/cart", cart, function(data){
+       Carts.getCarts();
+       console.log(data);
+      });
        RestClient.post("api/users/purchases", cart, function(data){
          toastr.success("Medicine purchased! Check Your email!");
          $("#cartModal").trigger("reset");
@@ -79,11 +82,8 @@ class Carts{
          $("#byuCart").trigger("reset");
          $("#byuCart *[name='id']").val("");
          $('#byuModal').modal("hide");
-       });
-       RestClient.put("api/users/buy/cart", cart, function(data){
-         Carts.getCarts();
-         console.log(data);
-       });
+       });       
+       Carts.getCarts();
      }
 
   static preEdit(id){
@@ -92,6 +92,16 @@ class Carts{
          $("#byuModal").modal("show");
        });
      }
+  static delete(id){
+    var form = AUtils.jsonize_form("#byuCart");
+    console.log(form.id);
+      RestClient.put("api/users/cart/"+form.id, form, function(data){
+        toastr.success("Medicine deleted!");
+        $("#byuModal").trigger("reset");
+        $('#byuModal').modal("hide");
+    });
+    Carts.getCarts();
+  }
 
   static getTotal(){
        RestClient.get("api/users/total/cart", function(data){
