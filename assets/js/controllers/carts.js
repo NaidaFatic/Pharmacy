@@ -1,10 +1,10 @@
 class Carts{
 
   static init(){
-    Carts.getPurchases();
+    Carts.getCarts();
   }
 
-  static getPurchases(){
+  static getCarts(){
     $("#cart-tables").DataTable({
        processing: true,
        bDestroy: true,

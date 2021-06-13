@@ -13,5 +13,12 @@ class Profiles{
      });
   }
 
+  static fullName(){
+    var user_info=AUtils.parse_jwt(window.localStorage.getItem("token"));
+    RestClient.get("api/users/"+user_info.id, function(data){
+     document.getElementById('fullName').textContent = ''+data.name+' '+data.surname;
+     });
+  }
+
 
 }

@@ -93,4 +93,9 @@ class Carts{
        });
      }
 
+  static getTotal(){
+       RestClient.get("api/users/total/cart", function(data){
+        document.getElementById('total').textContent = ''+data;
+        });
+      }
 }
