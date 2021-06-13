@@ -12,6 +12,8 @@
     <title>Pharmacy</title>
 
     <!-- Custom fonts for this template-->
+    <link rel="icon" href="assets/img/icon.svg">
+
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
@@ -264,7 +266,7 @@
         app.route({view : "medicines", load : "medicines.html", onReady: function() { Medicines.init() }});
         app.route({view : "carts", load : "admin/carts.html", onReady: function() { Carts.init() }});
         app.route({view : "users", load : "admin/users.html", onReady: function() { Users.init() }});
-        app.route({view : "purchases", load : "admin/purchases.html", onReady: function() { Purchases.init() }});        
+        app.route({view : "purchases", load : "admin/purchases.html", onReady: function() { Purchases.init() }});
         app.route({view : "profiles", load : "profiles.html", onReady: function() { Profiles.init() }});
         app.run();
         if(!window.localStorage.getItem("token")){
