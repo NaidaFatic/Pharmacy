@@ -55,6 +55,10 @@ class PurchaseService extends BaseService{
    return $this->dao->get_purchase_by_id($id);
  }
 
+ public function getIndividualPurchase($id){
+   return $this->dao->get_by_id($id);
+ }
+
 }
 
 ?>

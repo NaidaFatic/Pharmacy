@@ -69,4 +69,13 @@ Flight::route('GET /users/purchases/individual', function(){
     Flight::json(Flight::purchaseService()->getPurchase(Flight::get('user')['id']));
 });
 
+/**
+ * @OA\Get(path="/admin/purchases/individual/{id}", tags={"purchases", "admin"}, security={{"ApiKeyAuth":{}}},
+ *     @OA\Parameter(type="integer", in="path", name="id", default=1, description="get a purchase by id"),
+ *     @OA\Response(response="200", description="Fetch individual medicine")
+ * )
+ */
+Flight::route('GET /admin/purchases/individual/@id', function($id){
+  Flight::json(Flight::purchaseService()->getIndividualPurchase($id));
+});
 ?>
