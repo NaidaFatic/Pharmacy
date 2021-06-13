@@ -45,6 +45,14 @@ class Login{
     $("#reset-form-container").removeClass("d-none");
   }
 
+  static show_confirm_form(){
+    $("#login-form-container").addClass("d-none");
+    $("#register-form-container").addClass("d-none");
+    $("#password-form-container").addClass("d-none");
+    $("#forgot-form-container").addClass("d-none");
+    $("#reset-form-container").removeClass("d-none");
+  }
+
   static login(){
     $("#login-link").prop('disabled', true);
     RestClient.post("api/login", AUtils.jsonize_form("#login-form"), function(data){
@@ -57,8 +65,8 @@ class Login{
   }
 
   static register(){
-     var password = document.getElementById("register-password")
-      , confirm_password = document.getElementById("register-repeat-password");
+     var password = document.getElementById("register-password"),
+      confirm_password = document.getElementById("register-repeat-password");
 
       $("#register-link").prop('disabled', true);
       if(password.value == confirm_password.value){
@@ -66,6 +74,7 @@ class Login{
           $("#register-form-container").addClass("d-none");
           $("#form-alert").removeClass("d-none");
           $("#form-alert .alert").html(data.message);
+          $("#confirm-form-container").removeClass("d-none");
         }, function(jqXHR, textStatus, errorThrow){
           $("#register-link").prop('disabled', false);
           toastr.error( jqXHR.responseJSON.message );
@@ -75,6 +84,19 @@ class Login{
           confirm_password.setCustomValidity("Passwords don't match!");
          }
     }
+
+  static confirm_token(){
+    var token = document.getElementById("token");
+    console.log(token.value);
+    RestClient.get("api/confirm/"+token.value, function(data){
+      console.log(data.token);
+       window.localStorage.setItem("token", data.token);
+       window.location = "index.html";
+      }, function(jqXHR, textStatus, errorThrow){
+        $("#confirm-link").prop('disabled', false);
+        toastr.error( jqXHR.responseJSON.message );
+      });
+  }
 
   static forgot_password(){
     $("#forgot-link").prop('disabled', true);

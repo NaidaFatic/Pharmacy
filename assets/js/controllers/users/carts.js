@@ -1,6 +1,7 @@
 class Carts{
 
   static init(){
+    Carts.getTotal();
   $("#byuCart").validate({
    submitHandler: function(form, event) {
     event.preventDefault();
@@ -82,7 +83,7 @@ class Carts{
          $("#byuCart").trigger("reset");
          $("#byuCart *[name='id']").val("");
          $('#byuModal').modal("hide");
-       });       
+       });
        Carts.getCarts();
      }
 
@@ -94,7 +95,6 @@ class Carts{
      }
   static delete(id){
     var form = AUtils.jsonize_form("#byuCart");
-    console.log(form.id);
       RestClient.put("api/users/cart/"+form.id, form, function(data){
         toastr.success("Medicine deleted!");
         $("#byuModal").trigger("reset");
@@ -106,6 +106,7 @@ class Carts{
   static getTotal(){
        RestClient.get("api/users/total/cart", function(data){
         document.getElementById('total').textContent = ''+data;
+        document.getElementById('totalForm').value = ''+data+' KM';
         });
       }
 }
