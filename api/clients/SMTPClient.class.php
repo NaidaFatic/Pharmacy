@@ -21,7 +21,7 @@ class SMTPClient{
     $message = (new Swift_Message('Confirm your account'))
       ->setFrom([Config::SMTP_USER() => 'Pharmacy'])
       ->setTo([$account['email']])
-      ->setBody('Here is the confirmation link: '.$account['token']);
+      ->setBody('Here is the confirmation token: '.$account['token']);
 
      $this->mailer->send($message);
   }
@@ -30,7 +30,7 @@ class SMTPClient{
     $message = (new Swift_Message('Reset Your password'))
       ->setFrom([Config::SMTP_USER() => 'Pharmacy'])
       ->setTo([$account['email']])
-      ->setBody('Here is the recovery token: '.$account['token']);
+      ->setBody('Here is the recovery link: http://localhost/project/Pharmacy/login.html?token='.$account['token']);
 
      $this->mailer->send($message);
   }
@@ -39,8 +39,8 @@ class SMTPClient{
     $message = (new Swift_Message('Your purchase'))
       ->setFrom([Config::SMTP_USER() => 'Pharmacy'])
       ->setTo([$account['email']])
-      ->setBody('Here is the order: City: '.$purchase['city'].' Zip: '.$purchase['zip'].
-                ' Phone number: '.$purchase['phone_number'].' Medicine_id => quantity: '.$order.' Total price: '.$price);
+      ->setBody('Here is the order: City: '.$purchase['city'].', Zip: '.$purchase['zip'].
+                ', Phone number: '.$purchase['phone_number'].', Medicine_id => quantity: '.$order.', Total price: '.$price);
 
      $this->mailer->send($message);
   }
