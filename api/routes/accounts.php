@@ -7,7 +7,7 @@ require_once dirname(__FILE__)."/../config.php";
  * @OA\Info(title="Pharmacy", version="0.1")
  * @OA\OpenApi(
  *   @OA\Server(url="http://localhost/project/Pharmacy/api/", description="Development enviroment"),
- *   @OA\Server(url="http://Pharmacy.com", description="Host enviroment")
+ *   @OA\Server(url="https://pharmacy-dfr2g.ondigitalocean.app/api/", description="Production enviroment")
  * ),
  * @OA\SecurityScheme(
  *      securityScheme="ApiKeyAuth", in="header", name="Authentication", type="apiKey")
