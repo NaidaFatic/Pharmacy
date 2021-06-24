@@ -97,7 +97,7 @@ class Purchases{
 static chart(){
   RestClient.get("api/admin/purchases/chart", function(chart_data){
     Morris.Line({
-        element: 'tempMonitor',
+        element: 'purchases-container',
         data: chart_data,
         xkey: 'mont',
         ykeys: ['cn'],
