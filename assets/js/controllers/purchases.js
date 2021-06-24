@@ -95,12 +95,12 @@ class Purchases{
   }
 
 static chart(){
-  RestClient.get("api/admin/purchases/chart", function(chart_data){
+  RestClient.get("api/admin/medicines/chart", function(chart_data){
     Morris.Line({
         element: 'purchases-container',
         data: chart_data,
-        xkey: 'mont',
-        ykeys: ['cn'],
+        xkey: 'mon',
+        ykeys: ['cnt'],
         labels: ['Purchases']
       });
   });
