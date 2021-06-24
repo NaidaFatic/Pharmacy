@@ -96,13 +96,13 @@ class Purchases{
 
 static chart(){
   RestClient.get("api/admin/purchases/chart", function(chart_data){
-    new Morris.Area({
-      element: 'medicines-container',
-      data: chart_data,
-      xkey: 'mont',
-      ykeys: ['cn'],
-      labels: ['Purchases']
-    });
+    Morris.Line({
+        element: 'tempMonitor',
+        data: chart_data,
+        xkey: 'mont',
+        ykeys: ['cn'],
+        labels: ['Purchases']
+      });
   });
 }
 
