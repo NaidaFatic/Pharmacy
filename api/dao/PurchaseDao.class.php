@@ -20,7 +20,8 @@ class PurchaseDao extends BaseDao{
    }
 
  public function get_purchase_by_id($search){
-    return $this->query("SELECT * FROM purchases WHERE account_id = :id", ["id" => $search]);
+    return $this->query("SELECT p.id, p.city, p.zip, p.phone_number, p.date, a.email, m.name, c.quantity FROM purchases p, carts c, accounts a, medicines m
+                                                                 WHERE p.account_id = a.id AND p.cart_id = c.id AND c.medicine_id = m.id AND p.account_id = :id", ["id" => $search]);
  }
 
  public function get_carts($purchase){
@@ -53,6 +54,19 @@ class PurchaseDao extends BaseDao{
    $no = 1;
    return $this->query("SELECT DATE_FORMAT(DATE, '%Y-%m') mont, COUNT(*) cn FROM purchases WHERE 1 = 1 GROUP BY DATE_FORMAT(DATE, '%Y-%m')", ["no" => $no]);
  }
+
+ public function get_all_purchase($offset=0, $limit=25, $order="-id", $total= FALSE){
+
+  list($order_column, $order_direction) = parent::parse_order($order);
+
+  if($total){
+     return $this->query_unique("SELECT COUNT(*) AS total FROM purchases",[]);
+  }else{
+    return $this->query("SELECT p.id, p.city, p.zip, p.phone_number, p.date, a.email, m.name, c.quantity FROM purchases p, carts c, accounts a, medicines m
+                                                                 WHERE p.account_id = a.id AND p.cart_id = c.id AND c.medicine_id = m.id ORDER BY ${order_column} ${order_direction}
+                                                                 LIMIT ${limit} OFFSET ${offset}", []);
+  }
+}
 
 }
 

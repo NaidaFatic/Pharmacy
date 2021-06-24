@@ -9,8 +9,8 @@ class CartDao extends BaseDao{
   }
 
   public function get_medicine_in_cart_by_account($id){
-    return $this->query("SELECT * FROM carts
-                          WHERE (status = :status OR status =:status1) AND account_id = :id", ["id" => $id, "status" => "IN_CART", "status1" => "BOUGHT"]); //show only one that is not bought!!!
+    return $this->query("SELECT c.id, c.quantity, c.status, m.name, m.price FROM carts c, medicines m
+                          WHERE c.medicine_id = m.id AND (status = :status OR status =:status1) AND account_id = :id", ["id" => $id, "status" => "IN_CART", "status1" => "BOUGHT"]); //show only one that is not bought!!!
   }
 
   public function get_total_price_by_account($id){
@@ -85,7 +85,8 @@ class CartDao extends BaseDao{
 
  public function get_carts(){
    $s=1;
-   return $this->query("SELECT * FROM carts WHERE 1 = :status", ["status" => $s]);
+   return $this->query("SELECT c.id, m.name, a.email, c.quantity, c.status FROM carts c, medicines m, accounts a
+                          WHERE m.id = c.medicine_id AND a.id = c.account_id", [null]);
  }
 
 }

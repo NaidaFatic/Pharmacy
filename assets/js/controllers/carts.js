@@ -39,10 +39,10 @@ class Carts{
                 return data;
              }
            },
+           { "data": "name" },
+           { "data": "email" },
            { "data": "quantity" },
-           { "data": "status" },
-           { "data": "medicine_id" },
-           { "data": "account_id" }
+           { "data": "status" }
          ]
       });
      }

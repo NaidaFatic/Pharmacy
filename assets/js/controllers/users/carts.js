@@ -59,8 +59,8 @@ class Carts{
            },
            { "data": "quantity" },
            { "data": "status" },
-           { "data": "medicine_id" },
-           { "data": "account_id" }
+           { "data": "name" },
+           { "data": "price" }
          ]
       });
      }

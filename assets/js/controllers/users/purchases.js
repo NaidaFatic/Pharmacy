@@ -42,7 +42,8 @@ class Purchases{
             { "data": "zip" },
             { "data": "phone_number" },
             { "data": "date" },
-            { "data": "cart_id" }
+            { "data": "name" },
+            { "data": "quantity" }
         ]
      });
   }

@@ -39,7 +39,7 @@ class PurchaseService extends BaseService{
        return $this->dao->get_purchase_by_id($search);
    }
    else{
-     return $this->dao->get_all($offset, $limit, $order);
+     return $this->dao->get_all_purchase($offset, $limit, $order);
    }
  }
 

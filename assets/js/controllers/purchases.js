@@ -73,8 +73,9 @@ class Purchases{
             { "data": "zip" },
             { "data": "phone_number" },
             { "data": "date" },
-            { "data": "account_id" },
-            { "data": "cart_id" }
+            { "data": "email" },
+            { "data": "name" },
+            { "data": "quantity" }
         ]
      });
   }
