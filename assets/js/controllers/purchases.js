@@ -99,8 +99,8 @@ static chart(){
     new Morris.Area({
       element: 'medicines-container',
       data: chart_data,
-      xkey: 'mon',
-      ykeys: ['cnt'],
+      xkey: 'mont',
+      ykeys: ['cn'],
       labels: ['Purchases']
     });
   });
