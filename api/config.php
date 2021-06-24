@@ -4,23 +4,23 @@ class Config{
   const DATE_FORMAT = "Y-m-d H:i:s";
 
   public static function DB_HOST(){
-    return Config::get_env("DB_HOST", "pharmacy-db-do-user-9168844-0.b.db.ondigitalocean.com");
+    return Config::get_env("DB_HOST", "localhost");
   }
 
   public static function DB_USERNAME(){
-    return Config::get_env("DB_USERNAME", "doadmin");
+    return Config::get_env("DB_USERNAME", "root");
   }
 
   public static function DB_PASSWORD(){
-    return Config::get_env("DB_PASSWORD", "u6grz0ix1ygzq2l6");
+    return Config::get_env("DB_PASSWORD", "");
   }
 
   public static function DB_SCHEME(){
-    return Config::get_env("DB_SCHEME", "pharmacy");
+    return Config::get_env("DB_SCHEME", "pharamcy");
   }
 
   public static function DB_PORT(){
-    return Config::get_env("DB_PORT", "25060");
+    return Config::get_env("DB_PORT", "3306");
   }
 
   public static function SMTP_HOST(){
