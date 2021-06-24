@@ -34,7 +34,6 @@ class Medicines{
         ykeys: ['cnt'],
         labels: ['Medicines']
       });
-
     });
   }
 

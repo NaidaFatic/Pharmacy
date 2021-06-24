@@ -81,10 +81,8 @@ class Purchases{
 
   static preEdit(id){
    RestClient.get("api/admin/purchases/individual/"+id, function(data){
-   console.log(data);
       AUtils.json2form("#addPurchases", data);
       $("#purchasesModal").modal("show");
-      console.log(data.phone_number);
     });
   }
   static update(purchases){
@@ -93,14 +91,13 @@ class Purchases{
       $("#addPurchases").trigger("reset");
       $('#purchasesModal').modal("hide");
       Purchases.getAll();
-      console.log(data);
     });
   }
 
 static chart(){
   RestClient.get("api/admin/purchases/chart", function(chart_data){
     new Morris.Area({
-      element: 'purchases-container',
+      element: 'medicines-container',
       data: chart_data,
       xkey: 'mon',
       ykeys: ['cnt'],
