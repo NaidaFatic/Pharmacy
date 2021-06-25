@@ -13,6 +13,11 @@ class CartDao extends BaseDao{
                           WHERE c.medicine_id = m.id AND (status = :status OR status =:status1) AND account_id = :id", ["id" => $id, "status" => "IN_CART", "status1" => "BOUGHT"]); //show only one that is not bought!!!
   }
 
+  public function get_medicine_in_cart($id){
+    return $this->query("SELECT * FROM carts
+                          WHERE (status = :status OR status =:status1) AND account_id = :id", ["id" => $id, "status" => "IN_CART", "status1" => "BOUGHT"]);
+  }
+
   public function get_total_price_by_account($id){
      $data = $this->query_unique("SELECT SUM(m.price * c.quantity) AS total FROM carts c, medicines m
                           WHERE c.medicine_id= m.id AND account_id = :id AND status = :status", ["id" => $id, "status" => "IN_CART"]);
@@ -67,10 +72,8 @@ class CartDao extends BaseDao{
  }
 
  public function change_quantity($account){
-   $ids = $this->get_medicine_in_cart_by_account($account);
-
+   $ids = $this->get_medicine_in_cart($account);
    foreach($ids as $id){
-
      $quantity = $this->medicineDao->get_quantity($id['medicine_id']);
      $new = $quantity['quantity'] - $id['quantity'];
      if($new < 0)

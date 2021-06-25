@@ -36,7 +36,7 @@ class CartService extends BaseService{
  public function buy_medicine($account){
    $status = "BOUGHT";
    $this->dao->change_quantity($account);
-   return $this->dao->update_status($account, $status);
+  return $this->dao->update_status($account, $status);
  }
 
  public function get_medicine_id($id){
