@@ -23,6 +23,7 @@ class Carts{
          xhr.setRequestHeader('Authentication', localStorage.getItem("token"));},
          dataSrc:  function(resp){
            console.log(resp);
+           console.log("SHOW?");
            return resp;
          },
          data: function( d ) {
