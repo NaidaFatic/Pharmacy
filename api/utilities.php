@@ -6,7 +6,7 @@ class Util{
     $string ="";
 
     foreach($carts as $id){
-      $string = $string.", ".$id['name']." => ".$id['quantity'];
+      $string = $string.", ".$id['medicine_id']." => ".$id['quantity'];
     }
 
     $string = substr($string, 2);
