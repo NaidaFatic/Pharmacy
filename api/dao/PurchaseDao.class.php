@@ -52,7 +52,7 @@ class PurchaseDao extends BaseDao{
 
  public function get_chart_all(){
    $no = 1;
-   return $this->query("SELECT DATE_FORMAT(DATE, '%Y-%m') mont, COUNT(*) cn FROM purchases WHERE 1 = 1 GROUP BY DATE_FORMAT(DATE, '%Y-%m')", ["no" => $no]);
+   return $this->query("SELECT DATE_FORMAT(DATE, '%Y-%m') mont, COUNT(*) cn FROM purchases WHERE 1 = :no GROUP BY DATE_FORMAT(DATE, '%Y-%m')", ["no" => $no]);
  }
 
  public function get_all_purchase($offset=0, $limit=25, $order="-id", $total= FALSE){

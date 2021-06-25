@@ -86,7 +86,7 @@ class CartDao extends BaseDao{
  public function get_carts(){
    $s=1;
    return $this->query("SELECT c.id, m.name, a.email, c.quantity, c.status FROM carts c, medicines m, accounts a
-                          WHERE m.id = c.medicine_id AND a.id = c.account_id", [null]);
+                          WHERE m.id = c.medicine_id AND a.id = c.account_id", null);
  }
 
 }
