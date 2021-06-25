@@ -28,7 +28,7 @@ class PurchaseService extends BaseService{
     $carts = $this->dao->get_carts($purchase);
     $order = Util::GET_ORDER($carts);
     $this->dao->add_purchase($data);
-    $this->SMTPmailer->send_user_purchase($purchase, $account, $order,$price);
+    $this->SMTPmailer->send_user_purchase($purchase, $account, $order, $price);
      } catch(\Exception $e) {
     throw new \Exception($e->getMessage(), 400, $e);
   }
