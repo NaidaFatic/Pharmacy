@@ -30,7 +30,7 @@ class SMTPClient{
     $message = (new Swift_Message('Reset Your password'))
       ->setFrom([Config::SMTP_USER() => 'Pharmacy'])
       ->setTo([$account['email']])
-      ->setBody('Here is the recovery link: http://localhost/project/Pharmacy/login.html?token='.$account['token']);
+      ->setBody('Here is the recovery link: https://pharmacy-dfr2g.ondigitalocean.app/login.html?token='.$account['token']);
 
      $this->mailer->send($message);
   }
