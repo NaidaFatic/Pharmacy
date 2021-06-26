@@ -1,6 +1,6 @@
 /*
 SQLyog Community v13.1.7 (64 bit)
-MySQL - 8.0.23 : Database - pharmacy
+MySQL - 10.4.14-MariaDB : Database - pharamcy
 *********************************************************************
 */
 
@@ -12,37 +12,37 @@ MySQL - 8.0.23 : Database - pharmacy
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`pharmacy` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`pharamcy` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
 
-USE `pharmacy`;
+USE `pharamcy`;
 
 /*Table structure for table `accounts` */
 
 DROP TABLE IF EXISTS `accounts`;
 
 CREATE TABLE `accounts` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `email` varchar(512) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `password` varchar(1024) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `status` varchar(1024) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT 'PENDING',
-  `role` varchar(1024) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT 'USER',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `email` varchar(512) COLLATE utf8_bin NOT NULL,
+  `password` varchar(1024) COLLATE utf8_bin NOT NULL,
+  `status` varchar(1024) COLLATE utf8_bin DEFAULT 'PENDING',
+  `role` varchar(1024) COLLATE utf8_bin DEFAULT 'USER',
   `user_id` int(10) unsigned zerofill NOT NULL,
-  `token` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `token` varchar(128) COLLATE utf8_bin DEFAULT NULL,
   `token_created_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_accounts_email` (`email`),
   KEY `fk_accounts_users` (`user_id`),
   CONSTRAINT `fk_accounts_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=173 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=177 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 /*Data for the table `accounts` */
 
 insert  into `accounts`(`id`,`email`,`password`,`status`,`role`,`user_id`,`token`,`token_created_at`) values 
 (1,'exaa1@gmail.com','123','PENDING','USER',0000000001,NULL,NULL),
-(2,'sanida@gmail.com','202cb962ac59075b964b07152d234b70','ACTIVE','ADMIN',0000000002,NULL,NULL),
+(2,'sanida@gmail.com','202cb962ac59075b964b07152d234b70','ACTIVE','ADMIN',0000000002,'9a9f7a52dd1a8d0fcec3c6314dbe9d1f','2021-06-25 18:46:17'),
 (4,'sunita@gmail.com','202cb962ac59075b964b07152d234b70','PENDING','USER',0000000005,NULL,NULL),
 (6,'samija@gmail.com','202cb962ac59075b964b07152d234b70','ACTIVE','USER',0000000005,NULL,NULL),
-(59,'example@gmail.com','202cb962ac59075b964b07152d234b70','ACTIVE','USER',0000000002,'28bce7f4dfd714f2f40e2cfd1f92a1b8','2021-05-04 22:24:53'),
+(59,'example@gmail.com','202cb962ac59075b964b07152d234b70','ACTIVE','USER',0000000002,'c42b7770bc5b5f60e92eddd7bade4d4c','2021-06-25 18:43:27'),
 (60,'user1@gmail.com','123','PENDING','USER',0000000002,'1eca88b9679012c89e69ee026cf7afe0',NULL),
 (62,'example123@gmail.com','123','PENDING','USER',0000000055,'0dee454e3b3eeef1b8351eacc947c707',NULL),
 (65,'ajla1@gmail.com','123','PENDING','USER',0000000058,'4a02d78166fb5e7e528d4cfab708dc21',NULL),
@@ -54,7 +54,7 @@ insert  into `accounts`(`id`,`email`,`password`,`status`,`role`,`user_id`,`token
 (94,'naidafatic1111@gmail.com','202cb962ac59075b964b07152d234b70','ACTIVE','USER',0000000085,NULL,'2021-05-02 14:47:00'),
 (96,'naidafatic2@gmail.com','202cb962ac59075b964b07152d234b70','PENDING','USER',0000000087,'974a26522681e142136edacba19c7506',NULL),
 (97,'naidafatic1@gmail.com','202cb962ac59075b964b07152d234b70','ACTIVE','USER',0000000088,NULL,'2021-06-13 17:48:18'),
-(110,'faticnaida@gmail.com','ab233b682ec355648e7891e66c54191b','ACTIVE','USER',0000000101,'d1ab158cd187add4111042ff1898cce5','2021-06-18 13:41:26'),
+(110,'faticnaida@gmail.com','202cb962ac59075b964b07152d234b70','ACTIVE','USER',0000000101,NULL,'2021-06-26 11:44:51'),
 (114,'faticnaida111111111@gmail.com','37693cfc748049e45d87b8c7d8b9aacd','PENDING','USER',0000000105,'36d7262f74aec356bf7f96d532e87896',NULL),
 (115,'faticnaid1111a@gmail.com','202cb962ac59075b964b07152d234b70','PENDING','USER',0000000106,'f12516aae629e08630fdc4bdec990cb7',NULL),
 (132,'faticnaid1111a@gmal.com','202cb962ac59075b964b07152d234b70','PENDING','USER',0000000123,'ff06d013a992fd627ea4f8b083f5c813',NULL),
@@ -65,26 +65,27 @@ insert  into `accounts`(`id`,`email`,`password`,`status`,`role`,`user_id`,`token
 (159,'f','8fa14cdd754f91cc6554c9e71929cce7','ACTIVE','USER',0000000148,NULL,NULL),
 (164,'naida.fatic1@stu.ibu.edu.ba','202cb962ac59075b964b07152d234b70','ACTIVE','ADMIN',0000000153,NULL,NULL),
 (168,'naida.fatic12@stu.ibu.edu.ba','202cb962ac59075b964b07152d234b70','ACTIVE','USER',0000000157,NULL,NULL),
-(169,'naida.fatic@stu.ibu.edu.ba','202cb962ac59075b964b07152d234b70','PENDING','USER',0000000158,'b5cca8000898219c3d315a3d552f942f','2021-06-18 13:41:43'),
+(169,'naida.fatic@stu.ibu.edu.ba','202cb962ac59075b964b07152d234b70','PENDING','USER',0000000158,'97192264798e619402e36df6510f6c4e','2021-06-26 11:40:22'),
 (171,'naidafati1c@gmail.com','202cb962ac59075b964b07152d234b70','PENDING','USER',0000000160,'9c130e3bd4275ab76395abebef565f21',NULL),
-(172,'naidafatic@gmail.com','698d51a19d8a121ce581499d7b701668','ACTIVE','USER',0000000161,NULL,'2021-06-18 13:44:00');
+(172,'naidafatic@gg.com','698d51a19d8a121ce581499d7b701668','ACTIVE','USER',0000000161,'492774c8ee6da12a5c19c2c2043e5c39','2021-06-26 11:42:56'),
+(176,'naidafatic@gmail.com','202cb962ac59075b964b07152d234b70','ACTIVE','USER',0000000165,'66d654bd52fe736747281d68d5f167e8',NULL);
 
 /*Table structure for table `carts` */
 
 DROP TABLE IF EXISTS `carts`;
 
 CREATE TABLE `carts` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `quantity` int DEFAULT '1',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `quantity` int(11) DEFAULT 1,
   `status` varchar(32) NOT NULL DEFAULT 'IN_CART',
-  `medicine_id` int unsigned NOT NULL,
-  `account_id` int unsigned NOT NULL,
+  `medicine_id` int(11) unsigned NOT NULL,
+  `account_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_accounts_carts` (`account_id`),
   KEY `fk_medicines_carts` (`medicine_id`),
   CONSTRAINT `fk_accounts_carts` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`),
   CONSTRAINT `fk_medicines_carts` FOREIGN KEY (`medicine_id`) REFERENCES `medicines` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `carts` */
 
@@ -156,22 +157,26 @@ insert  into `carts`(`id`,`quantity`,`status`,`medicine_id`,`account_id`) values
 (80,2,'PURCHASED',1,2),
 (81,1,'PURCHASED',1,2),
 (83,2,'PURCHASED',10,172),
-(85,1,'PURCHASED',5,172);
+(85,1,'PURCHASED',5,172),
+(87,0,'IN_CART',1,59),
+(88,2,'IN_CART',3,2),
+(89,2,'PURCHASED',9,110),
+(90,1,'PURCHASED',20,110);
 
 /*Table structure for table `medicines` */
 
 DROP TABLE IF EXISTS `medicines`;
 
 CREATE TABLE `medicines` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(512) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `company_name` varchar(512) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(512) COLLATE utf8_bin NOT NULL,
+  `company_name` varchar(512) COLLATE utf8_bin DEFAULT NULL,
   `price` double NOT NULL,
-  `description` text CHARACTER SET utf8 COLLATE utf8_bin,
-  `added_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `quantity` int NOT NULL DEFAULT '10',
+  `description` text COLLATE utf8_bin DEFAULT NULL,
+  `added_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `quantity` int(11) NOT NULL DEFAULT 10,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 /*Data for the table `medicines` */
 
@@ -183,14 +188,14 @@ insert  into `medicines`(`id`,`name`,`company_name`,`price`,`description`,`added
 (6,'vitamin E','bosnalijek',7.99,'for corona','2021-06-13 15:22:01',0),
 (7,'new 7','company name',0,'description','2021-05-15 10:51:51',10),
 (8,'tablete3','company',100.99,'for corona','2021-06-13 17:23:29',9),
-(9,'name','company name',0,'description','2021-04-05 20:00:27',10),
+(9,'name','company name',0,'description','2021-06-25 13:01:22',6),
 (10,'moderna','moederna',50.01,'its corona time','2021-06-18 12:14:10',7),
 (11,'moderna','moederna',50.01,'its corona time','2021-06-13 19:49:41',8),
 (12,'moderna','moederna',50.01,'its corona time','2021-04-05 20:04:52',10),
 (17,'name','company name',0,'description','2021-04-10 13:18:08',0),
 (18,'name','company name',0,'description','2021-04-05 22:32:03',10),
 (19,'name','company name',0,'description','2021-05-01 21:33:04',10),
-(20,'name','nn',12,'2112121','2021-05-13 18:07:24',10),
+(20,'name','nn',12,'2112121','2021-06-25 19:00:38',9),
 (23,'test','test',1,'nn','2021-05-13 21:39:05',1),
 (24,'test','test',1,'nn','2021-05-13 21:40:06',1),
 (25,'test','test',1,'nn','2021-05-13 21:40:58',1),
@@ -223,18 +228,20 @@ insert  into `medicines`(`id`,`name`,`company_name`,`price`,`description`,`added
 (56,'new name','company name',1,'description','2021-06-05 19:38:34',1),
 (57,'new name','company name',12,'cc','2021-06-11 17:17:42',1),
 (58,'test','test',12,'for pain','2021-06-11 17:18:19',12),
-(59,'Brufen','bosnalijek',2.5,'for pain','2021-06-13 16:11:33',100);
+(59,'Brufen','bosnalijek',2.5,'for pain','2021-06-13 16:11:33',100),
+(60,'elixir','bosnalijek',100,'elixir','2021-06-18 11:23:53',0),
+(61,'elixir','bosnalijek',100,'elixir','2021-06-23 00:08:24',0);
 
 /*Table structure for table `products` */
 
 DROP TABLE IF EXISTS `products`;
 
 CREATE TABLE `products` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(512) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `image_url` varchar(1024) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(512) COLLATE utf8_bin NOT NULL,
+  `image_url` varchar(1024) COLLATE utf8_bin NOT NULL,
   `price` float NOT NULL,
-  `category` varchar(256) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `category` varchar(256) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -250,19 +257,19 @@ insert  into `products`(`id`,`name`,`image_url`,`price`,`category`) values
 DROP TABLE IF EXISTS `purchases`;
 
 CREATE TABLE `purchases` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `city` varchar(512) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `zip` varchar(512) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `phone_number` int NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `account_id` int unsigned NOT NULL,
-  `cart_id` int unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `city` varchar(512) COLLATE utf8_bin NOT NULL,
+  `zip` varchar(512) COLLATE utf8_bin NOT NULL,
+  `phone_number` int(11) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `account_id` int(10) unsigned NOT NULL,
+  `cart_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_accounts_purchases` (`account_id`),
   KEY `fk_carts_purchases` (`cart_id`),
   CONSTRAINT `fk_accounts_purchases` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`),
   CONSTRAINT `fk_carts_purchases` FOREIGN KEY (`cart_id`) REFERENCES `carts` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=181 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=184 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 /*Data for the table `purchases` */
 
@@ -433,18 +440,21 @@ insert  into `purchases`(`id`,`city`,`zip`,`phone_number`,`date`,`account_id`,`c
 (177,'Sarajevo','7100',3362547,'2021-06-18 11:23:53',2,80),
 (178,'Sarajevo','7100',3362547,'2021-06-18 11:25:27',2,81),
 (179,'Sarajevo','71000',3362547,'2021-06-18 12:14:10',172,83),
-(180,'Sarajevo','71000',3362547,'2021-06-18 12:15:13',172,85);
+(180,'Sarajevo','71000',3362547,'2021-06-18 12:15:13',172,85),
+(181,'Sarajevo','71000',3362547,'2021-06-25 13:01:22',110,89),
+(182,'Sarajevo','17000',33033033,'2021-06-25 19:04:30',110,90),
+(183,'Sarajevo','17000',33033033,'2021-06-25 19:19:21',110,90);
 
 /*Table structure for table `users` */
 
 DROP TABLE IF EXISTS `users`;
 
 CREATE TABLE `users` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(512) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `surname` varchar(512) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(512) COLLATE utf8_bin NOT NULL,
+  `surname` varchar(512) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=162 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=166 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 /*Data for the table `users` */
 
@@ -555,7 +565,11 @@ insert  into `users`(`id`,`name`,`surname`) values
 (158,'Ajdin ','Pasic'),
 (159,'Naida','Fatic'),
 (160,'Naida','Fatic'),
-(161,'Naida','Fatic');
+(161,'Naida','Fatic'),
+(162,'name','surname'),
+(163,'name','surname'),
+(164,'name','surname'),
+(165,'name','surname');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
